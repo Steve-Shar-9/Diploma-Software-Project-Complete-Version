@@ -20,13 +20,13 @@ if (!firebase.apps.length) {
 }
 
 ///////////////////// Default class /////////////////////
-export default class Student extends Component {
+export default class AdminProgramme extends Component {
     // Contructor
     constructor(props) {
         super(props);
 
-        // Get the list of student from Firebase
-        firebase.database().ref('Student/').on('value', (snapshot) => {
+        // Get the list of Department from Firebase
+        firebase.database().ref('Programme/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
                 console.log(child.key)
                 this.array.push({ title: child.key });
@@ -36,22 +36,22 @@ export default class Student extends Component {
 
         this.array = [],
 
-        this.state = {
-            // Array for holding data from Firebase
-            arrayHolder: [],
-        }
+            this.state = {
+                // Array for holding data from Firebase
+                arrayHolder: [],
+            }
     }
 
-    // Get the student information on selection
+    // Get the programme information on selection
     GetItem(item) {
         Alert.alert(item);
     }
 
     render() {
         return (
-            <View style={styles.studentContainer} behavior='padding'>
+            <View style={styles.programmeContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Student.jpg')}
+                    source={require('../../images/background/Programme.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
@@ -73,14 +73,14 @@ export default class Student extends Component {
                                     <Icon name="arrow-left" size={22} style={styles.backBtn} />
                                 </View>
                             </TouchableOpacity>}
-                        centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>Student</Text></View>}
+                        centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>Programme</Text></View>}
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
                                     this.props.navigation.dispatch(StackActions.reset({
                                         index: 0,
                                         actions: [
-                                            NavigationActions.navigate({ routeName: 'AdminAddStudent' })
+                                            NavigationActions.navigate({ routeName: 'AdminAddProgramme' })
                                         ],
                                     }))
                                 }}
@@ -92,7 +92,6 @@ export default class Student extends Component {
                         containerStyle={{
                             backgroundColor: 'transparent',
                             justifyContent: 'space-around',
-                            // height: 100,
                             borderBottomColor: "transparent",
                         }}
                     />
@@ -120,7 +119,7 @@ export default class Student extends Component {
 }
 
 const styles = StyleSheet.create({
-    studentContainer: {
+    programmeContainer: {
         flex: 1,
         width: '100%',
         height: '100%',

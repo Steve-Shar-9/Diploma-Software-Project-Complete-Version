@@ -3,7 +3,7 @@ const images = {
     Department: require('./background/Department.jpg'),
     Events: require('./background/Events.jpg'),
     Announcement: require('./background/Announcement.jpg'),
-    Library: require('./background/Library.jpg'),
+    Library: require('./background/Programme.jpg'),
     Setting: require('./background/Setting.jpg'),
 };
 
