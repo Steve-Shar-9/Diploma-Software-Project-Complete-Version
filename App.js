@@ -98,7 +98,6 @@ const DrawerNav = createDrawerNavigator({
   });
 
 const MainNavigation = createSwitchNavigator({
-  // HomeDrawer: DrawerNav,
   AuthStack: AuthStackNavigation,
   HomeDrawer: DrawerNav,
 });
