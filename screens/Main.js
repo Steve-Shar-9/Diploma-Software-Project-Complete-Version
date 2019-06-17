@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
-import { StackActions, NavigationActions } from 'react-navigation';
 
 export default class Main extends React.Component {
     render() {
@@ -16,12 +15,7 @@ export default class Main extends React.Component {
 
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Login' })
-                            ],
-                        }))
+                        this.props.navigation.navigate('Login');
                     }}
                     style={styles.TouchableOpacityStyle}>
                     <View style={styles.center}>

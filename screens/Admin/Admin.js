@@ -1,8 +1,8 @@
 import React from 'react';
 import { Alert, TouchableOpacity, View, Text, StyleSheet, ImageBackground, FlatList, Dimensions } from 'react-native'
 import { ScrollView } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import images from '../../images/index';
 
@@ -11,8 +11,8 @@ const gridTitle = [
     { title: 'Department' },
     { title: 'Announcement' },
     { title: 'Event / Activity' },
-    { title: 'Graph' },
-    { title: 'Setting' }
+    { title: 'Programme' },
+    { title: 'Timetable' }
 ]
 
 const numColumns = 2;
@@ -23,12 +23,7 @@ export default class Admin extends React.Component {
             return (
                 <TouchableOpacity style={styles.gridItem}
                     onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'AdminStudent' })
-                            ],
-                        }))
+                        this.props.navigation.navigate('AdminStudent');
                     }}
                 >
                     <ImageBackground
@@ -47,12 +42,7 @@ export default class Admin extends React.Component {
             return (
                 <TouchableOpacity style={styles.gridItem}
                     onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Department' })
-                            ],
-                        }))
+                        this.props.navigation.navigate('AdminDepartment');
                     }}
                 >
                     <ImageBackground
@@ -71,12 +61,7 @@ export default class Admin extends React.Component {
             return (
                 <TouchableOpacity style={styles.gridItem}
                     onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'AdminActivity' })
-                            ],
-                        }))
+                        this.props.navigation.navigate('AdminEvent');
                     }}
                 >
                     <ImageBackground
@@ -95,12 +80,7 @@ export default class Admin extends React.Component {
             return (
                 <TouchableOpacity style={styles.gridItem}
                     onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Announcement' })
-                            ],
-                        }))
+                        this.props.navigation.navigate('AdminAnnouncement');
                     }}
                 >
                     <ImageBackground
@@ -115,16 +95,11 @@ export default class Admin extends React.Component {
                     </ImageBackground>
                 </TouchableOpacity>
             );
-        } else if (item.title === 'Graph') {
+        } else if (item.title === 'Programme') {
             return (
                 <TouchableOpacity style={styles.gridItem}
                     onPress={() => {
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Graph' })
-                            ],
-                        }))
+                        this.props.navigation.navigate('AdminProgramme');
                     }}
                 >
                     <ImageBackground
@@ -139,20 +114,20 @@ export default class Admin extends React.Component {
                     </ImageBackground>
                 </TouchableOpacity>
             );
-        } else if (item.title === 'Setting') {
+        } else if (item.title === 'Timetable') {
             return (
                 <TouchableOpacity style={styles.gridItem}
                     onPress={() => {
-                        Alert.alert('Coming Soon')
+                        this.props.navigation.navigate('AdminTimetable');
                     }}
                 >
                     <ImageBackground
-                        source={images.Setting}
+                        source={images.Timetable}
                         style={styles.backgroundImage}
                         imageStyle={{ borderRadius: 3 }}
                     >
                         <View style={styles.blurredBg}>
-                            <Icon name="cogs" size={45} color="#fff" />
+                            <Feather name="clock" size={45} color="#fff" />
                             <Text style={styles.gridItemText}>{'\n'}{item.title}</Text>
                         </View>
                     </ImageBackground>
@@ -178,12 +153,7 @@ export default class Admin extends React.Component {
                             rightComponent={
                                 <TouchableOpacity
                                     onPress={() => {
-                                        this.props.navigation.dispatch(StackActions.reset({
-                                            index: 0,
-                                            actions: [
-                                                NavigationActions.navigate({ routeName: 'Login' })
-                                            ],
-                                        }))
+                                        this.props.navigation.navigate('Login');
                                     }}
                                 >
                                     <Icon name="sign-out" size={25} style={styles.logOutBtn} />

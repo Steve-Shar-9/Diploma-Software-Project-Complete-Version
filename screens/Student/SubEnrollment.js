@@ -23,6 +23,9 @@ try {
     console.log('App reloaded, so firebase did not re-initialize');
 }
 
+
+
+
 export default class home extends Component {
     static navigationOptions = {
         header: null
@@ -103,7 +106,7 @@ export default class home extends Component {
                                 this.selectItem(item.description.data.price, item.description.data.id, item.description.data.name)
                             }>
 
-                            <View style={{ flexDirection: 'row', paddingLeft: 10, backgroundColor: 'white', height: 49, borderRadius: 5, }}>
+                            <View style={{ flexDirection: 'row', paddingLeft: 10, backgroundColor: 'white', height: 49, borderRadius: 2, }}>
                                 <View style={{ flex: 1, color: 'black', fontSize: 20 }}>
                                     <Text>{item.description.data.name}  {item.description.data.id}</Text>
                                 </View>
@@ -262,36 +265,16 @@ const styles = StyleSheet.create({
     },
     list: {
         alignItems: 'center',
-        padding: 3,
-        margin: 1,
-        backgroundColor: 'transparent',
-        height: 64,
-        justifyContent: 'space-around',
-        paddingLeft: 6,
-        elevation: 0,
-        borderRadius: 5,
-    },
-    selected: {
-        alignItems: 'center',
-        padding: 3,
-        margin: 2,
-        backgroundColor: 'white',
-        height: 30,
-        justifyContent: 'space-around',
-        paddingLeft: 6,
-        elevation: 0,
-        borderRadius: 5,
+        // padding:0.4,
+        // margin: 0.4,
+        // backgroundColor: 'transparent',
+        // height:64,
+        // justifyContent: 'space-around',
+        // paddingLeft: 6,
+        // elevation: 0,
+        // borderRadius:0,
     },
 
-    button: {
-        backgroundColor: '#841584',
-        borderColor: 'red',
-        width: '60%',
-        height: '40%',
-        textAlign: 'center',
-        alignItems: 'center',
-
-    },
     buttonFloating: {
         width: 60,
         height: 60,

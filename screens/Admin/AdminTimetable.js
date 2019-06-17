@@ -10,6 +10,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    ImageBackground
 } from 'react-native';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import { Header, Overlay } from 'react-native-elements';
@@ -40,31 +41,59 @@ export default class App extends Component {
         uploading: false,
     };
 
-    constructor(props) {
-        super(props);
-        this.outputDataFunction();
-    }
     render() {
         let {
             image
         } = this.state;
 
         return (
-            <Image source={{ uri: this.state.urlFirebase }} style={styles.backgroundImage} />
+            <View>
+                <ImageBackground
+                    source={require('../../images/background/Timetable.jpg')}
+                    style={styles.overallBackgroundImage}
+                    blurRadius={50}
+                >
+                <Header
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    barStyle="dark-content"
+                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+                    centerComponent={{ text: 'Home', style: { fontSize: 25, color: '#fff' } }}
+                    rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
+                        this.props.navigation.openDrawer()
+
+                    } />}
+                        containerStyle={{
+                            backgroundColor: 'transparent',
+                            borderBottomColor: "transparent",
+                        }}
+                />
+                    <View style={{ backgroundColor: 'transparent', height: '36%', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: 100, width: 135, height: 130, justifyContent: 'center', alignItems: 'center' }}>
+                        <AntDesign name="cloud" size={77} color="#2e2e38" />
+                    </View>
+
+                    {/* this one have to change if it is the real one */}
+                    {/* <Text style={{ color: 'white' }}>{'\n'}Cloud photo storage{'\n'}ninjayek@gmail.com</Text> */}
+                </View>
+
+                <View style={styles.container}>
+
+                    {this._maybeRenderImage()}
+                    {this._maybeRenderUploadingOverlay()}
+
+                    <TouchableOpacity
+                        onPress={this._pickImage}
+                            style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>
+                            Upload Photo
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                </ImageBackground>
+            </View>
         );
     }
-    outputDataFunction = () => {
-        firebase.database().ref('users/timeTable').on('value', (snapshot) => {
-
-            snapshot.forEach((child) => {
-                var newWord = `'${child.val()}'`
-                this.setState({ urlFirebase: child.val() })
-
-            });
-            console.log(this.state.urlFirebase)
-        });
-    }
-
     //----------------------------------SAVE--------------------------------
     firebaseDataSaving = () => {
         //----------------------------Random number generator----------------
@@ -125,7 +154,7 @@ export default class App extends Component {
                 <AntDesign name="check" size={94} color="green" />
                 <Text
                     style={styles.exampleText}>
-                    All trips successfully uploaded
+                    Timetable photo upload
             {'\n\n\n'}
                 </Text>
             </View>
@@ -247,21 +276,21 @@ async function uploadImageAsync(uri) {
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-        flex: 1,
-        width: null,
-        height: null,
-    },
     container: {
         alignItems: 'center',
         // flex: 0,
         justifyContent: 'center',
+    },
+    overallBackgroundImage: {
+        width: '100%',
+        height: '100%',
     },
     exampleText: {
         fontSize: 20,
         marginBottom: 20,
         marginHorizontal: 15,
         textAlign: 'center',
+        color: 'white'
     },
     maybeRenderUploading: {
         alignItems: 'center',
@@ -293,5 +322,20 @@ const styles = StyleSheet.create({
     maybeRenderImageText: {
         paddingHorizontal: 10,
         paddingVertical: 10,
-    }
+    },
+    button: {
+        width: '90%',
+        padding: 10,
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 70 / 2,
+        marginTop: 25,
+        marginBottom: 12
+    },
+    buttonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+    },
 });

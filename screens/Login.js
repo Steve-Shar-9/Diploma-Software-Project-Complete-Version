@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, TouchableOpacity, View, Text, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 console.disableYellowBox = true;
@@ -44,20 +43,13 @@ export default class LoginScreen extends React.Component {
 
     login = (username, pass) => {
         if (username === 'Admin' && pass === '123') {
-            this.props.navigation.dispatch(StackActions.reset({
-                index: 0,
-                actions: [
-                    NavigationActions.navigate({ routeName: 'Admin' })
-                ],
-            }))
+            this.setState({ username: '' })
+            this.setState({ password: '' })
+            this.props.navigation.navigate('Admin');
         } else if (username === 'Hi' && pass === '123') {
-            // Alert.alert('Logged in to Steve\'s account')
-            this.props.navigation.dispatch(StackActions.reset({
-                index: 0,
-                actions: [
-                    NavigationActions.navigate({ routeName: 'Home' })
-                ],
-            }))
+            this.setState({ username: '' })
+            this.setState({ password: '' })
+            this.props.navigation.navigate('Home', { data: username });
         } else {
             if (!username && !pass) {
                 this.setState({ errorMsg: 'All fields are required', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorUsername: '#ff1c76', usernameIco: '#ff1c76', inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })

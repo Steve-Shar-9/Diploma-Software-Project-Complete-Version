@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, FlatList, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, FlatList, Image, TextInput, AsyncStorage } from 'react-native';
 import { Feather, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
@@ -62,45 +62,52 @@ export default class home extends Component {
 
                 <TouchableOpacity
                     style={styles.button}
-                    // open tunnel to go into student id and give a data
-                    onPress={() => this.firebaseDataSavingForHome('c188211/home')}
+                    onPress={() => this._deleteItem()}
                 >
-                    <Text style={{ color: 'white', alignSelf: 'center' }}>input post</Text>
+                    <Text style={{ color: 'white', alignSelf: 'center' }}>delete localStorage</Text>
                 </TouchableOpacity>
 
                 <Text></Text>
 
                 <TouchableOpacity
                     style={styles.button}
-                    // open tunnel to go into student id and give a data
                     onPress={() => this.firebaseDataSavingForEnroll('c188211/enrollSub')}
                 >
                     <Text style={{ color: 'white', alignSelf: 'center' }}>input sub</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.button}
-                // onPress={() =>this.firebaseDataSavingForEnroll('c188211/enrollSub')}
-                >
-                    <Text style={{ color: 'white', alignSelf: 'center' }}>Clear registered</Text>
-                </TouchableOpacity>
 
-                {/* <TouchableOpacity
-        style={styles.button}
-        onPress={() =>this.outputDataFunction('c188211/home')}
-        >
-          <Text style={{color:'white',alignSelf:'center'}}>Output</Text>
-        </TouchableOpacity> */}
 
-                {/* <TouchableOpacity
-        style={styles.button}
-        onPress={() =>this.deleteFunction('c188211/home')}
-        >
-          <Text style={{color:'white',alignSelf:'center'}}>deleteFunction</Text>
-        </TouchableOpacity> */}
 
             </View>
         );
+    }
+    _storeData = async () => {
+        try {
+            await AsyncStorage.setItem('@GroupCode:key', 'I like to save it.');
+        } catch (error) {
+            // Error saving data
+        }
+    };
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@GroupCode:key');
+            if (value !== null) {
+                // We have data!!
+                console.log(value);
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
+    _deleteItem = async () => {
+        try {
+            await AsyncStorage.removeItem('@GroupCode:key');
+            console.log('deleted');
+        } catch (error) {
+            console.log(error);
+            // Error retrieving data
+        }
     }
 
     //----------------This one just take all out but i put at constructor-----------

@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header } from 'react-native-elements';
 
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
+// const config = {
+//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
+//     authDomain: "diploma-software-project.firebaseapp.com",
+//     databaseURL: "https://diploma-software-project.firebaseio.com",
+//     storageBucket: "diploma-software-project.appspot.com",
+//     messagingSenderId: "1092827450895"
+// };
+
 const config = {
-    apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-    authDomain: "diploma-software-project.firebaseapp.com",
-    databaseURL: "https://diploma-software-project.firebaseio.com",
-    storageBucket: "diploma-software-project.appspot.com",
-    messagingSenderId: "1092827450895"
+    apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
+    authDomain: "angelappfordatabase.firebaseapp.com",
+    databaseURL: "https://angelappfordatabase.firebaseio.com",
+    projectId: "angelappfordatabase",
+    storageBucket: "",
+    messagingSenderId: "758356549275"
 };
 
 if (!firebase.apps.length) {
@@ -61,12 +69,7 @@ export default class AdminAnnouncement extends Component {
                         leftComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.props.navigation.dispatch(StackActions.reset({
-                                        index: 0,
-                                        actions: [
-                                            NavigationActions.navigate({ routeName: 'Admin' })
-                                        ],
-                                    }))
+                                    this.props.navigation.navigate('Admin');
                                 }}
                             >
                                 <View style={[{ flexDirection: 'row' }]}>
@@ -77,12 +80,7 @@ export default class AdminAnnouncement extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.props.navigation.dispatch(StackActions.reset({
-                                        index: 0,
-                                        actions: [
-                                            NavigationActions.navigate({ routeName: 'AdminAddAnnouncement' })
-                                        ],
-                                    }))
+                                    this.props.navigation.navigate('AdminAddAnnouncement');
                                 }}
                             >
                                 <View style={[{ flexDirection: 'row' }]}>

@@ -1,4 +1,4 @@
-import { createAppContainer, createStackNavigator, createDrawerNavigator, createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 
 import Main from './screens/Main';
 import Login from './screens/Login';
@@ -14,6 +14,7 @@ import AdminAnnouncement from './screens/Admin/AdminAnnouncement';
 import AdminAddAnnouncement from './screens/Admin/AdminAddAnnouncement';
 import AdminEvent from './screens/Admin/AdminEvent';
 import AdminAddEvent from './screens/Admin/AdminAddEvent';
+import AdminTimetable from './screens/Admin/AdminTimetable';
 
 import SideMenu from './screens/Student/SideMenu';
 import Home from './screens/Student/Home';
@@ -21,16 +22,18 @@ import InputScreen from './screens/Student/InputScreen.js'
 import SubEnrollment from './screens/Student/SubEnrollment';
 import Timetable from './screens/Student/Timetable';
 import GroupOrClass from './screens/Student/GroupOrClass';
-import QRScanner from './screens/Student/QRScanner';
 import InsideGroupOrClass from './screens/Student/InsideGroupOrClass';
+import QRScanner from './screens/Student/QRScanner';
+// import EventAndActivity from './screens/Student/EventAndActivity';
 
-const AuthStackNavigation = createStackNavigator({
+const MyDrawerNavigator = createDrawerNavigator({
   Main: {
     screen: Main,
   },
   Login: {
     screen: Login,
   },
+  // Admin Screens
   Admin: {
     screen: Admin,
   },
@@ -64,12 +67,10 @@ const AuthStackNavigation = createStackNavigator({
   AdminAddEvent: {
     screen: AdminAddEvent,
   },
-}, {
-    initialRouteName: 'AdminStudent',
-    headerMode: 'none'
-  });
-
-const DrawerNav = createDrawerNavigator({
+  AdminTimetable: {
+    screen: AdminTimetable,
+  },
+  // Student Screens
   Home: {
     screen: Home,
   },
@@ -91,15 +92,15 @@ const DrawerNav = createDrawerNavigator({
   QRScanner: {
     screen: QRScanner,
   },
-}, {
-    initialRouteName: 'Home',
+  // EventAndActivity: {
+  //   screen: EventAndActivity,
+  // }
+},
+  {
+    initialRouteName: 'Main',
     contentComponent: SideMenu,
     drawerWidth: 300
-  });
+  }
+);
 
-const MainNavigation = createSwitchNavigator({
-  AuthStack: AuthStackNavigation,
-  HomeDrawer: DrawerNav,
-});
-
-export default createAppContainer(MainNavigation);
+export default createAppContainer(MyDrawerNavigator);

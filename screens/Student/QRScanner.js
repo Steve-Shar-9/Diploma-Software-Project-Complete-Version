@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Dimensions, LayoutAnimation, Text, View, StyleSheet } from 'react-native';
+import { Alert, Dimensions, LayoutAnimation, Text, View, StyleSheet, AsyncStorage } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { ToastAndroid } from 'react-native';
 
@@ -68,12 +68,14 @@ export default class App extends Component {
     };
 
     //This one to same with the type one REMEMBER!!
-    checkingStateQr = () => {
+    checkingStateQr = async () => {
         if (this.state.lastScannedUrl === '57212331') {
-            //use platform and determine whr to pop
-
-            // alert('Successfully get in..');
-            //This one only available for android
+            try {
+                await AsyncStorage.setItem('@GroupCode:key', this.state.lastScannedUrl);
+                console.log('saved to localStorage');
+            } catch (error) {
+                console.log('error saving data to localStorage');
+            }
             ToastAndroid.showWithGravityAndOffset(
                 'Registered!!',
                 ToastAndroid.LONG,

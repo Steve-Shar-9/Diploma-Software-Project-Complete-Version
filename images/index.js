@@ -4,7 +4,7 @@ const images = {
     Events: require('./background/Events.jpg'),
     Announcement: require('./background/Announcement.jpg'),
     Library: require('./background/Programme.jpg'),
-    Setting: require('./background/Setting.jpg'),
+    Timetable: require('./background/Timetable.jpg'),
 };
 
 export default images;

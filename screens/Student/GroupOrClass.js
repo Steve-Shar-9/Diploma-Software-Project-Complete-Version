@@ -12,7 +12,7 @@ export default class App extends React.Component {
     static navigationOptions = {
         title: 'Home Screen',
         header: null,
-        // This one can lock the drawer
+        // This one can lock the drawer 
         drawerLockMode: "locked-closed"
     };
 
@@ -41,7 +41,7 @@ export default class App extends React.Component {
                         <View style={{ padding: 10 }}></View>
                         <TouchableOpacity
                             style={styles.buttonForOverlay}
-                            onPress={this.onPress}
+                            onPress={this.QRScanFunction}
                         >
                             <AntDesign name="qrcode" size={30} color="white" />
                             <Text style={{ color: 'black', alignSelf: 'center', padding: 10 }}>QR scan</Text>
@@ -51,7 +51,7 @@ export default class App extends React.Component {
             </View>
         );
     }
-    onPress = () => {
+    QRScanFunction = () => {
         this.props.navigation.navigate('QRcodeScanner');
     }
     submitCode = () => {

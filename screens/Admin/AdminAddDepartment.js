@@ -6,12 +6,21 @@ import { Header } from 'react-native-elements';
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
+// const config = {
+//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
+//     authDomain: "diploma-software-project.firebaseapp.com",
+//     databaseURL: "https://diploma-software-project.firebaseio.com",
+//     storageBucket: "diploma-software-project.appspot.com",
+//     messagingSenderId: "1092827450895"
+// };
+
 const config = {
-    apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-    authDomain: "diploma-software-project.firebaseapp.com",
-    databaseURL: "https://diploma-software-project.firebaseio.com",
-    storageBucket: "diploma-software-project.appspot.com",
-    messagingSenderId: "1092827450895"
+    apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
+    authDomain: "angelappfordatabase.firebaseapp.com",
+    databaseURL: "https://angelappfordatabase.firebaseio.com",
+    projectId: "angelappfordatabase",
+    storageBucket: "",
+    messagingSenderId: "758356549275"
 };
 
 if (!firebase.apps.length) {
@@ -22,7 +31,6 @@ if (!firebase.apps.length) {
 export default class AdminAddDepartment extends Component {
     state = {
         // For entering new department data
-        departmentId: '',
         departmentName: '',
         departmentEmail: '',
         departmentHp: '',
@@ -34,36 +42,25 @@ export default class AdminAddDepartment extends Component {
         var departmentEmail = this.state.departmentEmail;
         var departmentHp = this.state.departmentHp;
 
-        if (departmentId != '') {
-            if (departmentName != '') {
-                if (departmentEmail != '') {
-                    if (departmentHp != '') {
-                        firebase.database().ref('Department/' + departmentId).set({
-                            departmentId,
-                            departmentName,
-                            departmentEmail,
-                            departmentHp,
-                        })
+        if (departmentName != '') {
+            if (departmentEmail != '') {
+                if (departmentHp != '') {
+                    firebase.database().ref('Department/' + departmentName).set({
+                        departmentEmail,
+                        departmentHp,
+                    })
 
-                        Alert.alert('Department Registered Successfully !')
+                    Alert.alert('Department Registered Successfully !')
 
-                        this.props.navigation.dispatch(StackActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'AdminDepartment' })
-                            ],
-                        }))
-                    } else {
-                        Alert.alert("Please Enter Department Contact Number")
-                    }
+                    this.props.navigation.navigate('AdminDepartment');
                 } else {
-                    Alert.alert("Please Enter Department Email")
+                    Alert.alert("Please Enter Department Contact Number")
                 }
             } else {
-                Alert.alert("Please Enter Department Name")
+                Alert.alert("Please Enter Department Email")
             }
         } else {
-            Alert.alert("Please Enter Department ID")
+            Alert.alert("Please Enter Department Name")
         }
     }
 
@@ -87,12 +84,7 @@ export default class AdminAddDepartment extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.props.navigation.dispatch(StackActions.reset({
-                                        index: 0,
-                                        actions: [
-                                            NavigationActions.navigate({ routeName: 'AdminDepartment' })
-                                        ],
-                                    }))
+                                    this.props.navigation.navigate('AdminDepartment');
                                 }}
                             >
                                 <View style={[{ flexDirection: 'row' }]}>
@@ -108,13 +100,6 @@ export default class AdminAddDepartment extends Component {
 
                     <ScrollView>
                         <View style={styles.newForm}>
-                            <TextInput
-                                placeholder="Department ID"
-                                placeholderTextColor={'rgba(255,255,255,0.3)'}
-                                onChangeText={data => this.setState({ departmentId: data })}
-                                style={styles.textInputStyle}
-                            />
-
                             <TextInput
                                 placeholder="Name"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
@@ -194,14 +179,16 @@ const styles = StyleSheet.create({
     button: {
         width: '90%',
         padding: 10,
-        backgroundColor: 'white',
-        borderRadius: 5,
-        marginTop: 12,
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: 'white',
+        borderRadius: 70 / 2,
+        marginTop: 15,
         marginBottom: 12
     },
 
     buttonText: {
-        color: '#32323d',
+        color: 'white',
         textAlign: 'center',
         fontSize: 20,
     },
