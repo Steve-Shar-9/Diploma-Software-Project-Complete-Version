@@ -26,6 +26,7 @@ import InsideGroupOrClass from './screens/Student/InsideGroupOrClass';
 import QRScanner from './screens/Student/QRScanner';
 // import EventAndActivity from './screens/Student/EventAndActivity';
 
+//Testing
 const MyDrawerNavigator = createDrawerNavigator({
   Main: {
     screen: Main,
