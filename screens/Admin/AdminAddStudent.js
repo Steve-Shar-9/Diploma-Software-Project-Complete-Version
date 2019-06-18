@@ -4,15 +4,6 @@ import { Header } from 'react-native-elements';
 
 import * as firebase from "firebase";
 
-///////////////////// Setting up Firebase connection /////////////////////
-// const config = {
-//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-//     authDomain: "diploma-software-project.firebaseapp.com",
-//     databaseURL: "https://diploma-software-project.firebaseio.com",
-//     storageBucket: "diploma-software-project.appspot.com",
-//     messagingSenderId: "1092827450895"
-// };
-
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
     authDomain: "angelappfordatabase.firebaseapp.com",
@@ -27,70 +18,64 @@ if (!firebase.apps.length) {
 }
 
 ///////////////////// Password Base64 Encrytion /////////////////////
-const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-const Base64 = {
-    btoa: (input:string = '') => {
-        let str = input;
-        let output = '';
+FormatFunctionAtob=(input)=>{
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
-        for (let block = 0, charCode, i = 0, map = chars;
-            str.charAt(i | 0) || (map = '=', i % 1);
-            output += map.charAt(63 & block >> 8 - i % 1 * 8)) {
+    let str = input;
+    let output = '';
 
-            charCode = str.charCodeAt(i += 3 / 4);
+    for (let block = 0, charCode, i = 0, map = chars;
+        str.charAt(i | 0) || (map = '=', i % 1);
+        output += map.charAt(63 & block >> 8 - i % 1 * 8)) {
 
-            if (charCode > 0xFF) {
-                throw new Error("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");
-            }
+        charCode = str.charCodeAt(i += 3 / 4);
 
-            block = block << 8 | charCode;
+        if (charCode > 0xFF) {
+            throw new Error("'btoa' failed: The string to be encoded contains characters outside of the Latin1 range.");
         }
 
-        return output;
-    },
-
-    atob: (input:string = '') => {
-        let str = input.replace(/=+$/, '');
-        let output = '';
-
-        if (str.length % 4 == 1) {
-            throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
-        }
-        for (let bc = 0, bs = 0, buffer, i = 0;
-            buffer = str.charAt(i++);
-
-            ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
-                bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
-        ) {
-            buffer = chars.indexOf(buffer);
-        }
-
-        return output;
+        block = block << 8 | charCode;
     }
-};
+
+    return output;
+}
+
+FormatFunctionBtoa=(input)=>{
+    let str = input.replace(/=+$/, '');
+    let output = '';
+
+    if (str.length % 4 == 1) {
+        throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
+    }
+    for (let bc = 0, bs = 0, buffer, i = 0;
+        buffer = str.charAt(i++);
+
+        ~buffer && (bs = bc % 4 ? bs * 64 + buffer : buffer,
+            bc++ % 4) ? output += String.fromCharCode(255 & bs >> (-2 * bc & 6)) : 0
+    ) {
+        buffer = chars.indexOf(buffer);
+    }
+
+    return output;
+}
 
 ///////////////////// Default class /////////////////////
 export default class AdminAddStudent extends Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+
     constructor() {
         super();
 
-        // Get the list of announcement from Firebase
-        firebase.database().ref('Programme/').on('value', (snapshot) => {
-            snapshot.forEach((child) => {
-                console.log(child.key)
-                this.array.push({ title: child.key });
-                this.setState({ arrayHolder: [...this.array] })
-            })
-        })
-
-        this.array = [],
+        this.array = []
 
         this.state = {
             // Array for holding data from Firebase
             arrayHolder: [],
-            PickerSelectedVal: '',
+            StudentProgrammePickerSelectedVal: '',
             // For entering new student data
-            gender: ['Male','Female'],
             studentId: '',
             studentName: '',
             studentIc: '',
@@ -103,6 +88,14 @@ export default class AdminAddStudent extends Component {
             studentProgramme: '',
             studentAddress: '',
         }
+
+        // Get the list of announcement from Firebase
+        firebase.database().ref('Programme/').on('value', (snapshot) => {
+            snapshot.forEach((child) => {
+                this.array.push({ title: child.key });
+                this.setState({ arrayHolder: [...this.array] })
+            })
+        })
     }
 
     // Get the data from user's input from 'NEW' tab
@@ -123,11 +116,10 @@ export default class AdminAddStudent extends Component {
             if (studentName != '') {
                 if (studentIc != '') {
                     if (studentPassword != '') {
-                        studentPassword === Base64.btoa(studentPassword);
+                        studentPassword = FormatFunctionAtob(studentPassword);
 
                         if (studentEmail != '') {
                             if (studentGender != '') {
-                                console.log(studentGender)
                                 if (studentNationality != '') {
                                     if (studentHp != '') {
                                         if (studentAdmissionDate != '') {
@@ -147,6 +139,19 @@ export default class AdminAddStudent extends Component {
                                                     })
 
                                                     Alert.alert('Student Registered Successfully !')
+
+                                                    this.setState({
+                                                    studentId: '',
+                                                    studentName: '',
+                                                    studentIc: '',
+                                                    studentPassword: '',
+                                                    studentEmail: '',
+                                                    studentGender: '',
+                                                    studentNationality: '',
+                                                    studentHp: '',
+                                                    studentAdmissionDate: '',
+                                                    studentProgramme: '',
+                                                    studentAddress: '',})
 
                                                     this.props.navigation.navigate('AdminStudent');
                                                 } else {
@@ -221,6 +226,7 @@ export default class AdminAddStudent extends Component {
                     <ScrollView>
                         <View style={styles.newForm}>
                             <TextInput
+                                defaultValue={this.state.studentId}
                                 placeholder="Student ID"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentId: data })}
@@ -228,6 +234,7 @@ export default class AdminAddStudent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.studentName}
                                 placeholder="Name"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentName: data })}
@@ -235,6 +242,7 @@ export default class AdminAddStudent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.studentIc}
                                 placeholder="Identity Number"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentIc: data })}
@@ -242,6 +250,7 @@ export default class AdminAddStudent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.studentPassword}
                                 placeholder="Password"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentPassword: data })}
@@ -249,32 +258,23 @@ export default class AdminAddStudent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.studentEmail}
                                 placeholder="Email"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentEmail: data })}
                                 style={styles.textInputStyle}
                             />
 
-                            {/* <TextInput
+                            <TextInput
+                                defaultValue={this.state.studentGender}
                                 placeholder="Gender"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentGender: data })}
                                 style={styles.textInputStyle}
-                            /> */}
-
-                            {/* <Text style={styles.departmentTextStyle}>Select Gender:</Text>
-
-                            <Picker
-                                selectedValue={this.state.studentGender}
-                                style={styles.item}
-                                itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ studentGender: itemValue })} >
-                                {this.state.gender.map((item) => {
-                                    return (<Picker.Item label={item} value={item} />)
-                                })}
-                            </Picker> */}
+                            />
 
                             <TextInput
+                                defaultValue={this.state.studentNationality}
                                 placeholder="Nationality"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentNationality: data })}
@@ -282,6 +282,7 @@ export default class AdminAddStudent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.studentHp}
                                 placeholder="Contact Number"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentHp: data })}
@@ -289,12 +290,13 @@ export default class AdminAddStudent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.studentAdmissionDate}
                                 placeholder="Admission Date"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentAdmissionDate: data })}
                                 style={styles.textInputStyle}
                             />
-
+                            
                             <Text style={styles.departmentTextStyle}>Select a Programme:</Text>
 
                             <Picker
@@ -302,12 +304,13 @@ export default class AdminAddStudent extends Component {
                                 style={styles.item}
                                 itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
                                 onValueChange={(itemValue, itemIndex) => this.setState({ studentProgramme: itemValue })} >
-                                {this.state.arrayHolder.map((item) => {
+                                {this.array.map((item) => {
                                     return (<Picker.Item label={item.title} value={item.title} />)
                                 })}
                             </Picker>
 
                             <TextInput
+                                defaultValue={this.state.studentAddress}
                                 placeholder="Address"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ studentAddress: data })}

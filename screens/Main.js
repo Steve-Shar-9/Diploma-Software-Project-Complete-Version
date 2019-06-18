@@ -2,6 +2,11 @@ import React from 'react';
 import { Alert, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
 
 export default class Main extends React.Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+    
     render() {
         return (
             <View style={styles.mainScreenContainer}>

@@ -34,6 +34,13 @@ export default class AdminProgramme extends Component {
     constructor(props) {
         super(props);
 
+        this.array = []
+
+        this.state = {
+            // Array for holding data from Firebase
+            arrayHolder: [],
+        }
+
         // Get the list of Department from Firebase
         firebase.database().ref('Programme/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
@@ -42,13 +49,6 @@ export default class AdminProgramme extends Component {
                 this.setState({ arrayHolder: [...this.array] })
             })
         })
-
-        this.array = [],
-
-            this.state = {
-                // Array for holding data from Firebase
-                arrayHolder: [],
-            }
     }
 
     // Get the programme information on selection

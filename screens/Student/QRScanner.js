@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Alert, Dimensions, LayoutAnimation, Text, View, StyleSheet, AsyncStorage } from 'react-native';
-import { BarCodeScanner, Permissions } from 'expo';
+// import { BarCodeScanner, Permissions } from 'expo';
 import { ToastAndroid } from 'react-native';
+import { BarCodeScanner } from 'expo-barcode-scanner'
+import * as Permissions from 'expo-permissions'
 
 export default class App extends Component {
     state = {
@@ -24,6 +26,7 @@ export default class App extends Component {
         if (result.data !== this.state.lastScannedUrl) {
             LayoutAnimation.spring();
             this.setState({ lastScannedUrl: result.data });
+            console.log(result.data);
         }
     };
 

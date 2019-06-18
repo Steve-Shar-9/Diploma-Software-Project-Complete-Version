@@ -1,23 +1,33 @@
 import React from 'react';
 import { Alert, TouchableOpacity, View, Text, StyleSheet, ImageBackground, FlatList, Dimensions } from 'react-native'
-import { ScrollView } from 'react-native';
+import { ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import images from '../../images/index';
 
 const gridTitle = [
     { title: 'Student' },
+    { title: 'Timetable' },
     { title: 'Department' },
+    { title: 'Programme' },
     { title: 'Announcement' },
     { title: 'Event / Activity' },
-    { title: 'Programme' },
-    { title: 'Timetable' }
 ]
 
 const numColumns = 2;
 
 export default class Admin extends React.Component {
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate.goBack(this.props.navigation.state.key);
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+
     renderItem = ({ item }) => {
         if (item.title === 'Student') {
             return (

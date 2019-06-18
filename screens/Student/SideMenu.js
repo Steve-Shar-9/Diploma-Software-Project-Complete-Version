@@ -115,7 +115,7 @@ class SideMenu extends Component {
 
             <View style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
               <AntDesign name="calendar" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }} onPress={() => { this.props.navigation.navigate('timetable') }}>
+              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }} onPress={() => { this.props.navigation.navigate('Timetable') }}>
                 Timetable Screen
               </Text>
             </View>
@@ -180,7 +180,7 @@ class SideMenu extends Component {
     }
     if (colouring === 'color1') {
       this.setState({ color: 'transparent', color1: 'black', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent' }, () => { });
-      this.props.navigation.navigate('subEnrollment')
+      this.props.navigation.navigate('SubEnrollment')
     }
     if (colouring === 'color2') {
       this.setState({ color: 'transparent', color1: 'transparent', color2: 'black', color3: 'transparent', colourGroup: 'transparent' }, () => { });

@@ -33,6 +33,13 @@ export default class AdminEvent extends Component {
     constructor(props) {
         super(props);
 
+        this.array = []
+
+        this.state = {
+            // Array for holding data from Firebase
+            arrayHolder: [],
+        }
+
         // Get the list of event from Firebase
         firebase.database().ref('Event/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
@@ -41,13 +48,6 @@ export default class AdminEvent extends Component {
                 this.setState({ arrayHolder: [...this.array] })
             })
         })
-
-        this.array = [],
-
-            this.state = {
-                // Array for holding data from Firebase
-                arrayHolder: [],
-            }
     }
 
     // Get the event information on selection

@@ -15,6 +15,7 @@ import {
 import { Constants, ImagePicker, Permissions } from 'expo';
 import { Header, Overlay } from 'react-native-elements';
 import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as firebase from 'firebase';
 
 //Setting up the connection
@@ -56,20 +57,25 @@ export default class App extends Component {
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
-                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+                    leftComponent={
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.navigate('Admin');
+                            }}
+                        >
+                            <View style={[{ flexDirection: 'row' }]}>
+                                <Icon name="arrow-left" size={22} style={styles.backBtn} />
+                            </View>
+                        </TouchableOpacity>}
                     centerComponent={{ text: 'Home', style: { fontSize: 25, color: '#fff' } }}
-                    rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
-                        this.props.navigation.openDrawer()
-
-                    } />}
-                        containerStyle={{
-                            backgroundColor: 'transparent',
-                            borderBottomColor: "transparent",
-                        }}
+                    containerStyle={{
+                        backgroundColor: 'transparent',
+                        borderBottomColor: "transparent",
+                    }}
                 />
                     <View style={{ backgroundColor: 'transparent', height: '36%', justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: 100, width: 135, height: 130, justifyContent: 'center', alignItems: 'center' }}>
-                        <AntDesign name="cloud" size={77} color="#2e2e38" />
+                    <View style={{ backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: 100, width: 175, height: 175, justifyContent: 'center', alignItems: 'center' }}>
+                        <AntDesign name="cloud" size={90} color="white" />
                     </View>
 
                     {/* this one have to change if it is the real one */}
@@ -322,6 +328,11 @@ const styles = StyleSheet.create({
     maybeRenderImageText: {
         paddingHorizontal: 10,
         paddingVertical: 10,
+    },
+    backBtn: {
+        paddingLeft: 20,
+        width: 40,
+        color: '#fff'
     },
     button: {
         width: '90%',

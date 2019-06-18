@@ -34,6 +34,13 @@ export default class AdminDepartment extends Component {
     constructor(props) {
         super(props);
 
+        this.array = []
+
+        this.state = {
+            // Array for holding data from Firebase
+            arrayHolder: [],
+        }
+
         // Get the list of Department from Firebase
         firebase.database().ref('Department/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
@@ -42,13 +49,6 @@ export default class AdminDepartment extends Component {
                 this.setState({ arrayHolder: [...this.array] })
             })
         })
-
-        this.array = [],
-
-        this.state = {
-            // Array for holding data from Firebase
-            arrayHolder: [],
-        }
     }
 
     // Get the department information on selection
