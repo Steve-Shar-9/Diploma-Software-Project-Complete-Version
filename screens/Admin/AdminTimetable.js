@@ -10,7 +10,8 @@ import {
     Text,
     TouchableOpacity,
     View,
-    ImageBackground
+    ImageBackground, 
+    BackHandler
 } from 'react-native';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import { Header, Overlay } from 'react-native-elements';
@@ -37,6 +38,21 @@ try {
 
 //This one will be on admin side
 export default class App extends Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Admin');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+    
     state = {
         image: null,
         uploading: false,

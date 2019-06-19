@@ -18,9 +18,14 @@ const gridTitle = [
 const numColumns = 2;
 
 export default class Admin extends React.Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+    
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-            this.props.navigation.navigate.goBack(this.props.navigation.state.key);
+            this.props.navigation.navigate('Login');
             return true;
         });
     }

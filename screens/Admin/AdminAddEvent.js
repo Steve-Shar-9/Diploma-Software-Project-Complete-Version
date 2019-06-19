@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, TextInput, ImageBackground, ScrollView, KeyboardAvoidingView, Picker } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, TextInput, ImageBackground, ScrollView, KeyboardAvoidingView, Picker, BackHandler } from 'react-native';
 import { Header } from 'react-native-elements';
 
 import * as firebase from "firebase";
@@ -28,6 +28,21 @@ if (!firebase.apps.length) {
 
 ///////////////////// Default class /////////////////////
 export default class AdminAddEvent extends Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('AdminEvent');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+    
     constructor() {
         super();
 
@@ -56,36 +71,42 @@ export default class AdminAddEvent extends Component {
         eventTime: '',
         eventDepartment: '',
         eventDescription: '',
+        eventVenue: ''
     }
 
     joinData = () => {
         var eventTitle = this.state.eventTitle;
         var eventDate = this.state.eventDate;
         var eventTime = this.state.eventTime;
+        var eventVenue = this.state.eventVenue;
         var eventDepartment = this.state.eventDepartment;
         var eventDescription = this.state.eventDescription;
 
         if (eventTitle != '') {
             if (eventDate != '') {
                 if (eventTime != '') {
-                    if (eventDepartment != '') {
-                        if (eventDescription != '') {
-                            firebase.database().ref('Event/' + eventTitle).set({
-                                eventTitle,
-                                eventDate,
-                                eventTime,
-                                eventDepartment,
-                                eventDescription,
-                            })
+                    if (eventVenue != '') {
+                        if (eventDepartment != '') {
+                            if (eventDescription != '') {
+                                firebase.database().ref('Event/' + eventTitle).set({
+                                    eventDate,
+                                    eventTime,
+                                    eventDepartment,
+                                    eventDescription,
+                                    eventVenue,
+                                })
 
-                            Alert.alert('Event Registered Successfully !')
+                                Alert.alert('Event Registered Successfully !')
 
-                            this.props.navigation.navigate('AdminEvent');
+                                this.props.navigation.navigate('AdminEvent');
+                            } else {
+                                Alert.alert("Please Enter Event Description")
+                            }
                         } else {
-                            Alert.alert("Please Enter Event Description")
+                            Alert.alert("Please Enter Event Department")
                         }
                     } else {
-                        Alert.alert("Please Enter Event Department")
+                        Alert.alert("Please Enter Event Venue")
                     }
                 } else {
                     Alert.alert("Please Enter Event Time")
@@ -152,6 +173,13 @@ export default class AdminAddEvent extends Component {
                                 placeholder="Time"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ eventTime: data })}
+                                style={styles.textInputStyle}
+                            />
+
+                            <TextInput
+                                placeholder="Venue"
+                                placeholderTextColor={'rgba(255,255,255,0.3)'}
+                                onChangeText={data => this.setState({ eventVenue: data })}
                                 style={styles.textInputStyle}
                             />
 

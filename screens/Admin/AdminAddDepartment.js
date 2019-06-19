@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, TextInput, ImageBackground, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, TextInput, ImageBackground, ScrollView, KeyboardAvoidingView, BackHandler } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { Header } from 'react-native-elements';
 
@@ -29,6 +29,21 @@ if (!firebase.apps.length) {
 
 ///////////////////// Default class /////////////////////
 export default class AdminAddDepartment extends Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('AdminDepartment');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+    
     state = {
         // For entering new department data
         departmentName: '',

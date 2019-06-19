@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Alert, TouchableOpacity, TextInput, ImageBackground, ScrollView, KeyboardAvoidingView, Picker } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, TextInput, ImageBackground, ScrollView, KeyboardAvoidingView, Picker, BackHandler } from 'react-native';
 import { Header } from 'react-native-elements';
 
 import * as firebase from "firebase";
@@ -65,6 +65,16 @@ export default class AdminAddStudent extends Component {
         // lock the drawer 
         drawerLockMode: "locked-closed"
     };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('AdminStudent');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
 
     constructor() {
         super();

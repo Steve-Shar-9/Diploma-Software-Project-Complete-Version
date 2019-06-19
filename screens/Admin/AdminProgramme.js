@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Header } from 'react-native-elements';
+import { Header, Overlay } from 'react-native-elements';
 
 import * as firebase from "firebase";
 
@@ -30,6 +30,21 @@ if (!firebase.apps.length) {
 
 ///////////////////// Default class /////////////////////
 export default class AdminProgramme extends Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Admin');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+    
     // Contructor
     constructor(props) {
         super(props);
@@ -39,6 +54,10 @@ export default class AdminProgramme extends Component {
         this.state = {
             // Array for holding data from Firebase
             arrayHolder: [],
+            isVisible: false,
+            programmeName: '',
+            programmeDepartment: '',
+            programmeDescription: '',
         }
 
         // Get the list of Department from Firebase
@@ -53,7 +72,19 @@ export default class AdminProgramme extends Component {
 
     // Get the programme information on selection
     GetItem(item) {
-        Alert.alert(item);
+        firebase.database().ref('Programme/').on('value', (snapshot) => {
+            var programmeDepartment = '';
+            var programmeDescription = '';
+
+            snapshot.forEach((child) => {
+                if (item === child.key) {
+                    programmeDepartment = child.val().programmeDepartment;
+                    programmeDescription = child.val().programmeDescription;
+                }
+            });
+
+            this.setState({ isVisible: true, programmeName: item, programmeDepartment: programmeDepartment, programmeDescription: programmeDescription })
+        });
     }
 
     render() {
@@ -81,6 +112,8 @@ export default class AdminProgramme extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
+                                    this.array = []
+                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminAddProgramme');
                                 }}
                             >
@@ -95,8 +128,40 @@ export default class AdminProgramme extends Component {
                         }}
                     />
 
+                    {/* Overlay Screen */}
+                    <Overlay
+                        isVisible={this.state.isVisible}
+                        onBackdropPress={() => this.setState({ isVisible: false })}
+                        windowBackgroundColor="rgba(0,0,0,0.7)"
+                        overlayBackgroundColor="white"
+                        width="80%"
+                        height="60%"
+                    >
+                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
+                            {this.state.programmeName}
+                            {'\n'}
+                        </Text>
+
+                        <Text style={{ textAlign: 'left', fontSize: 17 }}>
+                            Department: {this.state.programmeDepartment}
+                            {'\n'}
+                            Description: {this.state.programmeDescription}
+                        </Text>
+                    </Overlay>
+                    {/* Overlay Screen END */}
+
                     <ScrollView>
-                        <FlatList
+                        {this.array.map((item) => {
+                            return (
+                                <Text
+                                    style={styles.item}
+                                    onPress={this.GetItem.bind(this, item.title)}
+                                >
+                                    {item.title}
+                                </Text>)
+                        })}
+
+                        {/* <FlatList
                             data={this.state.arrayHolder}
                             width='100%'
                             extraData={this.state.arrayHolder}
@@ -109,7 +174,7 @@ export default class AdminProgramme extends Component {
                                     {item.title}
                                 </Text>
                             }
-                        />
+                        /> */}
                     </ScrollView>
                 </ImageBackground>
             </View>

@@ -59,8 +59,12 @@ export default class home extends Component {
           overlayBackgroundColor="white"
           width="82%"
           height="60%"
+          overlayStyle={{ padding: 0, borderRadius: 10 }}
         >
-          <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+          <View style={{ backgroundColor: '#CCDDDD', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+          </View>
+
           <Image
             style={{ width: '80%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
             source={{ uri: this.state.photo }}
@@ -148,7 +152,7 @@ export default class home extends Component {
 
   //------------------------------DATA RELOADER-----------------------------
   runTheFlatlist = () => {
-    firebase.database().ref('users/' + 'c188211/home').on('value', (snapshot) => {
+    firebase.database().ref('users/c188211/home').on('value', (snapshot) => {
       var items = [];
       snapshot.forEach((child) => {
         items.push({
@@ -213,7 +217,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20
+    padding: 20,
+    borderRadius: 10
   },
   list: {
     alignItems: 'center',

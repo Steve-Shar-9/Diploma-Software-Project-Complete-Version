@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header, Overlay } from 'react-native-elements';
 
@@ -34,6 +34,16 @@ export default class Student extends Component {
         drawerLockMode: "locked-closed"
     };
 
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Admin');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+
     // Contructor
     constructor(props) {
         super(props);
@@ -44,7 +54,17 @@ export default class Student extends Component {
             // Array for holding data from Firebase
             arrayHolder: [],
             isVisible: false,
+            studentId: '',
+            studentName: '',
+            studentIc: '',
+            studentEmail: '',
             studentPassword: '',
+            studentAdmissionDate: '',
+            studentGender: '',
+            studentNationality: '',
+            studentHp: '',
+            studentAddress: '',
+            studentProgramme: '',
         }
 
         // Get the list of student from Firebase
@@ -59,15 +79,35 @@ export default class Student extends Component {
     // Get the student information on selection
     GetItem(item) {
         firebase.database().ref('Student').on('value', (snapshot) => {
-            var studentInfo = '';
+            var studentId = '';
+            var studentName = '';
+            var studentIc = '';
+            var studentEmail = '';
+            var studentPassword = '';
+            var studentAdmissionDate = '';
+            var studentGender = '';
+            var studentNationality = '';
+            var studentHp = '';
+            var studentAddress = '';
+            var studentProgramme = '';
 
             snapshot.forEach((child) => {
                 if (item === child.key) {
-                    studentInfo = child.val().studentPassword;
+                    studentId = child.val().studentId;
+                    studentName = child.val().studentName;
+                    studentIc = child.val().studentIc;
+                    studentEmail = child.val().studentEmail;
+                    studentPassword = child.val().studentPassword;
+                    studentAdmissionDate = child.val().studentAdmissionDate;
+                    studentGender = child.val().studentGender;
+                    studentNationality = child.val().studentNationality;
+                    studentHp = child.val().studentHp;
+                    studentAddress = child.val().studentAddress;
+                    studentProgramme = child.val().studentProgramme;
                 }
             });
 
-            this.setState({ isVisible: true, studentPassword: studentInfo})
+            this.setState({ isVisible: true, studentId: studentId, studentName: studentName, studentIc: studentIc, studentEmail: studentEmail, studentPassword: studentPassword, studentAdmissionDate: studentAdmissionDate, studentGender: studentGender, studentNationality: studentNationality, studentHp: studentHp, studentAddress: studentAddress, studentProgramme: studentProgramme})
         });
     }
 
@@ -121,8 +161,18 @@ export default class Student extends Component {
                         width="80%"
                         height="60%"
                     >
-                        <Text style={{ textAlign: 'left', fontWeight: 'bold', fontSize: 17 }}>
-                            Password: {this.state.studentPassword}
+                        <Text style={{ textAlign: 'left', fontSize: 17 }}>
+                            Student ID: {this.state.studentId}{'\n'}
+                            Name: {this.state.studentName}{'\n'}
+                            I.C.: {this.state.studentIc}{'\n'}
+                            Email: {this.state.studentEmail}{'\n'}
+                            Password: {this.state.studentPassword}{'\n'}
+                            Gender: {this.state.studentGender}{'\n'}
+                            Nationality: {this.state.studentNationality}{'\n'}
+                            Contact Number: {this.state.studentHp}{'\n'}
+                            Address: {this.state.studentAdress}{'\n'}
+                            Admission Date: {this.state.studentAdmissionDate}{'\n'}
+                            Programme: {this.state.studentProgramme}{'\n'}
                         </Text>
                     </Overlay>
                     {/* Overlay Screen END */}

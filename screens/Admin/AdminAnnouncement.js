@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, Image, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Header } from 'react-native-elements';
+import { Header, Overlay } from 'react-native-elements';
+import { LinearGradient } from 'expo';
 
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
-// const config = {
-//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-//     authDomain: "diploma-software-project.firebaseapp.com",
-//     databaseURL: "https://diploma-software-project.firebaseio.com",
-//     storageBucket: "diploma-software-project.appspot.com",
-//     messagingSenderId: "1092827450895"
-// };
-
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
     authDomain: "angelappfordatabase.firebaseapp.com",
@@ -29,6 +22,21 @@ if (!firebase.apps.length) {
 
 ///////////////////// Default class /////////////////////
 export default class AdminAnnouncement extends Component {
+    static navigationOptions = {
+        // lock the drawer 
+        drawerLockMode: "locked-closed"
+    };
+
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Admin');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+    
     // Contructor
     constructor(props) {
         super(props);
@@ -38,7 +46,17 @@ export default class AdminAnnouncement extends Component {
         this.state = {
             // Array for holding data from Firebase
             arrayHolder: [],
+
+            isVisible: false,
+            isFetching: false,
+            isLoading: true,
+
+            announcementTitle: '',
+            announcementDepartment: '',
+            announcementDescription: '',
         }
+
+        this.runTheFlatlist();
 
         // Get the list of announcement from Firebase
         firebase.database().ref('Announcement/').on('value', (snapshot) => {
@@ -52,7 +70,83 @@ export default class AdminAnnouncement extends Component {
 
     // Get the announcement information on selection
     GetItem(item) {
-        Alert.alert(item);
+        firebase.database().ref('Announcement/').on('value', (snapshot) => {
+            var announcementDepartment = '';
+            var announcementDescription = '';
+
+            snapshot.forEach((child) => {
+                if (item === child.key) {
+                    announcementDepartment = child.val().announcementDepartment;
+                    announcementDescription = child.val().announcementDescription;
+                }
+            });
+
+            this.setState({ isVisible: true, announcementTitle: item, announcementDepartment: announcementDepartment, announcementDescription: announcementDescription })
+        });
+    }
+
+    showDetailData = (notes, phototo, name) => {
+        this.setState({ isVisible: true, moreNote: notes, photo: phototo, title: name })
+    }
+
+    loadingIndicator = () => {
+        if (this.state.isLoading === true) {
+            if (Platform.OS === 'ios') {
+                return (
+                    <View style={{ marginTop: 200 }}>
+                        <ActivityIndicator size={'large'} color="#3390FF" animating={this.state.isLoading} />
+                    </View>
+                )
+            }
+            else {
+                return (
+                    <View style={{ marginTop: 200 }}>
+                        <ActivityIndicator size={57} color="#3390FF" animating={this.state.isLoading} />
+                    </View>
+                )
+            }
+
+        }
+        else {
+            return (null)
+        }
+    }
+
+    runTheFlatlist = () => {
+        firebase.database().ref('users/c188211/home').on('value', (snapshot) => {
+            var items = [];
+            snapshot.forEach((child) => {
+                items.push({
+                    id: child.key,
+                    description: child.val().description,
+                    date: child.val().date,
+                });
+            });
+            this.setState({ flatListData: items, isFetching: false, isLoading: false });
+            console.log(items)
+        });
+    }
+
+    onRefresh() {
+        console.log('refreshing')
+        this.setState({ isFetching: true }, function () {
+            this.fetchData()
+        });
+    }
+    fetchData() {
+        if (Platform.OS === 'ios') {
+            alert('refreshed');
+        }
+        else {
+            ToastAndroid.showWithGravityAndOffset(
+                'Refreshed',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+            );
+        }
+        this.runTheFlatlist();
     }
 
     render() {
@@ -80,6 +174,8 @@ export default class AdminAnnouncement extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
+                                    this.array = []
+                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminAddAnnouncement');
                                 }}
                             >
@@ -95,8 +191,58 @@ export default class AdminAnnouncement extends Component {
                         }}
                     />
 
+                    {/* Overlay Screen */}
+                    {/* <Overlay
+                        isVisible={this.state.isVisible}
+                        onBackdropPress={() => this.setState({ isVisible: false })}
+                        windowBackgroundColor="rgba(0,0,0,0.7)"
+                        overlayBackgroundColor="white"
+                        width="80%"
+                        height="60%"
+                    >
+                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
+                            {this.state.announcementTitle}
+                            {'\n'}
+                        </Text>
+
+                        <Text style={{ textAlign: 'left', fontSize: 17 }}>
+                            Department: {this.state.announcementDepartment}
+                            {'\n'}
+                            Description: {this.state.announcementDescription}
+                        </Text>
+                    </Overlay> */}
+
+                    <Overlay
+                        isVisible={this.state.isVisible}
+                        onBackdropPress={() => this.setState({ isVisible: false })}
+                        windowBackgroundColor="rgba(0, 0, 0, 0.7)"
+                        overlayBackgroundColor="white"
+                        width="82%"
+                        height="60%"
+                    >
+                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+                        <Image
+                            style={{ width: '80%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
+                            source={{ uri: this.state.photo }}
+                        />
+                        <View style={styles.container}>
+                            <Text style={{ alignSelf: 'center', fontSize: 14 }}>{this.state.moreNote}</Text>
+                        </View>
+                    </Overlay>
+                    {/* Overlay Screen END */}
+
                     <ScrollView>
-                        <FlatList
+                        {/* {this.array.map((item) => {
+                            return (
+                                <Text
+                                    style={styles.item}
+                                    onPress={this.GetItem.bind(this, item.title)}
+                                >
+                                    {item.title}
+                                </Text>)
+                        })} */}
+
+                        {/* <FlatList
                             data={this.state.arrayHolder}
                             width='100%'
                             extraData={this.state.arrayHolder}
@@ -109,7 +255,30 @@ export default class AdminAnnouncement extends Component {
                                     {item.title}
                                 </Text>
                             }
-                        />
+                        /> */}
+                    </ScrollView>
+
+                    <ScrollView>
+                        <View style={styles.wrapper}>
+                            {this.loadingIndicator()}
+                            <FlatList
+                                onRefresh={() => this.onRefresh()}
+                                refreshing={this.state.isFetching}
+                                data={this.state.flatListData}
+                                keyExtractor={item => item.id}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={styles.list}
+                                        onPress={() => this.showDetailData(item.description.moreNote, item.description.photo, item.description.note)}>
+                                        <Image
+                                            style={{ width: '70%', height: '74%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
+                                            source={{ uri: item.description.photo }}
+                                        />
+                                        <Text style={{ color: 'black', fontSize: 20 }}>{item.description.note}</Text>
+                                    </TouchableOpacity>
+                                }
+                            />
+                        </View>
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -154,6 +323,28 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         width: 40,
         color: '#fff'
+    },
+
+    wrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'transparent',
+        height: 620,
+    },
+
+    list: {
+        alignItems: 'center',
+        padding: 10,
+        margin: 5,
+        marginLeft: 15,
+        marginRight: 15,
+        backgroundColor: 'white',
+        height: 190,
+        justifyContent: 'space-around',
+        paddingLeft: 10,
+        elevation: 1,
+        borderRadius: 10,
     },
 
     item: {

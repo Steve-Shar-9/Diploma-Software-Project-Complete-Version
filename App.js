@@ -26,7 +26,6 @@ import InsideGroupOrClass from './screens/Student/InsideGroupOrClass';
 import QRScanner from './screens/Student/QRScanner';
 // import EventAndActivity from './screens/Student/EventAndActivity';
 
-//Testing
 const MyDrawerNavigator = createDrawerNavigator({
   Main: {
     screen: Main,
@@ -98,7 +97,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   // }
 },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'Admin',
     contentComponent: SideMenu,
     drawerWidth: 300
   }
