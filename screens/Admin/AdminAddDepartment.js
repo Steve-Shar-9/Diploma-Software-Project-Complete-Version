@@ -37,6 +37,8 @@ export default class AdminAddDepartment extends Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('AdminDepartment');
+            this.array = []
+            this.state.arrayHolder = []
             return true;
         });
     }
@@ -52,7 +54,6 @@ export default class AdminAddDepartment extends Component {
     }
 
     joinData = () => {
-        var departmentId = this.state.departmentId;
         var departmentName = this.state.departmentName;
         var departmentEmail = this.state.departmentEmail;
         var departmentHp = this.state.departmentHp;
@@ -66,6 +67,15 @@ export default class AdminAddDepartment extends Component {
                     })
 
                     Alert.alert('Department Registered Successfully !')
+
+                    this.setState({
+                        departmentName: '',
+                        departmentEmail: '',
+                        departmentHp: '',
+                    })
+
+                    this.array = []
+                    this.state.arrayHolder = []
 
                     this.props.navigation.navigate('AdminDepartment');
                 } else {
@@ -99,6 +109,8 @@ export default class AdminAddDepartment extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
+                                    this.array = []
+                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminDepartment');
                                 }}
                             >

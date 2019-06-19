@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
+import { LinearGradient } from 'expo';
 
 import * as firebase from "firebase";
 
@@ -38,6 +39,8 @@ export default class AdminProgramme extends Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('Admin');
+            this.array = []
+            this.state.arrayHolder = []
             return true;
         });
     }
@@ -134,19 +137,53 @@ export default class AdminProgramme extends Component {
                         onBackdropPress={() => this.setState({ isVisible: false })}
                         windowBackgroundColor="rgba(0,0,0,0.7)"
                         overlayBackgroundColor="white"
-                        width="80%"
-                        height="60%"
+                        width='85%'
+                        height='80%'
+                        overlayStyle={{ padding: 0, borderRadius: 10 }}
                     >
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
-                            {this.state.programmeName}
-                            {'\n'}
-                        </Text>
+                        {/* Header Background */}
+                        <LinearGradient
+                            colors={['#FFE985', '#FA742B']}
+                            start={[0.0, 0.5]}
+                            end={[1.0, 0.5]}
+                            locations={[0.0, 1.0]}
+                            style={styles.linearGradientStyles}>
+                            <View style={{ marginTop: '8%', alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>
+                                    {this.state.programmeName}
+                                </Text>
+                            </View>
+                        </LinearGradient>
 
-                        <Text style={{ textAlign: 'left', fontSize: 17 }}>
-                            Department: {this.state.programmeDepartment}
-                            {'\n'}
-                            Description: {this.state.programmeDescription}
-                        </Text>
+                        {/* User Icon */}
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '55%' }}>
+                            <View style={styles.userIcon}>
+                                <Icon name="book" size={75} color="black" />
+                            </View>
+                        </View>
+
+                        {/* Content */}
+                        <ScrollView>
+                            <View style={styles.overlayContentContainer}>
+                                <View style={styles.overlayContentStyle}>
+                                    <Text style={styles.overlayContentStyleTitle}>
+                                        Department:
+                                    </Text>
+                                    <Text style={styles.overlayContentStyleContent}>
+                                        {this.state.programmeDepartment}
+                                    </Text>
+                                </View>
+
+                                <View style={styles.overlayContentStyle}>
+                                    <Text style={styles.overlayContentStyleTitle}>
+                                        Description:
+                                    </Text>
+                                    <Text style={styles.overlayContentStyleContent}>
+                                        {this.state.programmeDescription}
+                                    </Text>
+                                </View>
+                            </View>
+                        </ScrollView>
                     </Overlay>
                     {/* Overlay Screen END */}
 
@@ -160,21 +197,6 @@ export default class AdminProgramme extends Component {
                                     {item.title}
                                 </Text>)
                         })}
-
-                        {/* <FlatList
-                            data={this.state.arrayHolder}
-                            width='100%'
-                            extraData={this.state.arrayHolder}
-                            keyExtractor={(index) => index.toString()}
-                            renderItem={({ item }) =>
-                                <Text
-                                    style={styles.item}
-                                    onPress={this.GetItem.bind(this, item.title)}
-                                >
-                                    {item.title}
-                                </Text>
-                            }
-                        /> */}
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -241,5 +263,70 @@ const styles = StyleSheet.create({
         color: '#32323d',
         textAlign: 'center',
         fontSize: 20,
+    },
+
+    linearGradientStyles: {
+        alignItems: 'center',
+        height: 190,
+        width: '100%',
+        position: 'absolute',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
+
+    userIcon: {
+        backgroundColor: 'white',
+        width: 140,
+        height: 140,
+        borderRadius: 75,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#ddd',
+        position: 'absolute',
+        borderBottomWidth: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+    },
+
+    overlayContentContainer: {
+        marginTop: 90,
+        marginBottom: 40,
+        textAlign: 'left',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    overlayContentStyle: {
+        backgroundColor: 'white',
+        width: '95%',
+        height: 'auto',
+        elevation: 1,
+        padding: 20,
+        borderRadius: 10,
+        margin: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.37,
+        shadowRadius: 7.49,
+        elevation: 12,
+    },
+
+    overlayContentStyleTitle: {
+        textAlign: 'left',
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+
+    overlayContentStyleContent: {
+        textAlign: 'left',
     },
 });

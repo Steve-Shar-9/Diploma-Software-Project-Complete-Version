@@ -69,6 +69,8 @@ export default class AdminAddStudent extends Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('AdminStudent');
+            this.array = []
+            this.state.arrayHolder = []
             return true;
         });
     }
@@ -163,6 +165,9 @@ export default class AdminAddStudent extends Component {
                                                     studentProgramme: '',
                                                     studentAddress: '',})
 
+                                                    this.array = []
+                                                    this.state.arrayHolder = []
+
                                                     this.props.navigation.navigate('AdminStudent');
                                                 } else {
                                                     Alert.alert("Please Enter Address")
@@ -219,6 +224,8 @@ export default class AdminAddStudent extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
+                                    this.array = []
+                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminStudent');
                                 }}
                             >

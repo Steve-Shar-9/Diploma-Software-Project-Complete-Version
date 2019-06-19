@@ -30,6 +30,8 @@ export default class AdminAnnouncement extends Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('Admin');
+            this.array = []
+            this.state.arrayHolder = []
             return true;
         });
     }
@@ -217,8 +219,8 @@ export default class AdminAnnouncement extends Component {
                         onBackdropPress={() => this.setState({ isVisible: false })}
                         windowBackgroundColor="rgba(0, 0, 0, 0.7)"
                         overlayBackgroundColor="white"
-                        width="82%"
-                        height="60%"
+                        width="85%"
+                        height="80%"
                     >
                         <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
                         <Image
@@ -367,5 +369,70 @@ const styles = StyleSheet.create({
         color: '#32323d',
         textAlign: 'center',
         fontSize: 20,
+    },
+
+    linearGradientStyles: {
+        alignItems: 'center',
+        height: 190,
+        width: '100%',
+        position: 'absolute',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
+
+    userIcon: {
+        backgroundColor: 'white',
+        width: 140,
+        height: 140,
+        borderRadius: 75,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#ddd',
+        position: 'absolute',
+        borderBottomWidth: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+    },
+
+    overlayContentContainer: {
+        marginTop: 90,
+        marginBottom: 40,
+        textAlign: 'left',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    overlayContentStyle: {
+        backgroundColor: 'white',
+        width: '95%',
+        height: 'auto',
+        elevation: 1,
+        padding: 20,
+        borderRadius: 10,
+        margin: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.37,
+        shadowRadius: 7.49,
+        elevation: 12,
+    },
+
+    overlayContentStyleTitle: {
+        textAlign: 'left',
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+
+    overlayContentStyleContent: {
+        textAlign: 'left',
     },
 });

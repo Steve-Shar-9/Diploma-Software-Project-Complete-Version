@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
+import { LinearGradient } from 'expo';
 
 import * as firebase from "firebase";
 
@@ -38,6 +39,8 @@ export default class AdminDepartment extends Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('Admin');
+            this.array = []
+            this.state.arrayHolder = []
             return true;
         });
     }
@@ -133,19 +136,53 @@ export default class AdminDepartment extends Component {
                         onBackdropPress={() => this.setState({ isVisible: false })}
                         windowBackgroundColor="rgba(0,0,0,0.7)"
                         overlayBackgroundColor="white"
-                        width="80%"
-                        height="60%"
+                        width='85%'
+                        height='80%'
+                        overlayStyle={{ padding: 0, borderRadius: 10 }}
                     >
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
-                            {this.state.departmentName}
-                            {'\n'}
-                        </Text>
+                        {/* Header Background */}
+                        <LinearGradient
+                            colors={['#ABDCFF', '#0396FF']}
+                            start={[0.0, 0.5]}
+                            end={[1.0, 0.5]}
+                            locations={[0.0, 1.0]}
+                            style={styles.linearGradientStyles}>
+                            <View style={{ marginTop: '8%', alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 25, color: 'white', textAlign: 'center' }}>
+                                    {this.state.departmentName}
+                                </Text>
+                            </View>
+                        </LinearGradient>
 
-                        <Text style={{ textAlign: 'left', fontSize: 17 }}>
-                            Email: {this.state.departmentEmail}
-                            {'\n'}
-                            Contact Number: {this.state.departmentHp}
-                        </Text>
+                        {/* User Icon */}
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '55%' }}>
+                            <View style={styles.userIcon}>
+                                <Icon name="university" size={75} color="black" />
+                            </View>
+                        </View>
+
+                        {/* Content */}
+                        <ScrollView>
+                            <View style={styles.overlayContentContainer}>
+                                <View style={styles.overlayContentStyle}>
+                                    <Text style={styles.overlayContentStyleTitle}>
+                                        Email:
+                                    </Text>
+                                    <Text style={styles.overlayContentStyleContent}>
+                                        {this.state.departmentEmail}
+                                    </Text>
+                                </View>
+
+                                <View style={styles.overlayContentStyle}>
+                                    <Text style={styles.overlayContentStyleTitle}>
+                                        Contact Number:
+                                    </Text>
+                                    <Text style={styles.overlayContentStyleContent}>
+                                        {this.state.departmentHp}
+                                    </Text>
+                                </View>
+                            </View>
+                        </ScrollView>
                     </Overlay>
                     {/* Overlay Screen END */}
 
@@ -239,5 +276,70 @@ const styles = StyleSheet.create({
         color: '#32323d',
         textAlign: 'center',
         fontSize: 20,
+    },
+
+    linearGradientStyles: {
+        alignItems: 'center',
+        height: 190,
+        width: '100%',
+        position: 'absolute',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+    },
+
+    userIcon: {
+        backgroundColor: 'white',
+        width: 140,
+        height: 140,
+        borderRadius: 75,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#ddd',
+        position: 'absolute',
+        borderBottomWidth: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+    },
+
+    overlayContentContainer: {
+        marginTop: 90,
+        marginBottom: 40,
+        textAlign: 'left',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    overlayContentStyle: {
+        backgroundColor: 'white',
+        width: '95%',
+        height: 'auto',
+        elevation: 1,
+        padding: 20,
+        borderRadius: 10,
+        margin: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.37,
+        shadowRadius: 7.49,
+        elevation: 12,
+    },
+
+    overlayContentStyleTitle: {
+        textAlign: 'left',
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+
+    overlayContentStyleContent: {
+        textAlign: 'left',
     },
 });

@@ -36,6 +36,8 @@ export default class AdminAddProgramme extends Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('AdminProgramme');
+            this.array = []
+            this.state.arrayHolder = []
             return true;
         });
     }
@@ -86,6 +88,15 @@ export default class AdminAddProgramme extends Component {
 
                     Alert.alert('Programme Registered Successfully !')
 
+                    this.setState({
+                        programmeName: '',
+                        programmeDepartment: '',
+                        programmeDescription: '',
+                    })
+                    
+                    this.array = []
+                    this.state.arrayHolder = []
+
                     this.props.navigation.navigate('AdminProgramme');
                 } else {
                     Alert.alert("Please Enter Programme Description")
@@ -118,6 +129,8 @@ export default class AdminAddProgramme extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
+                                    this.array = []
+                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminProgramme');
                                 }}
                             >
@@ -156,7 +169,7 @@ export default class AdminAddProgramme extends Component {
                                 style={styles.item}
                                 itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
                                 onValueChange={(itemValue, itemIndex) => this.setState({ programmeDepartment: itemValue })} >
-                                {this.state.arrayHolder.map((item) => {
+                                {this.array.map((item) => {
                                     return (<Picker.Item label={item.title} value={item.title} />)
                                 })}
                             </Picker>
