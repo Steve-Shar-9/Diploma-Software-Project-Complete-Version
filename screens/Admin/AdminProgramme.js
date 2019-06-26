@@ -65,6 +65,8 @@ export default class AdminProgramme extends Component {
 
         // Get the list of Department from Firebase
         firebase.database().ref('Programme/').on('value', (snapshot) => {
+            this.array = []
+            
             snapshot.forEach((child) => {
                 console.log(child.key)
                 this.array.push({ title: child.key });
@@ -115,8 +117,6 @@ export default class AdminProgramme extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminAddProgramme');
                                 }}
                             >
@@ -313,11 +313,11 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 6,
+            height: 4,
         },
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12,
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
     },
 
     overlayContentStyleTitle: {

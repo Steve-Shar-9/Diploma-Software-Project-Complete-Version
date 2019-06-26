@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage } from 'react-native';
 import { Ionicons, SimpleLineIcons, Entypo, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
 
 class SideMenu extends Component {
@@ -21,15 +22,14 @@ class SideMenu extends Component {
       color1: 'transparent',
       color2: 'transparent',
       color3: 'transparent',
+      colorEvent: 'transparent',
       isVisible2: false,
-
     }
-
   }
 
   render() {
     return (
-      <View style={{ backgroundColor: '#2e2e38' }}>
+      <View style={{ backgroundColor: '#2e2e38', height: '100%' }}>
         <Overlay
           isVisible={this.state.isVisible2}
           onBackdropPress={() => this.setState({ isVisible2: false })}
@@ -63,32 +63,31 @@ class SideMenu extends Component {
                   onPress={this.QrScanner}
                 >
                   <AntDesign name="qrcode" size={30} color="white" />
-                  <Text style={{ color: 'black', alignSelf: 'center', padding: 10 }}>QR Scannew</Text>
+                  <Text style={{ color: 'black', alignSelf: 'center', padding: 10 }}>QR Scanner</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
         </Overlay>
         <ScrollView>
-          <View style={{ marginTop: 100, backgroundColor: '#2e2e38' }}>
+          <View style={{ marginTop: 70, backgroundColor: '#2e2e38' }}>
             <View style={{ flexDirection: 'row', paddingLeft: 11 }}>
-              <Ionicons name="ios-bookmarks" size={32} color="white" />
-              <Text style={{ color: 'white', fontSize: 25 }}>   Noah Yek Zong Ren</Text>
+              <Icon name="university" size={32} color="white" />
+              <Text style={{ color: 'white', fontSize: 25, marginLeft: 10 }}>Institution Name</Text>
             </View>
 
-            <Text></Text>
-            <Text style={{ color: 'transparent', marginTop: 10, color: 'white', fontSize: 15, marginLeft: 5 }}>
+            <Text style={{ color: 'transparent', marginTop: 30, marginBottom: 8, color: 'white', fontSize: 20, marginLeft: 5 }}>
               Post section
             </Text>
             <View style={{ width: '97%', backgroundColor: this.state.color, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
               <Entypo name="home" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }} onPress={() => { this.colourChangingFunction('color') }}>
+              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.colourChangingFunction('color') }}>
                 Home
               </Text>
             </View>
             <View style={{ backgroundColor: this.state.colourGroup, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
               <MaterialCommunityIcons name="account-group" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }}
+              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}
                 onPress={() => { this.popOutOrNot() }}
               >
                 Group / Class
@@ -96,43 +95,53 @@ class SideMenu extends Component {
             </View>
           </View>
           <View style={{ backgroundColor: '#2e2e38' }}>
-            <Text style={{ color: 'transparent', marginTop: 14, color: 'white', fontSize: 15, marginLeft: 5 }}>
+            <Text style={{ color: 'transparent', marginTop: 20, marginBottom: 8, color: 'white', fontSize: 20, marginLeft: 5 }}>
               Special function
             </Text>
             <View style={{ width: '97%', backgroundColor: this.state.color1, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
               <Entypo name="book" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }} onPress={() => { this.colourChangingFunction('color1') }}>
-                Subjects Enrolled 
+              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.colourChangingFunction('color1') }}>
+                Subjects Enrollment
               </Text>
             </View>
 
             <View style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
               <MaterialCommunityIcons name="google-controller" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }} onPress={() => { this.colourChangingFunction('color2') }}>
+              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.colourChangingFunction('color2') }}>
                 Testing Screen
               </Text>
             </View>
 
-            <View style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
+            <View style={{ width: '97%', backgroundColor: 'transparent', padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
               <AntDesign name="calendar" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17, paddingLeft: 6 }} onPress={() => { this.props.navigation.navigate('Timetable') }}>
+              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.props.navigation.navigate('Timetable') }}>
                 Timetable Screen
               </Text>
             </View>
 
-
-            <View style={{ marginTop: 136, backgroundColor: '#2e2e38', flexDirection: 'row' }}>
-              <SimpleLineIcons name="logout" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 17 }}
-                onPress={() => { this.colourChangingFunction('color1') }}
-              >   Logout</Text>
+            <View style={{ width: '97%', backgroundColor: this.state.colorEvent, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
+              <MaterialCommunityIcons name="eventbrite" size={25} color="white" />
+              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}
+                onPress={() => {
+                  this.colourChangingFunction('eventScreen')
+                  this.props.navigation.navigate('EventScreen');
+                }}>
+                Events & Activities
+              </Text>
             </View>
 
+
+            <View style={{ marginTop: 90, marginLeft: 20, backgroundColor: '#2e2e38', flexDirection: 'row' }}>
+              <SimpleLineIcons name="logout" size={25} color="white" />
+              <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}
+                onPress={() => { 
+                  this.colourChangingFunction('color1')
+                  this.props.navigation.navigate('Login');
+                }}
+              >   Logout</Text>
+            </View>
           </View>
         </ScrollView>
-        <View style={{ marginTop: 800 }}>
-          <Text>This is my fixed footer</Text>
-        </View>
       </View>
     );
   }
@@ -175,24 +184,30 @@ class SideMenu extends Component {
 
   colourChangingFunction = (colouring) => {
     if (colouring === 'color') {
-      this.setState({ color: 'black', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent' }, () => { });
+      this.setState({ color: 'black', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
       this.props.navigation.navigate('Home')
     }
     if (colouring === 'color1') {
-      this.setState({ color: 'transparent', color1: 'black', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent' }, () => { });
+      this.setState({ color: 'transparent', color1: 'black', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
       this.props.navigation.navigate('SubEnrollment')
     }
     if (colouring === 'color2') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'black', color3: 'transparent', colourGroup: 'transparent' }, () => { });
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'black', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
       this.props.navigation.navigate('InputScreen')
     }
     if (colouring === 'color3') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'black', colourGroup: 'transparent' }, () => {
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'black', colourGroup: 'transparent', colorEvent: 'transparent' }, () => {
         alert("Going to somewhere else");
       });
     }
     if (colouring === 'colorGroup') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'black' }, () => {
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'black', colorEvent: 'transparent' }, () => {
+      });
+    }
+    if (colouring === 'eventScreen') {
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'black' }, () => {
+        //Go to where u want it to be
+        //this.props.navigation.navigate('Timetable') 
       });
     }
 

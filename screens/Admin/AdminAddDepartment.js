@@ -109,8 +109,12 @@ export default class AdminAddDepartment extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
+                                    this.setState({
+                                        departmentName: '',
+                                        departmentEmail: '',
+                                        departmentHp: '',
+                                    })
+
                                     this.props.navigation.navigate('AdminDepartment');
                                 }}
                             >
@@ -128,6 +132,7 @@ export default class AdminAddDepartment extends Component {
                     <ScrollView>
                         <View style={styles.newForm}>
                             <TextInput
+                                defaultValue={this.state.departmentName}
                                 placeholder="Name"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ departmentName: data })}
@@ -135,6 +140,7 @@ export default class AdminAddDepartment extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.departmentEmail}
                                 placeholder="Email"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ departmentEmail: data })}
@@ -142,6 +148,7 @@ export default class AdminAddDepartment extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.departmentHp}
                                 placeholder="Contact Number"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ departmentHp: data })}

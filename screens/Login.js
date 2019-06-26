@@ -125,10 +125,16 @@ export default class LoginScreen extends React.Component {
                 } else if (exists !== 'True') {
                     if (username !== 'Admin'){
                         this.setState({ errorMsg: 'Incorrect Username', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorUsername: '#ff1c76', usernameIco: '#ff1c76' })
-                    } else if(!userPassword){
-                        if (pass !== '123'){
-                            this.setState({ errorMsg: 'Incorrect Password', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
-                        }
+                    } else if (pass === '') {
+                        this.setState({ errorMsg: 'Incorrect Password', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
+                    } else if (pass !== '123') {
+                        this.setState({ errorMsg: 'Incorrect Password', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
+                    }
+                } else if (exists === 'True') {
+                    if (pass === '') {
+                        this.setState({ errorMsg: 'Incorrect Password', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
+                    } else if (pass !== userPassword) {
+                        this.setState({ errorMsg: 'Incorrect Password', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
                     }
                 }
             }

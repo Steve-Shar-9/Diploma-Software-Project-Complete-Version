@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, ToastAndroid, ActivityIndicator, Platform } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
-// const config = {
-//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-//     authDomain: "diploma-software-project.firebaseapp.com",
-//     databaseURL: "https://diploma-software-project.firebaseio.com",
-//     storageBucket: "diploma-software-project.appspot.com",
-//     messagingSenderId: "1092827450895"
-// };
-
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
     authDomain: "angelappfordatabase.firebaseapp.com",
@@ -31,23 +22,62 @@ if (!firebase.apps.length) {
 
 ///////////////////// Default class /////////////////////
 export default class AdminEvent extends Component {
-    static navigationOptions = {
-        // lock the drawer 
-        drawerLockMode: "locked-closed"
-    };
-
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-            this.props.navigation.navigate('Admin');
-            this.array = []
-            this.state.arrayHolder = []
+            this.props.navigation.navigate('Home');
             return true;
         });
     }
     componentWillUnmount() {
         this.backHandler.remove();
     }
-    
+
+    //--------------------LOADING FUNCTION-----------------------
+    loadingIndicator = () => {
+        if (this.state.isLoading === true) {
+            if (Platform.OS === 'ios') {
+                return (
+                    <View style={{ marginTop: 200 }}>
+                        <ActivityIndicator size={'large'} color="#3390FF" animating={this.state.isLoading} />
+                    </View>
+                )
+            }
+            else {
+                return (
+                    <View style={{ marginTop: 200 }}>
+                        <ActivityIndicator size={57} color="#3390FF" animating={this.state.isLoading} />
+                    </View>
+                )
+            }
+
+        }
+        else {
+            return (null)
+        }
+    }
+    //--------------------REFRESH FUNCTION-----------------------
+    onRefresh() {
+        console.log('refreshing')
+        this.setState({ isFetching: true }, function () {
+            this.fetchData()
+        });
+    }
+    fetchData() {
+        if (Platform.OS === 'ios') {
+            alert('refreshed');
+        }
+        else {
+            ToastAndroid.showWithGravityAndOffset(
+                'Refreshed',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+            );
+        }
+        this.runTheFlatlist();
+    }
+
     // Contructor
     constructor(props) {
         super(props);
@@ -55,9 +85,20 @@ export default class AdminEvent extends Component {
         this.array = []
 
         this.state = {
+            // Default
+            isVisible: false,
+            isFetching: false,
+            isLoading: true,
+            // Join Icon
+            joinStatus: '',
+            joinIcon: 'minus',
+            joinIconColor: '#ff1c76',
+            iconTitle: 'Not joined yet...',
+            iconTitleColor: '#ff1c76',
             // Array for holding data from Firebase
             arrayHolder: [],
             isVisible: false,
+            joinedEventCount: 0,
             eventTitle: '',
             eventDepartment: '',
             eventDescription: '',
@@ -69,6 +110,7 @@ export default class AdminEvent extends Component {
         // Get the list of event from Firebase
         firebase.database().ref('Event/').on('value', (snapshot) => {
             this.array = []
+            this.state.arrayHolder = []
 
             snapshot.forEach((child) => {
                 console.log(child.key)
@@ -80,6 +122,7 @@ export default class AdminEvent extends Component {
 
     // Get the event information on selection
     GetItem(item) {
+        // Get the main list of events only
         firebase.database().ref('Event/').on('value', (snapshot) => {
             var eventDepartment = '';
             var eventDescription = '';
@@ -99,6 +142,96 @@ export default class AdminEvent extends Component {
 
             this.setState({ isVisible: true, eventTitle: item, eventDepartment: eventDepartment, eventDescription: eventDescription, eventDate: eventDate, eventTime: eventTime, eventVenue: eventVenue })
         });
+
+        // Get the number of students joined in current event
+        firebase.database().ref('Event/' + item + '/Joined/').on('value', (snapshot) => {
+            var joinedCount = 0;
+
+            snapshot.forEach((child) => {
+                joinedCount = joinedCount + 1;
+            });
+
+            this.setState({ joinedEventCount: joinedCount})
+        });
+
+        // Initialize the join status
+        firebase.database().ref('Event/' + item + '/Joined/').on('value', (snapshot) => {
+            var joinStatus = 'False';
+
+            snapshot.forEach((child) => {
+                if (child.val().StudentID === 'C1700000') {
+                    joinStatus = 'True';
+                    // alert('C1700000 is exists')
+                    this.setState({
+                        joinIcon: 'check',
+                        joinIconColor: '#8aff4c',
+                        iconTitle: 'Joined !',
+                        iconTitleColor: '#8aff4c',
+                    })
+                }
+            });
+
+            if (joinStatus !== 'True') {
+                this.setState({
+                    joinIcon: 'minus',
+                    joinIconColor: '#ff1c76',
+                    iconTitle: 'Not joined yet...',
+                    iconTitleColor: '#ff1c76',
+                })
+            }
+
+            this.setState({ joinStatus: joinStatus})
+
+            // alert(this.state.joinStatus)
+
+            // if (this.state.joinStatus === 'True') {
+            //     console.log(this.state.joinStatus)
+            //     this.setState({
+            //         joinIcon: 'check',
+            //         joinIconColor: '#8aff4c',
+            //         iconTitle: 'Joined !',
+            //         iconTitleColor: '#8aff4c',
+            //     })
+            // } else {
+            //     console.log(this.state.joinStatus)
+            //     this.setState({
+            //         joinIcon: 'minus',
+            //         joinIconColor: '#ff1c76',
+            //         iconTitle: 'Not joined yet...',
+            //         iconTitleColor: '#ff1c76',
+            //     })
+            // }
+        });
+    }
+
+    JoinEvent = () => {
+        if (this.state.joinIcon === 'minus') {
+            var code = this.state.joinedEventCount;
+
+            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + code).set({
+                StudentID: 'C1700007'
+            })
+
+            this.setState({
+                joinIcon: 'check',
+                joinIconColor: '#8aff4c',
+                iconTitle: 'Joined !',
+                iconTitleColor: '#8aff4c',
+            }),
+
+            alert('You have successfully joined \'' + this.state.eventTitle + '\' !')
+        }else {
+            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/').child('Student').remove();
+
+            this.setState({
+                joinIcon: 'minus',
+                joinIconColor: '#ff1c76',
+                iconTitle: 'Not joined yet...',
+                iconTitleColor: '#ff1c76',
+            }),
+
+            alert('Unjoined \'' + this.state.eventTitle + '\' successfully !')
+        }
     }
 
     render() {
@@ -115,24 +248,14 @@ export default class AdminEvent extends Component {
                         leftComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.props.navigation.navigate('Admin');
+                                    this.props.navigation.openDrawer()
                                 }}
                             >
                                 <View style={[{ flexDirection: 'row' }]}>
-                                    <Icon name="arrow-left" size={22} style={styles.backBtn} />
+                                    <Feather name="menu" size={25} style={styles.drawerBtn} />
                                 </View>
                             </TouchableOpacity>}
-                        centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>Events</Text></View>}
-                        rightComponent={
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.props.navigation.navigate('AdminAddEvent');
-                                }}
-                            >
-                                <View style={[{ flexDirection: 'row' }]}>
-                                    <Icon name="plus" size={22} style={styles.addBtn} />
-                                </View>
-                            </TouchableOpacity>}
+                        centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>Events and Activities</Text></View>}
                         containerStyle={{
                             backgroundColor: 'transparent',
                             justifyContent: 'space-around',
@@ -167,9 +290,13 @@ export default class AdminEvent extends Component {
 
                         {/* User Icon */}
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '55%' }}>
-                            <View style={styles.userIcon}>
-                                <Icon name="code" size={75} color="black" />
-                            </View>
+                            <TouchableOpacity
+                                style={styles.userIcon}
+                                onPress={ this.JoinEvent.bind() }
+                            >
+                                <Feather name={this.state.joinIcon} size={75} color={this.state.joinIconColor} />
+                                <Text style={{textAlign: 'center', color: this.state.iconTitleColor, marginTop: -10}} >{this.state.iconTitle}</Text>
+                            </TouchableOpacity>
                         </View>
 
                         {/* Content */}
@@ -234,20 +361,6 @@ export default class AdminEvent extends Component {
                                     {item.title}
                                 </Text>)
                         })}
-                        {/* <FlatList
-                            data={this.state.arrayHolder}
-                            width='100%'
-                            extraData={this.state.arrayHolder}
-                            keyExtractor={(index) => index.toString()}
-                            renderItem={({ item }) =>
-                                <Text
-                                    style={styles.item}
-                                    onPress={this.GetItem.bind(this, item.title)}
-                                >
-                                    {item.title}
-                                </Text>
-                            }
-                        /> */}
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -282,14 +395,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
 
-    backBtn: {
+    drawerBtn: {
         paddingLeft: 20,
-        width: 40,
-        color: '#fff'
-    },
-
-    addBtn: {
-        paddingRight: 20,
         width: 40,
         color: '#fff'
     },

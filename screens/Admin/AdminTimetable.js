@@ -89,9 +89,9 @@ export default class App extends Component {
                         borderBottomColor: "transparent",
                     }}
                 />
-                    <View style={{ backgroundColor: 'transparent', height: '36%', justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: 100, width: 175, height: 175, justifyContent: 'center', alignItems: 'center' }}>
-                        <AntDesign name="cloud" size={90} color="white" />
+                    <View style={{ backgroundColor: 'transparent', height: '36%', marginTop: 50, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: 100, width: 190, height: 190, justifyContent: 'center', alignItems: 'center' }}>
+                        <AntDesign name="cloud" size={100} color="white" />
                     </View>
 
                     {/* this one have to change if it is the real one */}

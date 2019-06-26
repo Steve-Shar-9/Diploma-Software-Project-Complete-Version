@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, TextInput, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
@@ -53,7 +53,7 @@ export default class Student extends Component {
         this.array = []
 
         this.state = {
-            search: '',
+            isLoading: true,
             // Array for holding data from Firebase
             arrayHolder: [],
             isVisible: false,
@@ -72,11 +72,35 @@ export default class Student extends Component {
 
         // Get the list of student from Firebase
         firebase.database().ref('Student/').on('value', (snapshot) => {
+            this.array = []
+
             snapshot.forEach((child) => {
                 this.array.push({ title: child.key });
                 this.setState({ arrayHolder: [...this.array] })
             })
         })
+    }
+
+    loadingIndicator = () => {
+        if (this.state.isLoading === true) {
+            if (Platform.OS === 'ios') {
+                return (
+                    <View style={{ marginTop: 50 }}>
+                        <ActivityIndicator size={'large'} color="rgba(255,255,255,0.3)" animating={this.state.isLoading} />
+                    </View>
+                )
+            }
+            else {
+                return (
+                    <View style={{ marginTop: 50 }}>
+                        <ActivityIndicator size={57} color="rgba(255,255,255,0.3)" animating={this.state.isLoading} />
+                    </View>
+                )
+            }
+        }
+        else {
+            return (null)
+        }
     }
 
     // Get the student information on selection
@@ -139,8 +163,6 @@ export default class Student extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminAddStudent');
                                 }}
                             >
@@ -277,19 +299,10 @@ export default class Student extends Component {
                     </Overlay>
                     {/* Overlay Screen END */}
 
-                    {/* Search */}
-                    <View style={{alignItems: 'center'}}>
-                        <TextInput
-                            defaultValue={this.state.search}
-                            placeholder="Search Here..."
-                            placeholderTextColor={'rgba(255,255,255,0.3)'}
-                            onChangeText={() => this.state.arrayHolder.filter(item => item.title.includes(this.state.search))}
-                            style={styles.searchBar}
-                         />
-                    </View>
-
                     <ScrollView>
-                        {/* {this.array.map((item) => {
+                        {/* {this.loadingIndicator()} */}
+
+                        {this.array.map((item) => {
                             return (
                             <Text
                                 style={styles.item}
@@ -297,9 +310,9 @@ export default class Student extends Component {
                             >
                                 {item.title}
                             </Text>)
-                        })} */}
+                        })}
 
-                        <FlatList
+                        {/* <FlatList
                             data={this.state.arrayHolder}
                             width='100%'
                             extraData={this.state.array}
@@ -312,7 +325,7 @@ export default class Student extends Component {
                                     {item.title}
                                 </Text>
                             }
-                        />
+                        /> */}
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -442,11 +455,11 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 6,
+            height: 4,
         },
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12,
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
     },
 
     overlayContentStyleTitle: {

@@ -135,6 +135,7 @@ export default class AdminAnnouncement extends Component {
             this.fetchData()
         });
     }
+    
     fetchData() {
         if (Platform.OS === 'ios') {
             alert('refreshed');

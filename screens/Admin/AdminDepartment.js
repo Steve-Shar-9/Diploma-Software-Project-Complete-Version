@@ -47,7 +47,7 @@ export default class AdminDepartment extends Component {
     componentWillUnmount() {
         this.backHandler.remove();
     }
-    
+
     // Contructor
     constructor(props) {
         super(props);
@@ -65,9 +65,13 @@ export default class AdminDepartment extends Component {
 
         // Get the list of student from Firebase
         firebase.database().ref('Department/').on('value', (snapshot) => {
+            this.array = []
+
             snapshot.forEach((child) => {
-                this.array.push({ title: child.key });
-                this.setState({ arrayHolder: [...this.array] })
+                if (child.key !== 'Public'){
+                    this.array.push({ title: child.key });
+                    this.setState({ arrayHolder: [...this.array] })
+                }
             })
         })
     }
@@ -85,7 +89,7 @@ export default class AdminDepartment extends Component {
                 }
             });
 
-            this.setState({ isVisible: true, departmentName: item, departmentEmail: departmentEmail, departmentHp: departmentHp})
+            this.setState({ isVisible: true, departmentName: item, departmentEmail: departmentEmail, departmentHp: departmentHp })
         });
     }
 
@@ -114,8 +118,6 @@ export default class AdminDepartment extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminAddDepartment');
                                 }}
                             >
