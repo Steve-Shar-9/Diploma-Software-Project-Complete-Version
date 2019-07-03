@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
+    BackHandler,
     View,
 } from 'react-native';
 import { Constants, ImagePicker, Permissions } from 'expo';
@@ -35,6 +36,16 @@ try {
 
 //This one will be on admin side
 export default class App extends Component {
+    componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Home');
+            return true;
+        });
+    }
+    componentWillUnmount() {
+        this.backHandler.remove();
+    }
+
     state = {
         image: null,
         uploading: false,

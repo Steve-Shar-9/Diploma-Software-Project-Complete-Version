@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-    height: 620,
+    height: 656,
 
   },
   container: {

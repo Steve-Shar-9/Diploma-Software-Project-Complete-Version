@@ -52,7 +52,7 @@ export default class home extends Component {
 
     render() {
         return (
-            <View style={{ height: '100%', backgroundColor: '#d9d9d9' }}>
+            <View style={{ height: '100%', backgroundColor: '#d9d9d9' ,alignItems:'center',justifyContent:'center' }}>
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
@@ -82,8 +82,8 @@ export default class home extends Component {
                         {this.checkingState()}
                     </View>
                 </Overlay>
-
-                <Picker
+                
+                {/* <Picker
                     style={styles.picker} itemStyle={styles.pickerItem}
                     selectedValue={this.state.language}
                     onValueChange={(itemValue) => this.setState({ language: itemValue })}
@@ -92,7 +92,7 @@ export default class home extends Component {
                     <Picker.Item label="June intake" value="js" />
                     <Picker.Item label="September intake" value="python" />
                     <Picker.Item label="December intake" value="haxe" />
-                </Picker>
+                </Picker> */}
 
                 <FlatList
                     data={this.state.flatListData}
@@ -264,15 +264,17 @@ const styles = StyleSheet.create({
         padding: 20
     },
     list: {
-        alignItems: 'center',
-        // padding:0.4,
-        // margin: 0.4,
-        // backgroundColor: 'transparent',
-        // height:64,
-        // justifyContent: 'space-around',
-        // paddingLeft: 6,
-        // elevation: 0,
-        // borderRadius:0,
+        padding: 20,
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'black',
+        backgroundColor:'white',
+        width: 410,
+        height: 85,
+        marginTop:4,
+        borderRadius: 5,
+        
+        
     },
 
     buttonFloating: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, ToastAndroid, ActivityIndicator, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,  ScrollView, BackHandler, ToastAndroid, ActivityIndicator, Platform } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
@@ -237,30 +237,18 @@ export default class AdminEvent extends Component {
     render() {
         return (
             <View style={styles.eventContainer} behavior='padding'>
-                <ImageBackground
-                    source={require('../../images/background/Events.jpg')}
-                    style={styles.overallBackgroundImage}
-                    blurRadius={50}
-                >
+               
                     <Header
                         statusBarProps={{ barStyle: 'light-content' }}
-                        placement="left"
-                        leftComponent={
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.props.navigation.openDrawer()
-                                }}
-                            >
-                                <View style={[{ flexDirection: 'row' }]}>
-                                    <Feather name="menu" size={25} style={styles.drawerBtn} />
-                                </View>
-                            </TouchableOpacity>}
-                        centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>Events and Activities</Text></View>}
+                        barStyle="dark-content"
+                        leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+                        centerComponent={{ text: 'Home', style: { fontSize: 25, color: '#fff' } }}
+                        rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
+                        this.props.navigation.openDrawer()
+
+                        } />}
                         containerStyle={{
-                            backgroundColor: 'transparent',
-                            justifyContent: 'space-around',
-                            // height: 100,
-                            borderBottomColor: "transparent",
+                        backgroundColor: '#2e2e38',
                         }}
                     />
 
@@ -362,7 +350,7 @@ export default class AdminEvent extends Component {
                                 </Text>)
                         })}
                     </ScrollView>
-                </ImageBackground>
+                
             </View>
         );
     }
@@ -373,7 +361,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
-        backgroundColor: '#32323d',
+        backgroundColor: '#d9d9d9',
         alignItems: 'center',
     },
 
@@ -405,7 +393,12 @@ const styles = StyleSheet.create({
         padding: 20,
         fontSize: 18,
         textAlign: 'center',
-        color: 'white',
+        color: 'black',
+        backgroundColor:'white',
+        width: 410,
+        height: 85,
+        marginTop:4,
+        borderRadius: 5,
     },
 
     button: {

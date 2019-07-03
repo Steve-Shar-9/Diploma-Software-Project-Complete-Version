@@ -24,7 +24,7 @@ import Timetable from './screens/Student/Timetable';
 import GroupOrClass from './screens/Student/GroupOrClass';
 import InsideGroupOrClass from './screens/Student/InsideGroupOrClass';
 import QRScanner from './screens/Student/QRScanner';
-// import EventAndActivity from './screens/Student/EventAndActivity';
+import EventScreen from './screens/Student/EventScreen';
 
 const MyDrawerNavigator = createDrawerNavigator({
   Main: {
@@ -95,9 +95,12 @@ const MyDrawerNavigator = createDrawerNavigator({
   // EventAndActivity: {
   //   screen: EventAndActivity,
   // }
+  EventScreen:{
+    screen: EventScreen,
+  }
 },
   {
-    initialRouteName: 'Admin',
+    initialRouteName: 'SubEnrollment',
     contentComponent: SideMenu,
     drawerWidth: 300
   }
