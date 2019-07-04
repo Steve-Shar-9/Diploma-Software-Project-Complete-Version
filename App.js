@@ -92,15 +92,12 @@ const MyDrawerNavigator = createDrawerNavigator({
   QRScanner: {
     screen: QRScanner,
   },
-  // EventAndActivity: {
-  //   screen: EventAndActivity,
-  // }
   EventScreen:{
     screen: EventScreen,
   }
 },
   {
-    initialRouteName: 'SubEnrollment',
+    initialRouteName: 'Home',
     contentComponent: SideMenu,
     drawerWidth: 300
   }

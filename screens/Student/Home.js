@@ -4,6 +4,8 @@ import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
 import * as Permissions from 'expo-permissions';
+import { NavigationEvents } from 'react-navigation';
+
 
 //Setting up the connection
 const config = {
@@ -23,6 +25,9 @@ try {
 }
 
 export default class home extends Component {
+  componentWillFocus(){
+    alert('hello');
+  }
   static navigationOptions = {
     header: null
   };
@@ -38,6 +43,15 @@ export default class home extends Component {
   render() {
     return (
       <View style={{ height: '100%', backgroundColor: '#d9d9d9' }}>
+        <NavigationEvents
+          // onWillFocus={payload => console.log('will focus',payload)}
+          onDidFocus={payload => {
+            console.log('did focus',payload)
+            this.runTheFlatlist();
+          }}
+          // onWillBlur={payload => console.log('will blur',payload)}
+          // onDidBlur={payload => console.log('did blur',payload)}
+        />
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
           barStyle="dark-content"
@@ -162,7 +176,6 @@ export default class home extends Component {
         });
       });
       this.setState({ flatListData: items, isFetching: false, isLoading: false });
-      console.log(items)
     });
   }
   //----------------------------------SAVE--------------------------------
@@ -222,15 +235,16 @@ const styles = StyleSheet.create({
   },
   list: {
     alignItems: 'center',
-    padding: 10,
-    margin: 5,
-    backgroundColor: 'white',
-    height: 190,
-    width: 410,
-    justifyContent: 'space-around',
-    paddingLeft: 10,
-    elevation: 1,
-    borderRadius: 5,
+        padding: 10,
+        margin: 5,
+        marginLeft: 15,
+        marginRight: 15,
+        backgroundColor: 'white',
+        height: 190,
+        justifyContent: 'space-around',
+        paddingLeft: 10,
+        elevation: 1,
+        borderRadius: 10,
   },
   button: {
     backgroundColor: '#841584',

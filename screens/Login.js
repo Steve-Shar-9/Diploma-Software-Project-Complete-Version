@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, View, Text, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { Alert, TouchableOpacity, View, Text,Image, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
@@ -154,7 +154,8 @@ export default class LoginScreen extends React.Component {
                     <KeyboardAvoidingView behavior="position">
                         <View style={styles.center}>
                             <View style={styles.userIcon}>
-                                <SimpleLineIcons name="people" size={90} style={[{ color: "white" }]} />
+                                {/* <SimpleLineIcons name="people" size={90} style={[{ color: "white" }]} /> */}
+                                <Image source={require('../images/Turritopsis.png')} style={{height:233, width:233}} />
                             </View>
                         </View>
                         
@@ -237,10 +238,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        width: 207,
-        height: 207,
+        width: 253,
+        height: 253,
         borderWidth: 1,
-        borderRadius: 207 / 2,
+        borderRadius: 0,
         borderColor: 'white',
         marginBottom: 60,
     },

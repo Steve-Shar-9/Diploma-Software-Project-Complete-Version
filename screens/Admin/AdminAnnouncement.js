@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackgro
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
-
+import { NavigationEvents } from 'react-navigation';
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
@@ -155,6 +155,15 @@ export default class AdminAnnouncement extends Component {
     render() {
         return (
             <View style={styles.announcementContainer} behavior='padding'>
+                <NavigationEvents
+                // onWillFocus={payload => console.log('will focus',payload)}
+                onDidFocus={payload => {
+                    console.log('did focus',payload)
+                    this.runTheFlatlist();
+                }}
+                // onWillBlur={payload => console.log('will blur',payload)}
+                // onDidBlur={payload => console.log('did blur',payload)}
+                />
                 <ImageBackground
                     source={require('../../images/background/Announcement.jpg')}
                     style={styles.overallBackgroundImage}
