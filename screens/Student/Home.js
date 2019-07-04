@@ -186,7 +186,7 @@ export default class home extends Component {
     var photo = 'https://is.org.au/wp-content/uploads/2017/01/MaGz2.jpg'
     var moreNote = "You may go to ground floor and get the form and go to fifth floor for the register"
 
-    db = firebase.database().ref('users/' + userId)
+    db = firebase.database().ref('users/c188211')
     db.child(RandomNumber).set({
       description: { note, photo, moreNote }
     }).then((data) => { alert('saved'); }).catch((error) => { alert('failed'); })

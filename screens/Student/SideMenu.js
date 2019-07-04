@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
-import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage,ToastAndroid } from 'react-native';
 import { Ionicons, SimpleLineIcons, Entypo, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
@@ -135,7 +135,6 @@ class SideMenu extends Component {
               <SimpleLineIcons name="logout" size={25} color="white" />
               <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}
                 onPress={() => { 
-                  this.colourChangingFunction('color1')
                   this.props.navigation.navigate('Login');
                 }}
               >   Logout</Text>
@@ -182,6 +181,32 @@ class SideMenu extends Component {
     }
   }
 
+  EnrollSubOrNot=async()=>{
+    const value = await AsyncStorage.getItem('@SubEnroll:Sub');
+    try {
+      if (value === null) {
+        this.props.navigation.navigate('SubEnrollment');
+      }
+      else {
+        // Adding for ios soon
+        // if (Platform.OS === 'ios') {
+        //   alert(value);
+        // }
+        // else{
+          ToastAndroid.showWithGravityAndOffset(
+            value,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+          );
+        // }
+        
+      }
+    } catch (error) {
+    }
+  }
+
   colourChangingFunction = (colouring) => {
     if (colouring === 'color') {
       this.setState({ color: 'black', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
@@ -189,7 +214,7 @@ class SideMenu extends Component {
     }
     if (colouring === 'color1') {
       this.setState({ color: 'transparent', color1: 'black', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
-      this.props.navigation.navigate('SubEnrollment')
+        this.EnrollSubOrNot()
     }
     if (colouring === 'color2') {
       this.setState({ color: 'transparent', color1: 'transparent', color2: 'black', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });

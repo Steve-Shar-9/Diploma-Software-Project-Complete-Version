@@ -64,7 +64,7 @@ export default class home extends Component {
                     style={styles.button}
                     onPress={() => this._deleteItem()}
                 >
-                    <Text style={{ color: 'white', alignSelf: 'center' }}>delete localStorage</Text>
+                    <Text style={{ color: 'white', alignSelf: 'center' }}>delete localStorage Group or Class</Text>
                 </TouchableOpacity>
 
                 <Text></Text>
@@ -74,6 +74,13 @@ export default class home extends Component {
                     onPress={() => this.firebaseDataSavingForEnroll('c188211/enrollSub')}
                 >
                     <Text style={{ color: 'white', alignSelf: 'center' }}>input sub</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this._deleteItem1()}
+                >
+                    <Text style={{ color: 'white', alignSelf: 'center' }}>delete localStorage SubEnroll</Text>
                 </TouchableOpacity>
 
 
@@ -103,6 +110,16 @@ export default class home extends Component {
     _deleteItem = async () => {
         try {
             await AsyncStorage.removeItem('@GroupCode:key');
+            console.log('deleted');
+        } catch (error) {
+            console.log(error);
+            // Error retrieving data
+        }
+    }
+
+    _deleteItem1 = async () => {
+        try {
+            await AsyncStorage.removeItem('@SubEnroll:Sub');
             console.log('deleted');
         } catch (error) {
             console.log(error);

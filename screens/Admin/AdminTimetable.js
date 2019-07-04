@@ -3,7 +3,7 @@ import {
     ActivityIndicator,
     Button,
     Clipboard,
-    Image,
+    ToastAndroid,
     Share,
     StatusBar,
     StyleSheet,
@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import { Header, Overlay } from 'react-native-elements';
-import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
+import {AntDesign } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as firebase from 'firebase';
 
@@ -120,12 +120,28 @@ export default class App extends Component {
     firebaseDataSaving = () => {
         //----------------------------Random number generator----------------
         var RandomNumber = 'timeTable';
-        var timetableUrl = this.state.image;
 
         db = firebase.database().ref('users/')
         db.child(RandomNumber).set({
             timetableUrl: this.state.image
-        }).then((data) => { alert('saved'); }).catch((error) => { alert('failed'); })
+        }).then((data) => {
+            ToastAndroid.showWithGravityAndOffset(
+            'Saved! :D',
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+            );
+            
+            }).catch((error) => {
+                ToastAndroid.showWithGravityAndOffset(
+                'Fail!! :(',
+                ToastAndroid.LONG,
+                ToastAndroid.CENTER,
+                25,
+                50,
+                );
+            })
     }
 
     _maybeRenderUploadingOverlay = () => {
@@ -309,7 +325,7 @@ const styles = StyleSheet.create({
     },
     exampleText: {
         fontSize: 20,
-        marginBottom: 20,
+        marginBottom: 10,
         marginHorizontal: 15,
         textAlign: 'center',
         color: 'white'

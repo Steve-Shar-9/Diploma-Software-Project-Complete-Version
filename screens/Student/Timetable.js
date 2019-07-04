@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import {
     ActivityIndicator,
-    Button,
     Clipboard,
     Image,
     Share,
-    StatusBar,
     StyleSheet,
     Text,
-    TouchableOpacity,
     BackHandler,
     View,
 } from 'react-native';
-import { Constants, ImagePicker, Permissions } from 'expo';
-import { Header, Overlay } from 'react-native-elements';
-import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
+import {ImagePicker, Permissions } from 'expo';
+import {AntDesign } from '@expo/vector-icons';
 import * as firebase from 'firebase';
 
 //Setting up the connection
@@ -56,10 +52,6 @@ export default class App extends Component {
         this.outputDataFunction();
     }
     render() {
-        let {
-            image
-        } = this.state;
-
         return (
             <Image source={{ uri: this.state.urlFirebase }} style={styles.backgroundImage} />
         );
@@ -102,9 +94,7 @@ export default class App extends Component {
         let {
             image
         } = this.state;
-
         if (!image) {
-
             return (
                 <View>
                     <Text>{"\n\n\n\n"}</Text>
@@ -120,18 +110,6 @@ export default class App extends Component {
         //based on what i knew here this.state.image is the place where we stored the url of the image
         return (
             <View style={styles.container}>
-                {/* <View
-         style={styles.maybeRenderImageContainer}>
-       <Image source={{ uri: image }} style={styles.maybeRenderImage} />
-       </View> */}
-
-                {/* <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={styles.maybeRenderImageText}>
-          {image}
-        </Text> */}
-
                 <Text>{"\n\n\n"}</Text>
                 <AntDesign name="check" size={94} color="green" />
                 <Text
@@ -171,7 +149,6 @@ export default class App extends Component {
                 allowsEditing: true,
                 aspect: [4, 3],
             });
-
             this._handleImagePicked(pickerResult);
         }
     };
@@ -199,7 +176,6 @@ export default class App extends Component {
             this.setState({
                 uploading: true
             });
-
             if (!pickerResult.cancelled) {
                 uploadResponse = await uploadImageAsync(pickerResult.uri);
                 uploadResult = await uploadResponse.json();
@@ -225,16 +201,6 @@ export default class App extends Component {
 
 async function uploadImageAsync(uri) {
     let apiUrl = 'https://file-upload-example-backend-dkhqoilqqn.now.sh/upload';
-
-    // Note:
-    // Uncomment this if you want to experiment with local server
-    //
-    // if (Constants.isDevice) {
-    //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-    // } else {
-    //   apiUrl = `http://localhost:3000/upload`
-    // }
-
     let uriParts = uri.split('.');
     let fileType = uriParts[uriParts.length - 1];
 
@@ -253,7 +219,6 @@ async function uploadImageAsync(uri) {
             'Content-Type': 'multipart/form-data',
         },
     };
-
     return fetch(apiUrl, options);
 }
 

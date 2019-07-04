@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
+import { NavigationEvents } from 'react-navigation';
+
 
 import * as firebase from "firebase";
 
@@ -141,6 +143,11 @@ export default class Student extends Component {
     render() {
         return (
             <View style={styles.studentContainer} behavior='padding'>
+                <NavigationEvents
+                onDidFocus={payload => {
+                    this.setState({isVisible:false})
+                }}
+                />
                 <ImageBackground
                     source={require('../../images/background/Student.jpg')}
                     style={styles.overallBackgroundImage}

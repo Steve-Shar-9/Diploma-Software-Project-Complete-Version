@@ -4,14 +4,7 @@ import { Header } from 'react-native-elements';
 
 import * as firebase from "firebase";
 
-///////////////////// Setting up Firebase connection /////////////////////
-// const config = {
-//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-//     authDomain: "diploma-software-project.firebaseapp.com",
-//     databaseURL: "https://diploma-software-project.firebaseio.com",
-//     storageBucket: "diploma-software-project.appspot.com",
-//     messagingSenderId: "1092827450895"
-// };
+
 
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
@@ -81,12 +74,20 @@ export default class AdminAddAnnouncement extends Component {
         if (announcementTitle != '') {
             if (announcementDescription != '') {
                 if (announcementDepartment != '') {
-                    firebase.database().ref('Announcement/' + announcementTitle).set({
-                        announcementDescription,
-                        announcementDepartment,
-                    })
 
-                    Alert.alert('Announcement Registered Successfully !')
+                    var RandomNumber = Math.floor(Math.random() * 10000) + 1;
+                var note = announcementTitle
+                var photo = 'https://is.org.au/wp-content/uploads/2017/01/MaGz2.jpg'
+                var moreNote = announcementDescription
+
+                db = firebase.database().ref('users/c188211/home')
+                db.child(RandomNumber).set({
+                description: { note, photo, moreNote }
+                }).then((data) => { alert('saved'); }).catch((error) => { alert('failed'); })
+
+
+
+                    
 
                     this.setState({
                         announcementTitle: '',

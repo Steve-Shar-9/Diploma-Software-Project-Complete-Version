@@ -21,7 +21,6 @@ import Home from './screens/Student/Home';
 import InputScreen from './screens/Student/InputScreen.js'
 import SubEnrollment from './screens/Student/SubEnrollment';
 import Timetable from './screens/Student/Timetable';
-import GroupOrClass from './screens/Student/GroupOrClass';
 import InsideGroupOrClass from './screens/Student/InsideGroupOrClass';
 import QRScanner from './screens/Student/QRScanner';
 import EventScreen from './screens/Student/EventScreen';
@@ -83,9 +82,6 @@ const MyDrawerNavigator = createDrawerNavigator({
   Timetable: {
     screen: Timetable,
   },
-  GroupOrClass: {
-    screen: GroupOrClass,
-  },
   InsideGroupOrClass: {
     screen: InsideGroupOrClass,
   },
@@ -97,7 +93,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   }
 },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Admin',
     contentComponent: SideMenu,
     drawerWidth: 300
   }

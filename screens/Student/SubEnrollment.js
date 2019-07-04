@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Picker } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,ToastAndroid } from 'react-native';
 import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
-import { Header, Overlay, CheckBox } from 'react-native-elements';
+import { Header, Overlay } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
 
@@ -16,7 +16,6 @@ const config = {
 };
 
 try {
-    //with this means aldy inside the firebase
     firebase.initializeApp(config);
     console.log("Log into app");
 } catch (e) {
@@ -131,9 +130,29 @@ export default class home extends Component {
             </View>
         );
     }
-    subjectEnrolled = () => {
-        alert("The Fee for This semester is RM" + this.state.sum + "\n" + this.state.subjectTook);
-        this.props.navigation.navigate('home');
+    subjectEnrolled = async () => {
+        // ----------------------Saving parts----------------------------
+        try {
+            await AsyncStorage.setItem('@SubEnroll:Sub', "The Fee for This semester is RM" + this.state.sum + "\n" + this.state.subjectTook);
+            console.log('saved to localStorage');
+            this.props.navigation.navigate('Home');
+        } catch (error) {
+            console.log('error saving data to localStorage');
+        }
+        
+        // if (Platform.OS === 'ios') {
+        //     alert(value);
+        // }
+        // else{
+            ToastAndroid.showWithGravityAndOffset(
+            "The Fee for This semester is RM" + this.state.sum + "\n" + this.state.subjectTook,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            25,
+            50,
+            );
+        // }
+        
     }
 
     selectItem = async (price, id, name) => {

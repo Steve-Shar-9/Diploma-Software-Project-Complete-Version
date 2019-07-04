@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,  ScrollView, BackHandler, ToastAndroid, ActivityIndicator, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,  ScrollView, BackHandler,ToastAndroid, ActivityIndicator, Platform } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
@@ -218,8 +218,15 @@ export default class AdminEvent extends Component {
                 iconTitle: 'Joined !',
                 iconTitleColor: '#8aff4c',
             }),
-
-            alert('You have successfully joined \'' + this.state.eventTitle + '\' !')
+            ToastAndroid.showWithGravityAndOffset(
+                'You have successfully joined \'' + this.state.eventTitle + '\' !',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+              );
+            
+            // alert('You have successfully joined \'' + this.state.eventTitle + '\' !')
         }else {
             firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/').child('Student').remove();
 
@@ -229,8 +236,15 @@ export default class AdminEvent extends Component {
                 iconTitle: 'Not joined yet...',
                 iconTitleColor: '#ff1c76',
             }),
-
-            alert('Unjoined \'' + this.state.eventTitle + '\' successfully !')
+            ToastAndroid.showWithGravityAndOffset(
+                'You have unjoined \'' + this.state.eventTitle + '\' ! :(',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+              );
+            
+            // alert('Unjoined \'' + this.state.eventTitle + '\' successfully !')
         }
     }
 
