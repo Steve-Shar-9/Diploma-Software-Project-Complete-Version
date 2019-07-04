@@ -64,7 +64,7 @@ export default class home extends Component {
                     style={styles.button}
                     onPress={() => this._deleteItem()}
                 >
-                    <Text style={{ color: 'white', alignSelf: 'center' }}>delete localStorage Group or Class</Text>
+                    <Text style={{ color: 'white', alignSelf: 'center' }}>delete localStorage G/C</Text>
                 </TouchableOpacity>
 
                 <Text></Text>

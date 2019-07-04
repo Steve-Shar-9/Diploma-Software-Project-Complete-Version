@@ -203,36 +203,20 @@ export default class AdminAnnouncement extends Component {
                         }}
                     />
 
-                    {/* Overlay Screen */}
-                    {/* <Overlay
-                        isVisible={this.state.isVisible}
-                        onBackdropPress={() => this.setState({ isVisible: false })}
-                        windowBackgroundColor="rgba(0,0,0,0.7)"
-                        overlayBackgroundColor="white"
-                        width="80%"
-                        height="60%"
-                    >
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
-                            {this.state.announcementTitle}
-                            {'\n'}
-                        </Text>
-
-                        <Text style={{ textAlign: 'left', fontSize: 17 }}>
-                            Department: {this.state.announcementDepartment}
-                            {'\n'}
-                            Description: {this.state.announcementDescription}
-                        </Text>
-                    </Overlay> */}
+                    
 
                     <Overlay
                         isVisible={this.state.isVisible}
                         onBackdropPress={() => this.setState({ isVisible: false })}
                         windowBackgroundColor="rgba(0, 0, 0, 0.7)"
                         overlayBackgroundColor="white"
-                        width="85%"
-                        height="80%"
+                        width="82%"
+                        height="60%"
+                        overlayStyle={{ padding: 0, borderRadius: 10 }}
                     >
-                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+                        <View style={{ backgroundColor: '#CCDDDD', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+                        </View>
                         <Image
                             style={{ width: '80%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
                             source={{ uri: this.state.photo }}
@@ -243,32 +227,7 @@ export default class AdminAnnouncement extends Component {
                     </Overlay>
                     {/* Overlay Screen END */}
 
-                    <ScrollView>
-                        {/* {this.array.map((item) => {
-                            return (
-                                <Text
-                                    style={styles.item}
-                                    onPress={this.GetItem.bind(this, item.title)}
-                                >
-                                    {item.title}
-                                </Text>)
-                        })} */}
-
-                        {/* <FlatList
-                            data={this.state.arrayHolder}
-                            width='100%'
-                            extraData={this.state.arrayHolder}
-                            keyExtractor={(index) => index.toString()}
-                            renderItem={({ item }) =>
-                                <Text
-                                    style={styles.item}
-                                    onPress={this.GetItem.bind(this, item.title)}
-                                >
-                                    {item.title}
-                                </Text>
-                            }
-                        /> */}
-                    </ScrollView>
+                    
 
                     <ScrollView>
                         <View style={styles.wrapper}>

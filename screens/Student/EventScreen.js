@@ -159,7 +159,7 @@ export default class AdminEvent extends Component {
             var joinStatus = 'False';
 
             snapshot.forEach((child) => {
-                if (child.val().StudentID === 'C1700000') {
+                if (child.val().StudentID === 'C1700007') {
                     joinStatus = 'True';
                     // alert('C1700000 is exists')
                     this.setState({
@@ -181,26 +181,6 @@ export default class AdminEvent extends Component {
             }
 
             this.setState({ joinStatus: joinStatus})
-
-            // alert(this.state.joinStatus)
-
-            // if (this.state.joinStatus === 'True') {
-            //     console.log(this.state.joinStatus)
-            //     this.setState({
-            //         joinIcon: 'check',
-            //         joinIconColor: '#8aff4c',
-            //         iconTitle: 'Joined !',
-            //         iconTitleColor: '#8aff4c',
-            //     })
-            // } else {
-            //     console.log(this.state.joinStatus)
-            //     this.setState({
-            //         joinIcon: 'minus',
-            //         joinIconColor: '#ff1c76',
-            //         iconTitle: 'Not joined yet...',
-            //         iconTitleColor: '#ff1c76',
-            //     })
-            // }
         });
     }
 
@@ -209,7 +189,7 @@ export default class AdminEvent extends Component {
             var code = this.state.joinedEventCount;
 
             firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + code).set({
-                StudentID: 'C1700007'
+                StudentID: 'C1700000'
             })
 
             this.setState({
