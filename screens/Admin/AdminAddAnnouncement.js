@@ -163,9 +163,9 @@ export default class AdminAddAnnouncement extends Component {
                                 style={styles.textInputStyle}
                             />
 
-                            <Text style={styles.departmentTextStyle}>Select a Department:</Text>
+                            {/* <Text style={styles.departmentTextStyle}>Select a Department:</Text> */}
 
-                            <Picker
+                            {/* <Picker
                                 selectedValue={this.state.announcementDepartment}
                                 style={styles.item}
                                 itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
@@ -173,7 +173,7 @@ export default class AdminAddAnnouncement extends Component {
                                 {this.array.map((item) => {
                                     return (<Picker.Item label={item.title} value={item.title} />)
                                 })}
-                            </Picker>
+                            </Picker> */}
 
                             <TouchableOpacity onPress={this.joinData} activeOpacity={0.7} style={styles.button} >
                                 <Text style={styles.buttonText}> Add </Text>

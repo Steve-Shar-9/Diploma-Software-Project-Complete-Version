@@ -153,9 +153,9 @@ export default class LoginScreen extends React.Component {
                 >
                     <KeyboardAvoidingView behavior="position">
                         <View style={styles.center}>
+                            <Text style={{color:'white',paddingBottom:13, fontSize:34}}>Turritopsis</Text>
                             <View style={styles.userIcon}>
-                                {/* <SimpleLineIcons name="people" size={90} style={[{ color: "white" }]} /> */}
-                                <Image source={require('../images/Turritopsis.png')} style={{height:233, width:233}} />
+                                <Image source={require('../images/zza.png')} style={{height:200, width:200,borderRadius:160,}} />
                             </View>
                         </View>
                         
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
+        
         justifyContent: 'center',
     },
 
@@ -238,10 +239,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        width: 253,
-        height: 253,
-        borderWidth: 1,
-        borderRadius: 0,
+        width: 229,
+        height: 229,
+        borderWidth: 2,
+        borderRadius: 160,
         borderColor: 'white',
         marginBottom: 60,
     },

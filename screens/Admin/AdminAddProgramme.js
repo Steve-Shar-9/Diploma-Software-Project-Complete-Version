@@ -69,20 +69,20 @@ export default class AdminAddProgramme extends Component {
     state = {
         // For entering new programme data
         programmeName: '',
-        programmeDepartment: '',
+        // programmeDepartment: '',
         programmeDescription: '',
     }
 
     joinData = () => {
         var programmeName = this.state.programmeName;
-        var programmeDepartment = this.state.programmeDepartment;
+        // var programmeDepartment = this.state.programmeDepartment;
         var programmeDescription = this.state.programmeDescription;
 
         if (programmeName != '') {
-            if (programmeDepartment != '') {
+            // if (programmeDepartment != '') {
                 if (programmeDescription != '') {
                     firebase.database().ref('Programme/' + programmeName).set({
-                        programmeDepartment,
+                        // programmeDepartment,
                         programmeDescription,
                     })
 
@@ -90,7 +90,7 @@ export default class AdminAddProgramme extends Component {
 
                     this.setState({
                         programmeName: '',
-                        programmeDepartment: '',
+                        // programmeDepartment: '',
                         programmeDescription: '',
                     })
                     
@@ -101,9 +101,9 @@ export default class AdminAddProgramme extends Component {
                 } else {
                     Alert.alert("Please Enter Programme Description")
                 }
-            } else {
-                Alert.alert("Please Enter Programme Department")
-            }
+            // } else {
+            //     Alert.alert("Please Enter Programme Department")
+            // }
         } else {
             Alert.alert("Please Enter Programme Name")
         }
@@ -162,9 +162,9 @@ export default class AdminAddProgramme extends Component {
                                 style={styles.textInputStyle}
                             />
 
-                            <Text style={styles.departmentTextStyle}>Select a Department:</Text>
+                            {/* <Text style={styles.departmentTextStyle}>Select a Department:</Text> */}
 
-                            <Picker
+                            {/* <Picker
                                 selectedValue={this.state.programmeDepartment}
                                 style={styles.item}
                                 itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
@@ -172,7 +172,7 @@ export default class AdminAddProgramme extends Component {
                                 {this.array.map((item) => {
                                     return (<Picker.Item label={item.title} value={item.title} />)
                                 })}
-                            </Picker>
+                            </Picker> */}
 
                             <TouchableOpacity onPress={this.joinData} activeOpacity={0.7} style={styles.button} >
                                 <Text style={styles.buttonText}> Add </Text>

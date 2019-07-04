@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
+import { NavigationEvents } from 'react-navigation';
 
 import * as firebase from "firebase";
 
@@ -59,7 +60,7 @@ export default class AdminProgramme extends Component {
             arrayHolder: [],
             isVisible: false,
             programmeName: '',
-            programmeDepartment: '',
+            // programmeDepartment: '',
             programmeDescription: '',
         }
 
@@ -78,23 +79,30 @@ export default class AdminProgramme extends Component {
     // Get the programme information on selection
     GetItem(item) {
         firebase.database().ref('Programme/').on('value', (snapshot) => {
-            var programmeDepartment = '';
+            // var programmeDepartment = '';
             var programmeDescription = '';
 
             snapshot.forEach((child) => {
                 if (item === child.key) {
-                    programmeDepartment = child.val().programmeDepartment;
+                    // programmeDepartment = child.val().programmeDepartment;
                     programmeDescription = child.val().programmeDescription;
                 }
             });
 
-            this.setState({ isVisible: true, programmeName: item, programmeDepartment: programmeDepartment, programmeDescription: programmeDescription })
+            this.setState({ isVisible: true, programmeName: item, 
+                // programmeDepartment: programmeDepartment,
+                 programmeDescription: programmeDescription })
         });
     }
 
     render() {
         return (
             <View style={styles.programmeContainer} behavior='padding'>
+                <NavigationEvents
+                onDidFocus={payload => {
+                    this.setState({isVisible:false})
+                }}
+                />
                 <ImageBackground
                     source={require('../../images/background/Programme.jpg')}
                     style={styles.overallBackgroundImage}
@@ -167,10 +175,10 @@ export default class AdminProgramme extends Component {
                             <View style={styles.overlayContentContainer}>
                                 <View style={styles.overlayContentStyle}>
                                     <Text style={styles.overlayContentStyleTitle}>
-                                        Department:
+                                        Department: 
                                     </Text>
                                     <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.programmeDepartment}
+                                        information Technology Department
                                     </Text>
                                 </View>
 

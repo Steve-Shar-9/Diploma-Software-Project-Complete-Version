@@ -32,7 +32,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   Login: {
     screen: Login,
   },
-  // Admin Screens
+  // -------------------Admin Screens------------------------
   Admin: {
     screen: Admin,
   },
@@ -69,7 +69,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   AdminTimetable: {
     screen: AdminTimetable,
   },
-  // Student Screens
+  // -----------------------------Student Screens------------------
   Home: {
     screen: Home,
   },
@@ -93,7 +93,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   }
 },
   {
-    initialRouteName: 'Admin',
+    initialRouteName: 'Login',
     contentComponent: SideMenu,
     drawerWidth: 300
   }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
+import { NavigationEvents } from 'react-navigation';
 
 import * as firebase from "firebase";
 
@@ -104,6 +104,11 @@ export default class AdminEvent extends Component {
     render() {
         return (
             <View style={styles.eventContainer} behavior='padding'>
+                <NavigationEvents
+                onDidFocus={payload => {
+                    this.setState({isVisible:false})
+                }}
+                />
                 <ImageBackground
                     source={require('../../images/background/Events.jpg')}
                     style={styles.overallBackgroundImage}

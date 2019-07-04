@@ -163,32 +163,19 @@ export default class App extends Component {
 
             return (
                 <View>
-                    <Text>{"\n\n\n\n"}</Text>
+                    <Text>{"\n\n"}</Text>
                     <Text
                         style={styles.exampleText}>
-                        All trips successfully uploaded
-            {'\n\n\n\n'}
+                        Waiting miracle to happen
+                    {'\n\n\n\n'}
                     </Text>
                 </View>
             );
         }
 
-        //based on what i knew here this.state.image is the place where we stored the url of the image
         return (
             <View style={styles.container}>
-                {/* <View
-         style={styles.maybeRenderImageContainer}>
-       <Image source={{ uri: image }} style={styles.maybeRenderImage} />
-       </View> */}
-
-                {/* <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={styles.maybeRenderImageText}>
-          {image}
-        </Text> */}
-
-                <Text>{"\n\n\n"}</Text>
+                <Text>{"\n\n"}</Text>
                 <AntDesign name="check" size={94} color="green" />
                 <Text
                     style={styles.exampleText}>

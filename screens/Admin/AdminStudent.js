@@ -293,14 +293,14 @@ export default class Student extends Component {
                                     </Text>
                                 </View>
 
-                                <View style={styles.overlayContentStyle}>
+                                {/* <View style={styles.overlayContentStyle}>
                                     <Text style={styles.overlayContentStyleTitle}>
                                         Programme:
                                     </Text>
                                     <Text style={styles.overlayContentStyleContent}>
                                         {this.state.studentProgramme}
                                     </Text>
-                                </View>
+                                </View> */}
                             </View>
                         </ScrollView>
                     </Overlay>
