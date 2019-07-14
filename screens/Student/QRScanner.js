@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Dimensions, LayoutAnimation, Text, View, StyleSheet, AsyncStorage } from 'react-native';
+import { Alert, Dimensions, LayoutAnimation, Text, View, StyleSheet,BackHandler, AsyncStorage } from 'react-native';
 // import { BarCodeScanner, Permissions } from 'expo';
 import { ToastAndroid } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner'
@@ -10,9 +10,18 @@ export default class App extends Component {
         hasCameraPermission: null,
         lastScannedUrl: null,
     };
-
+   
+    
     componentDidMount() {
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Home');
+            return true;
+        });
         this._requestCameraPermission();
+    }
+    
+    componentWillUnmount() {
+        this.backHandler.remove();
     }
 
     _requestCameraPermission = async () => {

@@ -131,7 +131,7 @@ class SideMenu extends Component {
             </View>
 
 
-            <View style={{ marginTop: 90, marginLeft: 20, backgroundColor: '#2e2e38', flexDirection: 'row' }}>
+            <View style={{ marginTop: 73, marginLeft: 20, backgroundColor: '#2e2e38', flexDirection: 'row' }}>
               <SimpleLineIcons name="logout" size={25} color="white" />
               <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}
                 onPress={() => { 

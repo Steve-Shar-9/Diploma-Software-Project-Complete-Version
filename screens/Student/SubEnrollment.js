@@ -288,10 +288,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'black',
         backgroundColor:'white',
-        width: 410,
+        width: 383,
         height: 85,
-        marginTop:4,
-        borderRadius: 5,
+        margin:5,
+        borderRadius: 10,
+        marginLeft: 15,
+        marginRight: 15,
+        elevation: 1,
         
         
     },

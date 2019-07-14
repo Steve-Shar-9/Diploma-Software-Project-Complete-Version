@@ -6,17 +6,7 @@ import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 import { NavigationEvents } from 'react-navigation';
 
-
 import * as firebase from "firebase";
-
-///////////////////// Setting up Firebase connection /////////////////////
-// const config = {
-//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-//     authDomain: "diploma-software-project.firebaseapp.com",
-//     databaseURL: "https://diploma-software-project.firebaseio.com",
-//     storageBucket: "diploma-software-project.appspot.com",
-//     messagingSenderId: "1092827450895"
-// };
 
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",

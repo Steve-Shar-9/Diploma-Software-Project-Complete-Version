@@ -26,6 +26,7 @@ export default class Admin extends React.Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('Login');
+            // alert('To logout press the button on right :)')
             return true;
         });
     }
