@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
-import * as Permissions from 'expo-permissions';
 import { NavigationEvents } from 'react-navigation';
 
 
@@ -38,6 +37,13 @@ export default class home extends Component {
       isVisible: false, text1: '', dataStoring: [], testArray: [], moreNote: '', NumberHolder: 1, isFetching: false, isLoading: true,
     }
     this.runTheFlatlist();
+    this.moveAnimation = new Animated.ValueXY({x:10, y:800})
+    // this.moveAnimation = new Animated.ValueXY({x:156, y:10})
+  }
+  _moveBall=()=>{
+    Animated.spring(this.moveAnimation,{
+      toValue:{x:10, y:15},
+    }).start()
   }
 
   render() {
@@ -87,9 +93,11 @@ export default class home extends Component {
             <Text style={{ alignSelf: 'center', fontSize: 14 }}>{this.state.moreNote}</Text>
           </View>
         </Overlay>
+        {this.loadingIndicator()}
+        <Animated.View style={[styles.tennisBall, this.moveAnimation.getLayout()]}>
         <ScrollView>
           <View style={styles.wrapper}>
-            {this.loadingIndicator()}
+            
             <FlatList
               onRefresh={() => this.onRefresh()}
               refreshing={this.state.isFetching}
@@ -109,6 +117,7 @@ export default class home extends Component {
             />
           </View>
         </ScrollView>
+        </Animated.View>
       </View>
     );
   }
@@ -175,7 +184,10 @@ export default class home extends Component {
           date: child.val().date,
         });
       });
-      this.setState({ flatListData: items, isFetching: false, isLoading: false });
+      this.setState({ flatListData: items, isFetching: false, isLoading: false },()=>{
+        this._moveBall();
+      });
+
     });
   }
   //----------------------------------SAVE--------------------------------
@@ -254,5 +266,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     paddingTop: 20,
+  },
+  tennisBall: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 100,
+    width: 400,
+    height: 656,
   },
 });

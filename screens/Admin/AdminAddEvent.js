@@ -53,7 +53,13 @@ export default class AdminAddEvent extends Component {
         this.state = {
             // Array for holding data from Firebase
             arrayHolder: [],
-            PickerSelectedVal: ''
+            PickerSelectedVal: '',
+            eventTitle: '',
+            eventDate: '',
+            eventTime: '',
+            eventDepartment: '',
+            eventDescription: '',
+            eventVenue: ''
         }
 
         // Get the list of announcement from Firebase
@@ -64,16 +70,6 @@ export default class AdminAddEvent extends Component {
                 this.setState({ arrayHolder: [...this.array] })
             })
         })
-    }
-
-    state = {
-        // For entering new event data
-        eventTitle: '',
-        eventDate: '',
-        eventTime: '',
-        eventDepartment: '',
-        eventDescription: '',
-        eventVenue: ''
     }
 
     joinData = () => {
