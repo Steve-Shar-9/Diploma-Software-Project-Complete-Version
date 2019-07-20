@@ -54,6 +54,7 @@ export default class AdminAddEvent extends Component {
             // Array for holding data from Firebase
             arrayHolder: [],
             PickerSelectedVal: '',
+            // For entering new event data
             eventTitle: '',
             eventDate: '',
             eventTime: '',
@@ -100,13 +101,13 @@ export default class AdminAddEvent extends Component {
                                     eventTitle: '',
                                     eventDate: '',
                                     eventTime: '',
-                                    eventDepartment: '',
+                                    // eventDepartment: '',
                                     eventDescription: '',
                                     eventVenue: ''
                                 })
 
-                                this.array = []
-                                this.state.arrayHolder = []
+                                // this.array = []
+                                // this.state.arrayHolder = []
 
                                 this.props.navigation.navigate('AdminEvent');
                             } else {
@@ -149,8 +150,8 @@ export default class AdminAddEvent extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
+                                    // this.array = []
+                                    // this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminEvent');
                                 }}
                             >
@@ -168,6 +169,7 @@ export default class AdminAddEvent extends Component {
                     <ScrollView>
                         <View style={styles.newForm}>
                             <TextInput
+                                defaultValue={this.state.eventTitle}
                                 placeholder="Title"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ eventTitle: data })}
@@ -175,6 +177,7 @@ export default class AdminAddEvent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.eventDate}
                                 placeholder="Date"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ eventDate: data })}
@@ -182,6 +185,7 @@ export default class AdminAddEvent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.eventTime}
                                 placeholder="Time"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ eventTime: data })}
@@ -189,6 +193,7 @@ export default class AdminAddEvent extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.eventVenue}
                                 placeholder="Venue"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ eventVenue: data })}
@@ -208,6 +213,7 @@ export default class AdminAddEvent extends Component {
                             </Picker>
 
                             <TextInput
+                                defaultValue={this.state.eventDescription}
                                 placeholder="Description"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 multiline={true}

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Diploma Software Project",
-    "slug": "Diploma_Software_Project",
-    "privacy": "public",
+    "name": "Turritopsis",
+    "slug": "Project_Turritopsis",
+    "privacy": "private",
     "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./images/octo2.jpg",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./images/octo.jpg", 
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,6 +25,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.applemango.Turritopsis"
     }
   }
 }

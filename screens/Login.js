@@ -155,7 +155,7 @@ export default class LoginScreen extends React.Component {
                         <View style={styles.center}>
                             <Text style={{color:'white',paddingBottom:13, fontSize:34}}>Turritopsis</Text>
                             <View style={styles.userIcon}>
-                                <Image source={require('../images/zza.png')} style={{height:200, width:200,borderRadius:160,}} />
+                                <Image source={require('../images/octo2.jpg')} style={{height:200, width:200,borderRadius:160,}} />
                             </View>
                         </View>
                         

@@ -93,7 +93,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   }
 },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'AdminAddEvent',
     contentComponent: SideMenu,
     drawerWidth: 300
   }
