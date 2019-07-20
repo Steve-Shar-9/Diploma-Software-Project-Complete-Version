@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,  ScrollView, BackHandler,ToastAndroid, ActivityIndicator, Platform } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Feather,MaterialIcons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 
@@ -338,12 +338,16 @@ export default class AdminEvent extends Component {
                     <ScrollView>
                         {this.array.map((item) => {
                             return (
-                                <Text
-                                    style={styles.item}
-                                    onPress={this.GetItem.bind(this, item.title)}
-                                >
-                                    {item.title}
-                                </Text>)
+                                <View style={styles.item}>
+                                    <MaterialIcons name="event" size={39} color="black"/>
+                                    <Text
+                                        style={styles.textStyling}
+                                        onPress={this.GetItem.bind(this, item.title)}
+                                    >
+                                        {item.title}
+                                    </Text>
+                                </View>
+                                )
                         })}
                     </ScrollView>
                 
@@ -387,8 +391,6 @@ const styles = StyleSheet.create({
 
     item: {
         padding: 20,
-        fontSize: 18,
-        textAlign: 'center',
         color: 'black',
         backgroundColor:'white',
         width: 383,
@@ -398,6 +400,12 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginRight: 15,
         elevation: 1,
+        flexDirection:'row'
+    },
+    textStyling:{
+        fontSize: 20,
+        marginTop:6,
+        marginLeft: 18,
     },
 
     linearGradientStyles: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
@@ -24,9 +24,6 @@ try {
 }
 
 export default class home extends Component {
-  componentWillFocus(){
-    alert('hello');
-  }
   static navigationOptions = {
     header: null
   };
@@ -38,7 +35,6 @@ export default class home extends Component {
     }
     this.runTheFlatlist();
     this.moveAnimation = new Animated.ValueXY({x:10, y:800})
-    // this.moveAnimation = new Animated.ValueXY({x:156, y:10})
   }
   _moveBall=()=>{
     Animated.spring(this.moveAnimation,{

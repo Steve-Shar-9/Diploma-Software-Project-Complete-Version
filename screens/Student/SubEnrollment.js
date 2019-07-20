@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,ToastAndroid } from 'react-native';
-import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
-import { Header, Overlay } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,ToastAndroid, } from 'react-native';
+import { Feather, AntDesign,MaterialIcons } from '@expo/vector-icons';
+import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
 
@@ -22,16 +22,10 @@ try {
     console.log('App reloaded, so firebase did not re-initialize');
 }
 
-
-
-
 export default class home extends Component {
     static navigationOptions = {
         header: null
     };
-
-    componentWillMount() {
-    }
 
     constructor(props) {
         super(props);
@@ -44,10 +38,14 @@ export default class home extends Component {
             counter: 0,
             subjectTook: [],
         }
+        // this.moveAnimation = new Animated.ValueXY({x:10, y:800})
         this.runTheFlatlist();
     }
-
-
+    // _moveBall=()=>{
+    //     Animated.spring(this.moveAnimation,{
+    //       toValue:{x:10, y:15},
+    //     }).start()
+    //   }
 
     render() {
         return (
@@ -67,7 +65,7 @@ export default class home extends Component {
                     }}
                 />
                 {/* abit buggy keep ask propmt again */}
-                <Overlay
+                {/* <Overlay
                     isVisible={this.state.isVisible}
                     // onBackdropPress={() => this.setState({ isVisible: false })}
                     windowBackgroundColor="rgba(0, 0, 0, 0.7)"
@@ -80,18 +78,9 @@ export default class home extends Component {
                         <Text style={{ alignSelf: 'center' }}>Please scan your finger</Text>
                         {this.checkingState()}
                     </View>
-                </Overlay>
+                </Overlay> */}
                 
-                {/* <Picker
-                    style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={this.state.language}
-                    onValueChange={(itemValue) => this.setState({ language: itemValue })}
-                >
-                    <Picker.Item label="April intake" value="java" />
-                    <Picker.Item label="June intake" value="js" />
-                    <Picker.Item label="September intake" value="python" />
-                    <Picker.Item label="December intake" value="haxe" />
-                </Picker> */}
+                
 
                 <FlatList
                     data={this.state.flatListData}
@@ -106,11 +95,12 @@ export default class home extends Component {
                             }>
 
                             <View style={{ flexDirection: 'row', paddingLeft: 10, backgroundColor: 'white', height: 49, borderRadius: 2, }}>
-                                <View style={{ flex: 1, color: 'black', fontSize: 20 }}>
-                                    <Text>{item.description.data.name}  {item.description.data.id}</Text>
+                                <MaterialIcons name="class" size={39} color="black"/>
+                                <View style={{ flex: 1,}}>
+                                    <Text style={{fontSize: 20,marginLeft: 5,}}>{item.description.data.name}  {item.description.data.id}</Text>
                                 </View>
                                 <View style={{ flex: 1, paddingRight: 10 }}>
-                                    <Text style={{ textAlign: 'right' }}>RM{item.description.data.price}</Text>
+                                    <Text style={{ textAlign: 'right',fontSize: 20,marginLeft: 18, }}>RM{item.description.data.price}</Text>
                                 </View>
                             </View>
                             <Text></Text>
@@ -140,10 +130,7 @@ export default class home extends Component {
             console.log('error saving data to localStorage');
         }
         
-        // if (Platform.OS === 'ios') {
-        //     alert(value);
-        // }
-        // else{
+        
             ToastAndroid.showWithGravityAndOffset(
             "The Fee for This semester is RM" + this.state.sum + "\n" + this.state.subjectTook,
             ToastAndroid.LONG,
@@ -151,7 +138,6 @@ export default class home extends Component {
             25,
             50,
             );
-        // }
         
     }
 
@@ -193,9 +179,10 @@ export default class home extends Component {
                     description: { data: child.val().description, isSelect: false },
                     date: child.val().date,
                 });
-
             });
-            this.setState({ flatListData: items });
+            this.setState({ flatListData: items},()=>{
+                // this._moveBall();
+            });
         });
     }
 

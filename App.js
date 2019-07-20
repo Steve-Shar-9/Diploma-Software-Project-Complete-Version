@@ -93,7 +93,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   }
 },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'SubEnrollment',
     contentComponent: SideMenu,
     drawerWidth: 300
   }
