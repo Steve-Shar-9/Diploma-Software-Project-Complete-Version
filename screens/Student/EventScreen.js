@@ -98,7 +98,6 @@ export default class AdminEvent extends Component {
             // Array for holding data from Firebase
             arrayHolder: [],
             isVisible: false,
-            joinedEventCount: 0,
             eventTitle: '',
             eventDepartment: '',
             eventDescription: '',
@@ -143,17 +142,6 @@ export default class AdminEvent extends Component {
             this.setState({ isVisible: true, eventTitle: item, eventDepartment: eventDepartment, eventDescription: eventDescription, eventDate: eventDate, eventTime: eventTime, eventVenue: eventVenue })
         });
 
-        // Get the number of students joined in current event
-        firebase.database().ref('Event/' + item + '/Joined/').on('value', (snapshot) => {
-            var joinedCount = 0;
-
-            snapshot.forEach((child) => {
-                joinedCount = joinedCount + 1;
-            });
-
-            this.setState({ joinedEventCount: joinedCount})
-        });
-
         // Initialize the join status
         firebase.database().ref('Event/' + item + '/Joined/').on('value', (snapshot) => {
             var joinStatus = 'False';
@@ -161,7 +149,6 @@ export default class AdminEvent extends Component {
             snapshot.forEach((child) => {
                 if (child.val().StudentID === 'C1700007') {
                     joinStatus = 'True';
-                    // alert('C1700000 is exists')
                     this.setState({
                         joinIcon: 'check',
                         joinIconColor: '#8aff4c',
@@ -186,10 +173,16 @@ export default class AdminEvent extends Component {
 
     JoinEvent = () => {
         if (this.state.joinIcon === 'minus') {
-            var code = this.state.joinedEventCount;
+            
+            var randomResult = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < 20; i++) {
+                randomResult += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
 
-            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + code).set({
-                StudentID: 'C1700000'
+            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + randomResult).set({
+                StudentID: 'C1700007'
             })
 
             this.setState({
@@ -197,34 +190,43 @@ export default class AdminEvent extends Component {
                 joinIconColor: '#8aff4c',
                 iconTitle: 'Joined !',
                 iconTitleColor: '#8aff4c',
-            }),
-            ToastAndroid.showWithGravityAndOffset(
-                'You have successfully joined \'' + this.state.eventTitle + '\' !',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-              );
-            
-            // alert('You have successfully joined \'' + this.state.eventTitle + '\' !')
+            })
+
+            // ToastAndroid.showWithGravityAndOffset(
+            //     'You have successfully joined \'' + this.state.eventTitle + '\' !',
+            //     ToastAndroid.LONG,
+            //     ToastAndroid.BOTTOM,
+            //     25,
+            //     50,
+            // );
         }else {
-            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/').child('Student').remove();
+            var code = '';
+
+            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/').on('value', (snapshot) => {
+
+                snapshot.forEach((child) => {
+                    if (child.val().StudentID === 'C1700007') {
+                        code = child.key;
+                    }
+                });
+            })
+
+            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + code).child('StudentID').remove();
 
             this.setState({
                 joinIcon: 'minus',
                 joinIconColor: '#ff1c76',
                 iconTitle: 'Not joined yet...',
                 iconTitleColor: '#ff1c76',
-            }),
-            ToastAndroid.showWithGravityAndOffset(
-                'You have unjoined \'' + this.state.eventTitle + '\' ! :(',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-              );
-            
-            // alert('Unjoined \'' + this.state.eventTitle + '\' successfully !')
+            })
+
+            // ToastAndroid.showWithGravityAndOffset(
+            //     'You have unjoined \'' + this.state.eventTitle + '\' ! :(',
+            //     ToastAndroid.LONG,
+            //     ToastAndroid.BOTTOM,
+            //     25,
+            //     50,
+            // );
         }
     }
 
