@@ -181,6 +181,7 @@ export default class LoginScreen extends React.Component {
 
         return (
             <View style={styles.loginScreenContainer}>
+<<<<<<< HEAD
                 <FadeInView style={{ backgroundColor: 'transparent' }}>
                     <ImageBackground
                         style={styles.backgroundImage}
@@ -193,6 +194,24 @@ export default class LoginScreen extends React.Component {
                                 <View style={styles.userIcon}>
                                     <Image source={require('../images/octo2.jpg')} style={{ height: 200, width: 200, borderRadius: 100, }} />
                                 </View>
+=======
+                <ImageBackground
+                    style={styles.backgroundImage}
+                    source={require('../images/background/bg3.jpg')}
+                    blurRadius={50}
+                >
+                    <KeyboardAvoidingView behavior="position">
+                        <View style={styles.center}>
+                            <Text style={{color:'white',paddingBottom:13, fontSize:34}}>Turritopsis</Text>
+                            <View style={styles.userIcon}>
+                                <Image source={require('../images/octo2.jpg')} style={{height:200, width:200,borderRadius:100,}} />
+                            </View>
+                        </View>
+                        
+                        <View style={[styles.rowContainer, { marginBottom: 30,}]}>
+                            <View style={styles.inputIcon}>
+                                <Icon name="user-circle" size={30} style={[{ color: this.state.usernameIco }]} />
+>>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
                             </View>
 
                             <View style={[styles.rowContainer, { marginBottom: 30, }]}>
