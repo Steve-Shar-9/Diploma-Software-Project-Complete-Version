@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, BackHandler, ToastAndroid, ActivityIndicator, Platform, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, BackHandler, ToastAndroid, Image,ActivityIndicator, Platform, AsyncStorage } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';

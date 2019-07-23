@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker, ToastAndroid, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,Image, ToastAndroid, ScrollView } from 'react-native';
 import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
