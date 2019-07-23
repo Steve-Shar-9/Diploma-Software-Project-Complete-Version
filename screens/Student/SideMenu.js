@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
 let interval;
 
+import * as LocalAuthentication from 'expo-local-authentication'
+
 class SideMenu extends Component {
   
   componentDidMount() {
@@ -23,6 +25,7 @@ class SideMenu extends Component {
 
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
+      index: 0,
       routeName: route
     });
     this.props.navigation.dispatch(navigateAction);
@@ -132,13 +135,6 @@ class SideMenu extends Component {
                 </Text>
               </TouchableOpacity>
 
-              {/* <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color2') }}>
-                <MaterialCommunityIcons name="google-controller" size={25} color="white" />
-                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
-                  Testing Screen
-                </Text>
-              </TouchableOpacity> */}
-
               <TouchableOpacity style={{ width: '97%', backgroundColor: 'transparent', padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.props.navigation.navigate('Timetable') }}>
                 <AntDesign name="calendar" size={25} color="white" />
                 <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
@@ -148,7 +144,7 @@ class SideMenu extends Component {
 
               <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.colorEvent, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => {
                 this.colourChangingFunction('eventScreen')
-                this.props.navigation.navigate('EventScreen');
+                
               }}>
                 <MaterialCommunityIcons name="eventbrite" size={25} color="white" />
                 <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
@@ -156,9 +152,38 @@ class SideMenu extends Component {
                 </Text>
               </TouchableOpacity>
 
+              {/* <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color2') }}>
+                <MaterialCommunityIcons name="google-controller" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
+                  Testing Screen
+                </Text>
+              </TouchableOpacity> */}
 
               <TouchableOpacity style={{ marginTop: 73, marginBottom: 10, marginLeft: 20, backgroundColor: 'transparent', flexDirection: 'row' }} onPress={() => {
-                AsyncStorage.clear();
+                async () => {
+                  try {
+                    await AsyncStorage.removeItem('userName');
+                    console.log('userName deleted');
+                  } catch (error) {
+                    console.log(error);
+                  }
+
+                  try {
+                    await AsyncStorage.removeItem('@SubEnroll:Sub');
+                    console.log('SubEnroll deleted');
+                  } catch (error) {
+                    console.log(error);
+                  }
+
+                  try {
+                    await AsyncStorage.removeItem('@GroupCode:key');
+                    console.log('GroupCode deleted');
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+
+                this.colourChangingFunction('color')
                 this.props.navigation.navigate('Login');
               }}>
                 <SimpleLineIcons name="logout" size={25} color="white" />
@@ -261,8 +286,7 @@ class SideMenu extends Component {
     }
     if (colouring === 'eventScreen') {
       this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'rgba(255,255,255,0.2)' }, () => {
-        //Go to where u want it to be
-        //this.props.navigation.navigate('Timetable') 
+        this.props.navigation.navigate('EventScreen');
       });
     }
 
