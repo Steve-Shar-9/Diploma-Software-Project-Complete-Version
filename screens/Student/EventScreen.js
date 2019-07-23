@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, BackHandler, ToastAndroid, ActivityIndicator, Platform, AsyncStorage } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-=======
-import { StyleSheet, Text, View, TouchableOpacity,  ScrollView, BackHandler,ToastAndroid, ActivityIndicator, Platform } from 'react-native';
-import { Feather,MaterialIcons } from '@expo/vector-icons';
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 
@@ -187,7 +182,6 @@ export default class AdminEvent extends Component {
 
     JoinEvent = () => {
         if (this.state.joinIcon === 'minus') {
-<<<<<<< HEAD
 
             var randomResult = '';
             var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -198,18 +192,6 @@ export default class AdminEvent extends Component {
 
             firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + randomResult).set({
                 StudentID: this.state.userName
-=======
-            
-            var randomResult = '';
-            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            var charactersLength = characters.length;
-            for (var i = 0; i < 20; i++) {
-                randomResult += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-
-            firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/' + randomResult).set({
-                StudentID: 'C1700007'
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
             })
 
             this.setState({
@@ -226,21 +208,13 @@ export default class AdminEvent extends Component {
             //     25,
             //     50,
             // );
-<<<<<<< HEAD
         } else {
-=======
-        }else {
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
             var code = '';
 
             firebase.database().ref('Event/' + this.state.eventTitle + '/Joined/').on('value', (snapshot) => {
 
                 snapshot.forEach((child) => {
-<<<<<<< HEAD
                     if (child.val().StudentID === this.state.userName) {
-=======
-                    if (child.val().StudentID === 'C1700007') {
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
                         code = child.key;
                     }
                 });
@@ -271,10 +245,10 @@ export default class AdminEvent extends Component {
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
-                    leftComponent={<Feather name="menu" size={25} color="#2e2e38" onPress={() => this.props.navigation.openDrawer()} />}
-                    centerComponent={{ text: 'Events & Activities', style: { fontSize: 25, color: '#2e2e38' } }}
-                    // rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
-                    //     this.props.navigation.openDrawer()
+                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+                    centerComponent={<View style={styles.centerHeader}><Image source={require('../../images/octo2.jpg')} style={{ height: 30, width: 30, borderRadius: 15, }} /><Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text></View>}
+                    // rightComponent={<Feather name="home" size={25} color="#2e2e38" onPress={() =>
+                    //   this.props.navigation.openDrawer()
                     // } />}
                     containerStyle={{
                         backgroundColor: '#2e2e38',
@@ -394,77 +368,6 @@ export default class AdminEvent extends Component {
                     })}
                 </ScrollView>
 
-<<<<<<< HEAD
-=======
-                        {/* Content */}
-                        <ScrollView>
-                            <View style={styles.overlayContentContainer}>
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Department:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.eventDepartment}
-                                    </Text>
-                                </View>
-
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Description:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.eventDescription}
-                                    </Text>
-                                </View>
-
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Date:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.eventDate}
-                                    </Text>
-                                </View>
-
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Time:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.eventTime}
-                                    </Text>
-                                </View>
-
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Venue:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.eventVenue}
-                                    </Text>
-                                </View>
-                            </View>
-                        </ScrollView>
-                    </Overlay>
-                    {/* Overlay Screen END */}
-
-                    <ScrollView>
-                        {this.array.map((item) => {
-                            return (
-                                <View style={styles.item}>
-                                    <MaterialIcons name="event" size={39} color="black"/>
-                                    <Text
-                                        style={styles.textStyling}
-                                        onPress={this.GetItem.bind(this, item.title)}
-                                    >
-                                        {item.title}
-                                    </Text>
-                                </View>
-                                )
-                        })}
-                    </ScrollView>
-                
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
             </View>
         );
     }
@@ -521,20 +424,12 @@ const styles = StyleSheet.create({
         marginLeft: '4%',
         marginRight: '4%',
         elevation: 1,
-<<<<<<< HEAD
         flexDirection: 'row'
     },
     
     textStyling: {
         fontSize: 20,
         marginTop: 6,
-=======
-        flexDirection:'row'
-    },
-    textStyling:{
-        fontSize: 20,
-        marginTop:6,
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
         marginLeft: 18,
     },
 

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker, ToastAndroid, ScrollView } from 'react-native';
 import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
-=======
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,ToastAndroid, } from 'react-native';
-import { Feather, AntDesign,MaterialIcons } from '@expo/vector-icons';
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
 import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
@@ -58,14 +53,14 @@ export default class home extends Component {
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
-                    leftComponent={<Feather name="menu" size={25} color="#2e2e38" onPress={() => this.props.navigation.openDrawer()} />}
-                    centerComponent={{ text: 'Subject(s) Enroll', style: { fontSize: 25, color: '#2e2e38' } }}
+                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+                    centerComponent={<View style={styles.centerHeader}><Image source={require('../../images/octo2.jpg')} style={{ height: 30, width: 30, borderRadius: 15, }} /><Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text></View>}
                     // rightComponent={<Feather name="home" size={25} color="#2e2e38" onPress={() =>
-                    //     this.props.navigation.openDrawer()
+                    //   this.props.navigation.openDrawer()
                     // } />}
                     containerStyle={{
-                        // backgroundColor: '#2e2e38',
-                        backgroundColor: 'white',
+                        backgroundColor: '#2e2e38',
+                        // backgroundColor: 'white',
                         borderBottomWidth: 0,
                         display: "flex",
                         shadowColor: "#2e2e38",
@@ -94,7 +89,6 @@ export default class home extends Component {
                         {this.checkingState()}
                     </View>
                 </Overlay> */}
-<<<<<<< HEAD
 
                 <ScrollView style={styles.wrapper}>
                     <FlatList
@@ -121,37 +115,6 @@ export default class home extends Component {
                         }
                     />
                 </ScrollView>
-=======
-                
-                
-
-                <FlatList
-                    data={this.state.flatListData}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) =>
-
-                        <TouchableOpacity
-                            style={styles.list}
-                            onPress={() =>
-
-                                this.selectItem(item.description.data.price, item.description.data.id, item.description.data.name)
-                            }>
-
-                            <View style={{ flexDirection: 'row', paddingLeft: 10, backgroundColor: 'white', height: 49, borderRadius: 2, }}>
-                                <MaterialIcons name="class" size={39} color="black"/>
-                                <View style={{ flex: 1,}}>
-                                    <Text style={{fontSize: 20,marginLeft: 5,}}>{item.description.data.name}  {item.description.data.id}</Text>
-                                </View>
-                                <View style={{ flex: 1, paddingRight: 10 }}>
-                                    <Text style={{ textAlign: 'right',fontSize: 20,marginLeft: 18, }}>RM{item.description.data.price}</Text>
-                                </View>
-                            </View>
-                            <Text></Text>
-
-                        </TouchableOpacity>
-                    }
-                />
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
 
                 <TouchableOpacity
                     onPress={() => this.subjectEnrolled()}
@@ -170,27 +133,16 @@ export default class home extends Component {
         } catch (error) {
             console.log('error saving data to localStorage');
         }
-<<<<<<< HEAD
 
 
         ToastAndroid.showWithGravityAndOffset(
-=======
-        
-        
-            ToastAndroid.showWithGravityAndOffset(
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
             "The Fee for This semester is RM" + this.state.sum + "\n" + this.state.subjectTook,
             ToastAndroid.LONG,
             ToastAndroid.CENTER,
             25,
             50,
-<<<<<<< HEAD
         );
 
-=======
-            );
-        
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
     }
 
     selectItem = async (price, id, name) => {
@@ -232,11 +184,7 @@ export default class home extends Component {
                     date: child.val().date,
                 });
             });
-<<<<<<< HEAD
             this.setState({ flatListData: items }, () => {
-=======
-            this.setState({ flatListData: items},()=>{
->>>>>>> 06c8081af533b2ee1410ec84ef75969e34b27099
                 // this._moveBall();
             });
         });
