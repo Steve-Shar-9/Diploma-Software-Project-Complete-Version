@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
-import { Header, Overlay } from 'react-native-elements';
+import { Header, Overlay, withTheme } from 'react-native-elements';
 import { LinearGradient } from 'expo';
-import { NavigationEvents } from 'react-navigation';
 
 import * as firebase from "firebase";
 
+///////////////////// Setting up Firebase connection /////////////////////
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
     authDomain: "angelappfordatabase.firebaseapp.com",
@@ -133,11 +133,6 @@ export default class Student extends Component {
     render() {
         return (
             <View style={styles.studentContainer} behavior='padding'>
-                <NavigationEvents
-                onDidFocus={payload => {
-                    this.setState({isVisible:false})
-                }}
-                />
                 <ImageBackground
                     source={require('../../images/background/Student.jpg')}
                     style={styles.overallBackgroundImage}
@@ -181,7 +176,7 @@ export default class Student extends Component {
                         windowBackgroundColor="rgba(0,0,0,0.7)"
                         overlayBackgroundColor="white"
                         width='85%'
-                        height='90%'
+                        height='80%'
                         overlayStyle={{ padding: 0, borderRadius: 10 }}
                     >
                         {/* Header Background */}
@@ -191,11 +186,8 @@ export default class Student extends Component {
                             end={[1.0, 0.5]}
                             locations={[0.0, 1.0]}
                             style={styles.linearGradientStyles}>
-                            <View style={{ marginTop: '5%', alignItems: 'center' }}>
+                            <View style={{ marginTop: '12%', alignItems: 'center' }}>
                                 <Text style={{ fontSize: 30, color: 'white' }}>
-                                    {this.state.studentName}
-                                </Text>
-                                <Text style={{ fontSize: 20, color: 'white', marginTop: '2%' }}>
                                     {this.state.studentId}
                                 </Text>
                             </View>
@@ -209,120 +201,117 @@ export default class Student extends Component {
                         </View>
 
                         {/* Content */}
-                        <ScrollView>
-                            <View style={styles.overlayContentContainer}>
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Identity Card No.
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentIc}
-                                    </Text>
-                                </View>
+                        <ScrollView style={styles.overlayContentContainer}>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Student Name
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentName}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Email:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentEmail}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Identity Card No.
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentIc}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Password:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentPassword}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Email:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentEmail}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Gender:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentGender}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Password:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentPassword}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Nationality:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentNationality}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Gender:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentGender}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Contact Number:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentHp}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Nationality:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentNationality}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Address:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentAddress}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Contact Number:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentHp}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Admission Date:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentAdmissionDate}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Address:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentAddress}
+                                </Text>
+                            </View>
 
-                                {/* <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Programme:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.studentProgramme}
-                                    </Text>
-                                </View> */}
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Admission Date:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentAdmissionDate}
+                                </Text>
+                            </View>
+
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Programme:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.studentProgramme}
+                                </Text>
                             </View>
                         </ScrollView>
                     </Overlay>
                     {/* Overlay Screen END */}
 
                     <ScrollView>
-                        {/* {this.loadingIndicator()} */}
-
                         {this.array.map((item) => {
                             return (
-                            <Text
-                                style={styles.item}
-                                onPress={this.GetItem.bind(this, item.title)}
-                            >
-                                {item.title}
-                            </Text>)
-                        })}
-
-                        {/* <FlatList
-                            data={this.state.arrayHolder}
-                            width='100%'
-                            extraData={this.state.array}
-                            keyExtractor={(index) => index.toString()}
-                            renderItem={({ item }) =>
-                                <Text
+                                <TouchableOpacity
                                     style={styles.item}
                                     onPress={this.GetItem.bind(this, item.title)}
+                                    onLongPress={() => {
+                                        alert('Hi');
+                                    }}
                                 >
-                                    {item.title}
-                                </Text>
-                            }
-                        /> */}
+                                    <View style={styles.userIdIcon} >
+                                        <Icon name="user-circle" size={37} color='white' />
+                                    </View>
+                                    <Text style={styles.itemTitle}>{item.title}</Text>
+                                </TouchableOpacity>
+                            )
+                        })}
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -369,24 +358,37 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
 
-    searchBar: {
-        width: '90%',
-        padding: 15,
-        paddingLeft: 25,
-        backgroundColor: 'transparent',
-        fontSize: 15,
-        color: 'white',
-        borderRadius: 20,
+    item: {
+        alignItems: 'center',
+        // justifyContent: 'center',
+        padding: 20,
+        width: '95%',
         borderWidth: 1,
-        borderColor: 'white',
-        marginBottom: 10,
+        borderRadius: 5,
+        borderColor: 'rgba(255,255,255,0.7)',
+        marginTop: 6,
+        marginBottom: 6,
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        // borderBottomWidth: 1,
+        // borderBottomColor: 'rgba(255,255,255,0.2)',
+        flexDirection: 'row'
     },
 
-    item: {
-        padding: 20,
-        fontSize: 18,
-        textAlign: 'center',
+    itemTitle: {
         color: 'white',
+        fontSize: 20,
+        flex: 1,
+        textAlign: 'auto',
+    },
+
+    userIdIcon: {
+        padding: 5,
+        borderWidth: 1,
+        borderRadius: 60/2,
+        borderColor: 'white',
+        marginLeft: 20,
+        marginRight: 20,
     },
 
     button: {
@@ -406,7 +408,7 @@ const styles = StyleSheet.create({
 
     linearGradientStyles: {
         alignItems: 'center',
-        height: 190,
+        height: '35%',
         width: '100%',
         position: 'absolute',
         borderTopLeftRadius: 10,
@@ -434,11 +436,7 @@ const styles = StyleSheet.create({
     },
 
     overlayContentContainer: {
-        marginTop: 90,
-        marginBottom: 40, 
-        textAlign: 'left',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: '25%',
     },
 
     overlayContentStyle: {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
-import { NavigationEvents } from 'react-navigation';
 
 import * as firebase from "firebase";
 
@@ -101,11 +101,6 @@ export default class AdminDepartment extends Component {
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
-                <NavigationEvents
-                onDidFocus={payload => {
-                    this.setState({isVisible:false})
-                }}
-                />
                     <Header
                         statusBarProps={{ barStyle: 'light-content' }}
                         placement="left"
@@ -169,25 +164,23 @@ export default class AdminDepartment extends Component {
                         </View>
 
                         {/* Content */}
-                        <ScrollView>
-                            <View style={styles.overlayContentContainer}>
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Email:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.departmentEmail}
-                                    </Text>
-                                </View>
+                        <ScrollView style={styles.overlayContentContainer}>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Email:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.departmentEmail}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Contact Number:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.departmentHp}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Contact Number:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.departmentHp}
+                                </Text>
                             </View>
                         </ScrollView>
                     </Overlay>
@@ -196,27 +189,20 @@ export default class AdminDepartment extends Component {
                     <ScrollView>
                         {this.array.map((item) => {
                             return (
-                                <Text
+                                <TouchableOpacity
                                     style={styles.item}
                                     onPress={this.GetItem.bind(this, item.title)}
+                                    onLongPress={() => {
+                                        alert('Hi');
+                                    }}
                                 >
-                                    {item.title}
-                                </Text>)
+                                    <View style={styles.userIdIcon} >
+                                        <Icon name="certificate" size={37} color='white' />
+                                    </View>
+                                    <Text style={styles.itemTitle}>{item.title}</Text>
+                                </TouchableOpacity>
+                            )
                         })}
-                        {/* <FlatList
-                            data={this.state.arrayHolder}
-                            width='100%'
-                            extraData={this.state.arrayHolder}
-                            keyExtractor={(index) => index.toString()}
-                            renderItem={({ item }) =>
-                                <Text
-                                    style={styles.item}
-                                    onPress={this.GetItem.bind(this, item.title)}
-                                >
-                                    {item.title}
-                                </Text>
-                            }
-                        /> */}
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -264,10 +250,33 @@ const styles = StyleSheet.create({
     },
 
     item: {
+        alignItems: 'center',
         padding: 20,
-        fontSize: 18,
-        textAlign: 'center',
+        width: '95%',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: 'rgba(255,255,255,0.7)',
+        marginTop: 6,
+        marginBottom: 6,
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        flexDirection: 'row'
+    },
+
+    itemTitle: {
         color: 'white',
+        fontSize: 20,
+        flex: 1,
+        textAlign: 'auto',
+    },
+
+    userIdIcon: {
+        padding: 5,
+        // borderWidth: 1,
+        // borderRadius: 60 / 2,
+        // borderColor: 'white',
+        marginLeft: 20,
+        marginRight: 20,
     },
 
     button: {
@@ -287,7 +296,7 @@ const styles = StyleSheet.create({
 
     linearGradientStyles: {
         alignItems: 'center',
-        height: 190,
+        height: '35%',
         width: '100%',
         position: 'absolute',
         borderTopLeftRadius: 10,
@@ -315,11 +324,7 @@ const styles = StyleSheet.create({
     },
 
     overlayContentContainer: {
-        marginTop: 90,
-        marginBottom: 40,
-        textAlign: 'left',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: '25%',
     },
 
     overlayContentStyle: {

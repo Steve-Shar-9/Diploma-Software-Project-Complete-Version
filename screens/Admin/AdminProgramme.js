@@ -4,19 +4,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
-import { NavigationEvents } from 'react-navigation';
 
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
-// const config = {
-//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
-//     authDomain: "diploma-software-project.firebaseapp.com",
-//     databaseURL: "https://diploma-software-project.firebaseio.com",
-//     storageBucket: "diploma-software-project.appspot.com",
-//     messagingSenderId: "1092827450895"
-// };
-
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
     authDomain: "angelappfordatabase.firebaseapp.com",
@@ -60,7 +51,7 @@ export default class AdminProgramme extends Component {
             arrayHolder: [],
             isVisible: false,
             programmeName: '',
-            // programmeDepartment: '',
+            programmeDepartment: '',
             programmeDescription: '',
         }
 
@@ -79,30 +70,23 @@ export default class AdminProgramme extends Component {
     // Get the programme information on selection
     GetItem(item) {
         firebase.database().ref('Programme/').on('value', (snapshot) => {
-            // var programmeDepartment = '';
+            var programmeDepartment = '';
             var programmeDescription = '';
 
             snapshot.forEach((child) => {
                 if (item === child.key) {
-                    // programmeDepartment = child.val().programmeDepartment;
+                    programmeDepartment = child.val().programmeDepartment;
                     programmeDescription = child.val().programmeDescription;
                 }
             });
 
-            this.setState({ isVisible: true, programmeName: item, 
-                // programmeDepartment: programmeDepartment,
-                 programmeDescription: programmeDescription })
+            this.setState({ isVisible: true, programmeName: item, programmeDepartment: programmeDepartment, programmeDescription: programmeDescription })
         });
     }
 
     render() {
         return (
             <View style={styles.programmeContainer} behavior='padding'>
-                <NavigationEvents
-                onDidFocus={payload => {
-                    this.setState({isVisible:false})
-                }}
-                />
                 <ImageBackground
                     source={require('../../images/background/Programme.jpg')}
                     style={styles.overallBackgroundImage}
@@ -171,25 +155,23 @@ export default class AdminProgramme extends Component {
                         </View>
 
                         {/* Content */}
-                        <ScrollView>
-                            <View style={styles.overlayContentContainer}>
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Department: 
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        information Technology Department
-                                    </Text>
-                                </View>
+                        <ScrollView style={styles.overlayContentContainer}>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Department:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.programmeDepartment}
+                                </Text>
+                            </View>
 
-                                <View style={styles.overlayContentStyle}>
-                                    <Text style={styles.overlayContentStyleTitle}>
-                                        Description:
-                                    </Text>
-                                    <Text style={styles.overlayContentStyleContent}>
-                                        {this.state.programmeDescription}
-                                    </Text>
-                                </View>
+                            <View style={styles.overlayContentStyle}>
+                                <Text style={styles.overlayContentStyleTitle}>
+                                    Description:
+                                </Text>
+                                <Text style={styles.overlayContentStyleContent}>
+                                    {this.state.programmeDescription}
+                                </Text>
                             </View>
                         </ScrollView>
                     </Overlay>
@@ -198,12 +180,19 @@ export default class AdminProgramme extends Component {
                     <ScrollView>
                         {this.array.map((item) => {
                             return (
-                                <Text
+                                <TouchableOpacity
                                     style={styles.item}
                                     onPress={this.GetItem.bind(this, item.title)}
+                                    onLongPress={() => {
+                                        alert('Hi');
+                                    }}
                                 >
-                                    {item.title}
-                                </Text>)
+                                    <View style={styles.userIdIcon} >
+                                        <Icon name="spinner" size={37} color='white' />
+                                    </View>
+                                    <Text style={styles.itemTitle}>{item.title}</Text>
+                                </TouchableOpacity>
+                            )
                         })}
                     </ScrollView>
                 </ImageBackground>
@@ -252,10 +241,33 @@ const styles = StyleSheet.create({
     },
 
     item: {
+        alignItems: 'center',
         padding: 20,
-        fontSize: 18,
-        textAlign: 'center',
+        width: '95%',
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: 'rgba(255,255,255,0.7)',
+        marginTop: 6,
+        marginBottom: 6,
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        flexDirection: 'row'
+    },
+
+    itemTitle: {
         color: 'white',
+        fontSize: 20,
+        flex: 1,
+        textAlign: 'auto',
+    },
+
+    userIdIcon: {
+        padding: 5,
+        // borderWidth: 1,
+        // borderRadius: 60 / 2,
+        // borderColor: 'white',
+        marginLeft: 20,
+        marginRight: 20,
     },
 
     button: {
@@ -275,7 +287,7 @@ const styles = StyleSheet.create({
 
     linearGradientStyles: {
         alignItems: 'center',
-        height: 190,
+        height: '35%',
         width: '100%',
         position: 'absolute',
         borderTopLeftRadius: 10,
@@ -303,11 +315,7 @@ const styles = StyleSheet.create({
     },
 
     overlayContentContainer: {
-        marginTop: 90,
-        marginBottom: 40,
-        textAlign: 'left',
-        justifyContent: 'center',
-        alignItems: 'center',
+        marginTop: '25%',
     },
 
     overlayContentStyle: {

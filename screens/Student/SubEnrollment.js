@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,ToastAndroid } from 'react-native';
-import { Feather, Ionicons, AntDesign } from '@expo/vector-icons';
-import { Header, Overlay } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker, ToastAndroid, ScrollView } from 'react-native';
+import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
 
@@ -22,16 +22,10 @@ try {
     console.log('App reloaded, so firebase did not re-initialize');
 }
 
-
-
-
 export default class home extends Component {
     static navigationOptions = {
         header: null
     };
-
-    componentWillMount() {
-    }
 
     constructor(props) {
         super(props);
@@ -44,30 +38,44 @@ export default class home extends Component {
             counter: 0,
             subjectTook: [],
         }
+        // this.moveAnimation = new Animated.ValueXY({x:10, y:800})
         this.runTheFlatlist();
     }
-
-
+    // _moveBall=()=>{
+    //     Animated.spring(this.moveAnimation,{
+    //       toValue:{x:10, y:15},
+    //     }).start()
+    //   }
 
     render() {
         return (
-            <View style={{ height: '100%', backgroundColor: '#d9d9d9' ,alignItems:'center',justifyContent:'center' }}>
+            <View style={{ height: '100%', backgroundColor: '#d9d9d9', alignItems: 'center', justifyContent: 'center' }}>
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
-                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
-                    centerComponent={{ text: 'Enrolled Subject', style: { fontSize: 25, color: '#fff' } }}
-                    rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
-                        this.props.navigation.openDrawer()
-
-                    } />}
+                    leftComponent={<Feather name="menu" size={25} color="#2e2e38" onPress={() => this.props.navigation.openDrawer()} />}
+                    centerComponent={{ text: 'Subject(s) Enroll', style: { fontSize: 25, color: '#2e2e38' } }}
+                    // rightComponent={<Feather name="home" size={25} color="#2e2e38" onPress={() =>
+                    //     this.props.navigation.openDrawer()
+                    // } />}
                     containerStyle={{
-                        backgroundColor: '#2e2e38',
-                        justifyContent: 'space-around',
+                        // backgroundColor: '#2e2e38',
+                        backgroundColor: 'white',
+                        borderBottomWidth: 0,
+                        display: "flex",
+                        shadowColor: "#2e2e38",
+                        shadowOffset: {
+                            width: 3,
+                            height: 4,
+                        },
+                        shadowOpacity: 0.30,
+                        shadowRadius: 4.65,
+                        elevation: 8,
+                        zIndex: 5
                     }}
                 />
                 {/* abit buggy keep ask propmt again */}
-                <Overlay
+                {/* <Overlay
                     isVisible={this.state.isVisible}
                     // onBackdropPress={() => this.setState({ isVisible: false })}
                     windowBackgroundColor="rgba(0, 0, 0, 0.7)"
@@ -80,53 +88,39 @@ export default class home extends Component {
                         <Text style={{ alignSelf: 'center' }}>Please scan your finger</Text>
                         {this.checkingState()}
                     </View>
-                </Overlay>
-                
-                {/* <Picker
-                    style={styles.picker} itemStyle={styles.pickerItem}
-                    selectedValue={this.state.language}
-                    onValueChange={(itemValue) => this.setState({ language: itemValue })}
-                >
-                    <Picker.Item label="April intake" value="java" />
-                    <Picker.Item label="June intake" value="js" />
-                    <Picker.Item label="September intake" value="python" />
-                    <Picker.Item label="December intake" value="haxe" />
-                </Picker> */}
+                </Overlay> */}
 
-                <FlatList
-                    data={this.state.flatListData}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) =>
+                <ScrollView style={styles.wrapper}>
+                    <FlatList
+                        data={this.state.flatListData}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) =>
+                            <TouchableOpacity
+                                style={styles.list}
+                                onPress={() =>
+                                    this.selectItem(item.description.data.price, item.description.data.id, item.description.data.name)
+                                }>
 
-                        <TouchableOpacity
-                            style={styles.list}
-                            onPress={() =>
-
-                                this.selectItem(item.description.data.price, item.description.data.id, item.description.data.name)
-                            }>
-
-                            <View style={{ flexDirection: 'row', paddingLeft: 10, backgroundColor: 'white', height: 49, borderRadius: 2, }}>
-                                <View style={{ flex: 1, color: 'black', fontSize: 20 }}>
-                                    <Text>{item.description.data.name}  {item.description.data.id}</Text>
+                                <View style={{ flexDirection: 'row', paddingLeft: 10, backgroundColor: 'white', height: 49, borderRadius: 2, }}>
+                                    <MaterialIcons name="class" size={39} color="black" />
+                                    <View style={{ flex: 1, }}>
+                                        <Text style={{ fontSize: 20, marginLeft: 5, }}>{item.description.data.name}{'\n'}{item.description.data.id}</Text>
+                                    </View>
+                                    <View style={{ flex: 1, paddingRight: 10 }}>
+                                        <Text style={{ textAlign: 'right', fontSize: 20, marginLeft: 6, }}>RM{item.description.data.price}</Text>
+                                    </View>
                                 </View>
-                                <View style={{ flex: 1, paddingRight: 10 }}>
-                                    <Text style={{ textAlign: 'right' }}>RM{item.description.data.price}</Text>
-                                </View>
-                            </View>
-                            <Text></Text>
-
-                        </TouchableOpacity>
-                    }
-                />
+                                <Text></Text>
+                            </TouchableOpacity>
+                        }
+                    />
+                </ScrollView>
 
                 <TouchableOpacity
                     onPress={() => this.subjectEnrolled()}
                     style={styles.buttonFloating}>
                     <AntDesign name="check" size={47} color="white" style={{ bottom: -5, right: -5, }} />
                 </TouchableOpacity>
-
-
-
             </View>
         );
     }
@@ -139,20 +133,16 @@ export default class home extends Component {
         } catch (error) {
             console.log('error saving data to localStorage');
         }
-        
-        // if (Platform.OS === 'ios') {
-        //     alert(value);
-        // }
-        // else{
-            ToastAndroid.showWithGravityAndOffset(
+
+
+        ToastAndroid.showWithGravityAndOffset(
             "The Fee for This semester is RM" + this.state.sum + "\n" + this.state.subjectTook,
             ToastAndroid.LONG,
             ToastAndroid.CENTER,
             25,
             50,
-            );
-        // }
-        
+        );
+
     }
 
     selectItem = async (price, id, name) => {
@@ -193,9 +183,10 @@ export default class home extends Component {
                     description: { data: child.val().description, isSelect: false },
                     date: child.val().date,
                 });
-
             });
-            this.setState({ flatListData: items });
+            this.setState({ flatListData: items }, () => {
+                // this._moveBall();
+            });
         });
     }
 
@@ -234,8 +225,6 @@ export default class home extends Component {
                     <AntDesign name="checkcircle" size={47} color="green" onPress={() => this.setState({ isVisible: false })} />
                     <Text style={{ fontSize: 10 }}>{"\n\n\n\n"}Press the icon to proceed</Text>
                 </View>
-
-
             )
         }
         if (this.state.checkingState === 'false') {
@@ -260,9 +249,11 @@ export default class home extends Component {
     testingFingerPrint = async () => {
         const result = await LocalAuthentication.authenticateAsync('Verify your bio id');
         console.log(result); //<-- {"error": "unknown", "message": "", "success": false}
+
         if (result.success) {
             this.setState({ checkingState: 'true' });
         }
+
         if (result.error === 'authentication_failed') {
             this.setState({ checkingState: 'false' })
         }
@@ -270,7 +261,6 @@ export default class home extends Component {
         if (result.error === 'user_cancel') {
             this.testingFingerPrint()
         }
-
     }
 }
 
@@ -282,21 +272,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 20
     },
+
+    wrapper: {
+        width: '100%',
+        height: '100%',
+        marginTop: 5,
+        marginBottom: 10,
+    },
+    
     list: {
         padding: 20,
         fontSize: 18,
         textAlign: 'center',
         color: 'black',
-        backgroundColor:'white',
-        width: 383,
-        height: 85,
-        margin:5,
+        backgroundColor: 'white',
+        width: '92%',
+        height: 100,
         borderRadius: 10,
-        marginLeft: 15,
-        marginRight: 15,
+        marginTop: 8,
+        marginRight: 8,
+        marginLeft: '4%',
+        marginRight: '4%',
         elevation: 1,
-        
-        
     },
 
     buttonFloating: {

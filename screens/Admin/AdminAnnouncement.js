@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, Image, ToastAndroid } from 'react-native';
+import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler, Platform, ActivityIndicator, Image, ToastAndroid, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Header, Overlay } from 'react-native-elements';
-import { LinearGradient } from 'expo';
 import { NavigationEvents } from 'react-navigation';
+
 import * as firebase from "firebase";
 
 ///////////////////// Setting up Firebase connection /////////////////////
@@ -56,18 +56,18 @@ export default class AdminAnnouncement extends Component {
             announcementTitle: '',
             announcementDepartment: '',
             announcementDescription: '',
+            announcementPicture: '',
         }
 
         this.runTheFlatlist();
 
-        // Get the list of announcement from Firebase
-        firebase.database().ref('Announcement/').on('value', (snapshot) => {
-            snapshot.forEach((child) => {
-                console.log(child.key)
-                this.array.push({ title: child.key });
-                this.setState({ arrayHolder: [...this.array] })
-            })
-        })
+        this.moveAnimation = new Animated.ValueXY({ x: 10, y: 800 })
+    }
+
+    _moveBall = () => {
+        Animated.spring(this.moveAnimation, {
+            toValue: { x: 0, y: 15 },
+        }).start()
     }
 
     // Get the announcement information on selection
@@ -87,8 +87,8 @@ export default class AdminAnnouncement extends Component {
         });
     }
 
-    showDetailData = (notes, phototo, name) => {
-        this.setState({ isVisible: true, moreNote: notes, photo: phototo, title: name })
+    showDetailData = (announcementTitle, announcementPicture, announcementDepartment, announcementDescription) => {
+        this.setState({ isVisible: true, announcementTitle: announcementTitle, announcementPicture: announcementPicture, announcementDepartment: announcementDepartment, announcementDescription: announcementDescription })
     }
 
     loadingIndicator = () => {
@@ -107,7 +107,6 @@ export default class AdminAnnouncement extends Component {
                     </View>
                 )
             }
-
         }
         else {
             return (null)
@@ -115,16 +114,16 @@ export default class AdminAnnouncement extends Component {
     }
 
     runTheFlatlist = () => {
-        firebase.database().ref('users/c188211/home').on('value', (snapshot) => {
+        firebase.database().ref('Announcement/').on('value', (snapshot) => {
             var items = [];
             snapshot.forEach((child) => {
                 items.push({
                     id: child.key,
-                    description: child.val().description,
-                    date: child.val().date,
+                    description: child.val(),
                 });
             });
-            this.setState({ flatListData: items, isFetching: false, isLoading: false });
+            this.setState({ flatListData: items, isFetching: false, isLoading: false }, () => {
+                this._moveBall();});
             console.log(items)
         });
     }
@@ -156,14 +155,15 @@ export default class AdminAnnouncement extends Component {
         return (
             <View style={styles.announcementContainer} behavior='padding'>
                 <NavigationEvents
-                // onWillFocus={payload => console.log('will focus',payload)}
-                onDidFocus={payload => {
-                    console.log('did focus',payload)
-                    this.runTheFlatlist();
-                }}
+                    // onWillFocus={payload => console.log('will focus',payload)}
+                    onDidFocus={payload => {
+                        console.log('did focus', payload)
+                        this.runTheFlatlist();
+                    }}
                 // onWillBlur={payload => console.log('will blur',payload)}
                 // onDidBlur={payload => console.log('did blur',payload)}
                 />
+
                 <ImageBackground
                     source={require('../../images/background/Announcement.jpg')}
                     style={styles.overallBackgroundImage}
@@ -203,35 +203,43 @@ export default class AdminAnnouncement extends Component {
                         }}
                     />
 
-                    
-
+                    {/* Overlay Screen */}
                     <Overlay
                         isVisible={this.state.isVisible}
                         onBackdropPress={() => this.setState({ isVisible: false })}
                         windowBackgroundColor="rgba(0, 0, 0, 0.7)"
                         overlayBackgroundColor="white"
                         width="82%"
-                        height="60%"
+                        height="80%"
                         overlayStyle={{ padding: 0, borderRadius: 10 }}
                     >
-                        <View style={{ backgroundColor: '#CCDDDD', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+                        <View style={{ backgroundColor: '#ABDCFF', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.announcementTitle}</Text>
                         </View>
+
                         <Image
-                            style={{ width: '80%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
-                            source={{ uri: this.state.photo }}
+                            style={{ width: '100%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', marginTop: 5 }}
+                            source={{ uri: this.state.announcementPicture }}
                         />
-                        <View style={styles.container}>
-                            <Text style={{ alignSelf: 'center', fontSize: 14 }}>{this.state.moreNote}</Text>
+
+                        <View style={{ padding: 20 }}>
+                            <Text style={{ textAlign: 'center', fontSize: 18 }}>
+                            {this.state.announcementDescription}</Text>
+                        </View>
+
+                        <View style={{ padding: 20, position: 'absolute', bottom: 0, right: 0 }}>
+                            <Text style={{ textAlign: 'right', fontSize: 14, fontStyle: 'italic' }}>
+                                - By Department of
+                                <Text style={{ fontSize: 14, fontWeight: '800', fontStyle: 'italic' }}> {this.state.announcementDepartment}</Text>
+                            </Text>
                         </View>
                     </Overlay>
                     {/* Overlay Screen END */}
 
-                    
+                    {this.loadingIndicator()}
 
                     <ScrollView>
-                        <View style={styles.wrapper}>
-                            {this.loadingIndicator()}
+                        <Animated.View style={[styles.wrapper, this.moveAnimation.getLayout()]}>
                             <FlatList
                                 onRefresh={() => this.onRefresh()}
                                 refreshing={this.state.isFetching}
@@ -240,16 +248,16 @@ export default class AdminAnnouncement extends Component {
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={styles.list}
-                                        onPress={() => this.showDetailData(item.description.moreNote, item.description.photo, item.description.note)}>
+                                        onPress={() => this.showDetailData(item.id, item.description.announcementPicture, item.description.announcementDepartment, item.description.announcementDescription)}>
                                         <Image
-                                            style={{ width: '70%', height: '74%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
-                                            source={{ uri: item.description.photo }}
+                                            style={{ width: '100%', height: '74%',  borderRadius: 10 }}
+                                            source={{ uri: item.description.announcementPicture }}
                                         />
-                                        <Text style={{ color: 'black', fontSize: 20 }}>{item.description.note}</Text>
+                                        <Text style={{ color: 'black', fontSize: 20, padding: 3 }}>{item.id}</Text>
                                     </TouchableOpacity>
                                 }
                             />
-                        </View>
+                        </Animated.View>
                     </ScrollView>
                 </ImageBackground>
             </View>
@@ -297,32 +305,22 @@ const styles = StyleSheet.create({
     },
 
     wrapper: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-        height: 656,
+        width: '100%',
+        height: '100%',
+        paddingBottom: 20,
     },
 
     list: {
         alignItems: 'center',
-        padding: 10,
-        margin: 5,
-        marginLeft: 15,
-        marginRight: 15,
+        marginTop: 6,
+        marginBottom: 6,
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
         backgroundColor: 'white',
-        height: 190,
-        justifyContent: 'space-around',
-        paddingLeft: 10,
-        elevation: 1,
+        width: '95%',
+        height: 200,
+        elevation: 2,
         borderRadius: 10,
-    },
-
-    item: {
-        padding: 20,
-        fontSize: 18,
-        textAlign: 'center',
-        color: 'white',
     },
 
     button: {

@@ -26,7 +26,6 @@ export default class Admin extends React.Component {
     componentDidMount() {
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('Login');
-            // alert('To logout press the button on right :)')
             return true;
         });
     }
@@ -159,29 +158,29 @@ export default class Admin extends React.Component {
                     style={styles.overallBackgroundImage}
                     source={require('../../images/background/bg3.jpg')}
                     blurRadius={50}
-                >
+                > 
+                    <Header
+                        statusBarProps={{ barStyle: 'light-content' }}
+                        placement="left"
+                        leftComponent={{ icon: 'menu', color: 'transparent' }}
+                        centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>ADMIN</Text></View>}
+                        rightComponent={
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.props.navigation.navigate('Login');
+                                }}
+                            >
+                                <Icon name="sign-out" size={25} style={styles.logOutBtn} />
+                            </TouchableOpacity>}
+                        containerStyle={{
+                            backgroundColor: 'transparent',
+                            justifyContent: 'space-around',
+                            // height: 100,
+                            borderBottomColor: "transparent",
+                        }}
+                    />
+
                     <ScrollView>
-                        <Header
-                            statusBarProps={{ barStyle: 'light-content' }}
-                            placement="left"
-                            leftComponent={{ icon: 'menu', color: 'transparent' }}
-                            centerComponent={<View style={styles.headerTitle}><Text style={styles.headerTitleText}>ADMIN</Text></View>}
-                            rightComponent={
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        this.props.navigation.navigate('Login');
-                                    }}
-                                >
-                                    <Icon name="sign-out" size={25} style={styles.logOutBtn} />
-                                </TouchableOpacity>}
-                            containerStyle={{
-                                backgroundColor: 'transparent',
-                                justifyContent: 'space-around',
-                                // height: 100,
-                                borderBottomColor: "transparent",
-                            }}
-                        />
-                    
                         <View style={styles.flatListContainer}>
                             <FlatList
                                 data={gridTitle}

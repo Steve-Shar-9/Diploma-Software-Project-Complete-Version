@@ -5,7 +5,6 @@ import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
 import { NavigationEvents } from 'react-navigation';
 
-
 //Setting up the connection
 const config = {
   apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
@@ -34,21 +33,34 @@ export default class home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVisible: false, text1: '', dataStoring: [], testArray: [], moreNote: '', NumberHolder: 1, isFetching: false, isLoading: true,
+      isVisible: false,
+      text1: '',
+      dataStoring: [],
+      testArray: [],
+      moreNote: '',
+      NumberHolder: 1,
+      isFetching: false,
+      isLoading: true,
+
+      announcementTitle: '',
+      announcementDepartment: '',
+      announcementDescription: '',
+      announcementPicture: '',
     }
     this.runTheFlatlist();
     this.moveAnimation = new Animated.ValueXY({x:10, y:800})
     // this.moveAnimation = new Animated.ValueXY({x:156, y:10})
   }
+
   _moveBall=()=>{
     Animated.spring(this.moveAnimation,{
-      toValue:{x:10, y:15},
+      toValue:{x:0, y:15},
     }).start()
   }
 
   render() {
     return (
-      <View style={{ height: '100%', backgroundColor: '#d9d9d9' }}>
+      <View style={{ height: '100%', width: '100%', backgroundColor: '#ededed' }}>
         <NavigationEvents
           // onWillFocus={payload => console.log('will focus',payload)}
           onDidFocus={payload => {
@@ -62,13 +74,24 @@ export default class home extends Component {
           statusBarProps={{ barStyle: 'light-content' }}
           barStyle="dark-content"
           leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
-          centerComponent={{ text: 'Home', style: { fontSize: 25, color: '#fff' } }}
-          rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
-            this.props.navigation.openDrawer()
-
-          } />}
+          centerComponent={<View style={styles.centerHeader}><Image source={require('../../images/octo2.jpg')} style={{ height: 30, width: 30, borderRadius: 15, }} /><Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text></View>}
+          // rightComponent={<Feather name="home" size={25} color="#2e2e38" onPress={() =>
+          //   this.props.navigation.openDrawer()
+          // } />}
           containerStyle={{
             backgroundColor: '#2e2e38',
+            // backgroundColor: 'white',
+            borderBottomWidth: 0,
+            display: "flex",
+            shadowColor: "#2e2e38",
+            shadowOffset: {
+              width: 3,
+              height: 4,
+            },
+            shadowOpacity: 0.30,
+            shadowRadius: 4.65,
+            elevation: 8,
+            zIndex: 5
           }}
         />
         {/* ========DETAIL DATA RECEIVER=========*/}
@@ -78,26 +101,35 @@ export default class home extends Component {
           windowBackgroundColor="rgba(0, 0, 0, 0.7)"
           overlayBackgroundColor="white"
           width="82%"
-          height="60%"
+          // height="80%"
           overlayStyle={{ padding: 0, borderRadius: 10 }}
         >
-          <View style={{ backgroundColor: '#CCDDDD', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+          <View style={{ backgroundColor: '#ededed', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.announcementTitle}</Text>
           </View>
 
           <Image
-            style={{ width: '80%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
-            source={{ uri: this.state.photo }}
+            style={{ width: '100%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', marginTop: 5 }}
+            source={{ uri: this.state.announcementPicture }}
           />
-          <View style={styles.container}>
-            <Text style={{ alignSelf: 'center', fontSize: 14 }}>{this.state.moreNote}</Text>
+
+          <View style={{ padding: 20 }}>
+            <Text style={{ textAlign: 'center', fontSize: 18 }}>
+              {this.state.announcementDescription}</Text>
+          </View>
+
+          <View style={{ padding: 20, position: 'absolute', bottom: 0, right: 0 }}>
+            <Text style={{ textAlign: 'right', fontSize: 14, fontStyle: 'italic' }}>
+              - By Department of
+                <Text style={{ fontSize: 14, fontWeight: '800', fontStyle: 'italic' }}> {this.state.announcementDepartment}</Text>
+            </Text>
           </View>
         </Overlay>
+
         {this.loadingIndicator()}
-        <Animated.View style={[styles.tennisBall, this.moveAnimation.getLayout()]}>
+
         <ScrollView>
-          <View style={styles.wrapper}>
-            
+          <Animated.View style={[styles.wrapper, this.moveAnimation.getLayout()]}>
             <FlatList
               onRefresh={() => this.onRefresh()}
               refreshing={this.state.isFetching}
@@ -106,18 +138,17 @@ export default class home extends Component {
               renderItem={({ item }) =>
                 <TouchableOpacity
                   style={styles.list}
-                  onPress={() => this.showDetailData(item.description.moreNote, item.description.photo, item.description.note)}>
+                  onPress={() => this.showDetailData(item.id, item.description.announcementPicture, item.description.announcementDepartment, item.description.announcementDescription)}>
                   <Image
-                    style={{ width: '70%', height: '74%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
-                    source={{ uri: item.description.photo }}
+                    style={{ width: '100%', height: '74%', borderRadius: 10 }}
+                    source={{ uri: item.description.announcementPicture }}
                   />
-                  <Text style={{ color: 'black', fontSize: 20 }}>{item.description.note}</Text>
+                  <Text style={{ color: 'black', fontSize: 20, padding: 3 }}>{item.id}</Text>
                 </TouchableOpacity>
               }
             />
-          </View>
+          </Animated.View>
         </ScrollView>
-        </Animated.View>
       </View>
     );
   }
@@ -169,27 +200,27 @@ export default class home extends Component {
   }
 
   //-------------------------------SHOW DETAIL DATA------------------------
-  showDetailData = (notes, phototo, name) => {
-    this.setState({ isVisible: true, moreNote: notes, photo: phototo, title: name })
+  showDetailData = (announcementTitle, announcementPicture, announcementDepartment, announcementDescription) => {
+    this.setState({ isVisible: true, announcementTitle: announcementTitle, announcementPicture: announcementPicture, announcementDepartment: announcementDepartment, announcementDescription: announcementDescription })
   }
 
   //------------------------------DATA RELOADER-----------------------------
   runTheFlatlist = () => {
-    firebase.database().ref('users/c188211/home').on('value', (snapshot) => {
+    firebase.database().ref('Announcement/').on('value', (snapshot) => {
       var items = [];
       snapshot.forEach((child) => {
         items.push({
           id: child.key,
-          description: child.val().description,
-          date: child.val().date,
+          description: child.val(),
         });
       });
-      this.setState({ flatListData: items, isFetching: false, isLoading: false },()=>{
+      this.setState({ flatListData: items, isFetching: false, isLoading: false }, () => {
         this._moveBall();
       });
-
+      console.log(items)
     });
   }
+
   //----------------------------------SAVE--------------------------------
   firebaseDataSaving = (userId) => {
     //----------------------------Random number generator----------------
@@ -230,50 +261,25 @@ export default class home extends Component {
 //-------------------------------------STYLING----------------
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    height: 656,
+    width: '100%',
+    height: '100%',
+    paddingBottom: 20,
+  },
 
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    borderRadius: 10
-  },
   list: {
     alignItems: 'center',
-    padding: 10,
-    margin: 5,
-    marginLeft: 15,
-    marginRight: 15,
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: '2.5%',
+    marginRight: '2.5%',
     backgroundColor: 'white',
-    height: 190,
-    justifyContent: 'space-around',
-    paddingLeft: 10,
-    elevation: 1,
+    width: '95%',
+    height: 200,
+    elevation: 2,
     borderRadius: 10,
   },
-  button: {
-    backgroundColor: '#841584',
-    borderColor: 'red',
-    width: '46%',
-    height: '6%',
-    textAlign: 'center',
-    alignItems: 'center',
-    paddingTop: 20,
-  },
-  tennisBall: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderRadius: 100,
-    width: 400,
-    height: 656,
+
+  centerHeader: {
+    flexDirection: 'row',
   },
 });

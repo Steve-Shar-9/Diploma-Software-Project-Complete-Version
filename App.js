@@ -88,14 +88,15 @@ const MyDrawerNavigator = createDrawerNavigator({
   QRScanner: {
     screen: QRScanner,
   },
-  EventScreen:{
+  EventScreen: {
     screen: EventScreen,
   }
 },
   {
     initialRouteName: 'Home',
     contentComponent: SideMenu,
-    drawerWidth: 300
+    drawerWidth: 300,
+    drawerBackgroundColor: "transparent",
   }
 );
 

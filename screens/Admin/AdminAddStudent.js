@@ -97,7 +97,7 @@ export default class AdminAddStudent extends Component {
             studentNationality: '',
             studentHp: '',
             studentAdmissionDate: '',
-            // studentProgramme: '',
+            studentProgramme: '',
             studentAddress: '',
         }
 
@@ -121,7 +121,7 @@ export default class AdminAddStudent extends Component {
         var studentNationality = this.state.studentNationality;
         var studentHp = this.state.studentHp;
         var studentAdmissionDate = this.state.studentAdmissionDate;
-        // var studentProgramme = this.state.studentProgramme;
+        var studentProgramme = this.state.studentProgramme;
         var studentAddress = this.state.studentAddress;
 
         if (studentId != '') {
@@ -135,7 +135,7 @@ export default class AdminAddStudent extends Component {
                                 if (studentNationality != '') {
                                     if (studentHp != '') {
                                         if (studentAdmissionDate != '') {
-                                            // if (studentProgramme != '') {
+                                            if (studentProgramme != '') {
                                                 if (studentAddress != '') {
                                                     firebase.database().ref('Student/' + studentId).set({
                                                         studentName,
@@ -146,7 +146,7 @@ export default class AdminAddStudent extends Component {
                                                         studentNationality,
                                                         studentHp,
                                                         studentAdmissionDate,
-                                                        // studentProgramme,
+                                                        studentProgramme,
                                                         studentAddress
                                                     })
 
@@ -165,16 +165,16 @@ export default class AdminAddStudent extends Component {
                                                     // studentProgramme: '',
                                                     studentAddress: '',})
 
-                                                    this.array = []
-                                                    this.state.arrayHolder = []
+                                                    // this.array = []
+                                                    // this.state.arrayHolder = []
 
                                                     this.props.navigation.navigate('AdminStudent');
                                                 } else {
                                                     Alert.alert("Please Enter Address")
                                                 }
-                                            // } else {
-                                            //     Alert.alert("Please Enter Programme")
-                                            // }
+                                            } else {
+                                                Alert.alert("Please Enter Programme")
+                                            }
                                         } else {
                                             Alert.alert("Please Enter Admission Date")
                                         }
@@ -224,8 +224,8 @@ export default class AdminAddStudent extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
+                                    // this.array = []
+                                    // this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminStudent');
                                 }}
                             >
@@ -314,9 +314,9 @@ export default class AdminAddStudent extends Component {
                                 style={styles.textInputStyle}
                             />
                             
-                            {/* <Text style={styles.departmentTextStyle}>Select a Programme:</Text> */}
+                            <Text style={styles.departmentTextStyle}>Select a Programme:</Text>
 
-                            {/* <Picker
+                            <Picker
                                 selectedValue={this.state.studentProgramme}
                                 style={styles.item}
                                 itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
@@ -324,7 +324,7 @@ export default class AdminAddStudent extends Component {
                                 {this.array.map((item) => {
                                     return (<Picker.Item label={item.title} value={item.title} />)
                                 })}
-                            </Picker> */}
+                            </Picker>
 
                             <TextInput
                                 defaultValue={this.state.studentAddress}

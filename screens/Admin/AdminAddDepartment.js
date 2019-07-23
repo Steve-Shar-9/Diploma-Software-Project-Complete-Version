@@ -74,8 +74,8 @@ export default class AdminAddDepartment extends Component {
                         departmentHp: '',
                     })
 
-                    this.array = []
-                    this.state.arrayHolder = []
+                    // this.array = []
+                    // this.state.arrayHolder = []
 
                     this.props.navigation.navigate('AdminDepartment');
                 } else {
@@ -109,12 +109,6 @@ export default class AdminAddDepartment extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.setState({
-                                        departmentName: '',
-                                        departmentEmail: '',
-                                        departmentHp: '',
-                                    })
-
                                     this.props.navigation.navigate('AdminDepartment');
                                 }}
                             >

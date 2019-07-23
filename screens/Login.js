@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, View, Text,Image, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { Alert, TouchableOpacity, View, Text, Image, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView, AsyncStorage, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
@@ -22,6 +22,38 @@ try {
     console.log("Logged into app");
 } catch (e) {
     console.log('App reloaded, so firebase did not re-initialize');
+}
+
+///////////////////// Fade in animation /////////////////////
+class FadeInView extends React.Component {
+    state = {
+        fadeAnim: new Animated.Value(0),
+    }
+
+    componentDidMount() {
+        Animated.timing( 
+            this.state.fadeAnim,
+            {
+                toValue: 1,
+                duration: 1000,
+            }
+        ).start();
+    }
+
+    render() {
+        let { fadeAnim } = this.state;
+
+        return (
+            <Animated.View
+                style={{
+                    ...this.props.style,
+                    opacity: fadeAnim,
+                }}
+            >
+                {this.props.children}
+            </Animated.View>
+        );
+    }
 }
 
 ///////////////////// Password Base64 Encrytion /////////////////////
@@ -94,9 +126,11 @@ export default class LoginScreen extends React.Component {
     }
 
     login = (username, password) => {
-        if(username === 'Admin' && password === '123'){
+        var pass = "";
+
+        if (username === 'Admin' && password === '123') {
             pass = password;
-        }else{
+        } else {
             // Convert password to base64 for further checking in Firebase
             pass = FormatFunctionAtob(password);
         }
@@ -107,23 +141,24 @@ export default class LoginScreen extends React.Component {
             var userPassword = '';
 
             snapshot.forEach((child) => {
-                if (username === child.key){
+                if (username === child.key) {
                     exists = 'True';
                     userPassword = child.val().studentPassword;
                 }
             })
 
-            if (username === 'Admin' && pass === '123'){
+            if (username === 'Admin' && pass === '123') {
                 this.setState({ username: '', password: '' })
                 this.props.navigation.navigate('Admin');
-            } else if (exists === 'True' && pass === userPassword){
+            } else if (exists === 'True' && pass === userPassword) {
                 this.setState({ username: '', password: '' })
-                this.props.navigation.navigate('Home', { data: username });
+                AsyncStorage.setItem('userName', username);
+                this.props.navigation.navigate('Home');
             } else {
                 if (!username && !pass) {
                     this.setState({ errorMsg: 'All fields are required', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorUsername: '#ff1c76', usernameIco: '#ff1c76', inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
                 } else if (exists !== 'True') {
-                    if (username !== 'Admin'){
+                    if (username !== 'Admin') {
                         this.setState({ errorMsg: 'Incorrect Username', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorUsername: '#ff1c76', usernameIco: '#ff1c76' })
                     } else if (pass === '') {
                         this.setState({ errorMsg: 'Incorrect Password', errorColor: '#ff1c76', isFocused: true, inputBorderBottomColorPassword: '#ff1c76', passwordIco: '#ff1c76' })
@@ -146,68 +181,70 @@ export default class LoginScreen extends React.Component {
 
         return (
             <View style={styles.loginScreenContainer}>
-                <ImageBackground
-                    style={styles.backgroundImage}
-                    source={require('../images/background/bg3.jpg')}
-                    blurRadius={50}
-                >
-                    <KeyboardAvoidingView behavior="position">
+                <FadeInView style={{ backgroundColor: 'transparent' }}>
+                    <ImageBackground
+                        style={styles.backgroundImage}
+                        source={require('../images/background/bg3.jpg')}
+                        blurRadius={50}
+                    >
+                        <KeyboardAvoidingView behavior="position" style={[{ marginTop: -30 }]}>
+                            <View style={styles.center}>
+                                <Text style={{ color: 'white', paddingBottom: 13, fontSize: 34 }}>Turritopsis</Text>
+                                <View style={styles.userIcon}>
+                                    <Image source={require('../images/octo2.jpg')} style={{ height: 200, width: 200, borderRadius: 100, }} />
+                                </View>
+                            </View>
+
+                            <View style={[styles.rowContainer, { marginBottom: 30, }]}>
+                                <View style={styles.inputIcon}>
+                                    <Icon name="user-circle" size={30} style={[{ color: this.state.usernameIco }]} />
+                                </View>
+
+                                <TextInput style={[styles.input, { borderColor: this.state.inputBorderBottomColorUsername }]}
+                                    defaultValue={this.state.username}
+                                    underlineColorAndroid="transparent"
+                                    placeholder="Username"
+                                    placeholderTextColor='rgba(255,255,255,0.3)'
+                                    autoCapitalize="none"
+                                    onChangeText={this.handleUsername}
+                                    onFocus={this.handleInputFocusUsername}
+                                    onBlur={this.handleInputBlurUsername} />
+                                {isFocused}
+                            </View>
+
+                            <View style={[styles.rowContainer, { marginBottom: 25, }]}>
+                                <View style={styles.inputIcon}>
+                                    <Icon name="lock" size={35} style={[{ color: this.state.passwordIco }]} />
+                                </View>
+
+                                <TextInput secureTextEntry={true} password={true} style={[styles.input, { borderColor: this.state.inputBorderBottomColorPassword }]}
+                                    defaultValue={this.state.password}
+                                    underlineColorAndroid="transparent"
+                                    placeholder="Password"
+                                    placeholderTextColor='rgba(255,255,255,0.3)'
+                                    autoCapitalize="none"
+                                    onChangeText={this.handlePassword}
+                                    onFocus={this.handleInputFocusPassword}
+                                    onBlur={this.handleInputBlurPassword} />
+                                {isFocused}
+                            </View>
+                        </KeyboardAvoidingView>
+
                         <View style={styles.center}>
-                            <Text style={{color:'white',paddingBottom:13, fontSize:34}}>Turritopsis</Text>
-                            <View style={styles.userIcon}>
-                                <Image source={require('../images/zza.png')} style={{height:200, width:200,borderRadius:160,}} />
-                            </View>
+                            <Text style={[styles.errorTitle, { color: this.state.errorColor }]}>{this.state.errorMsg}</Text>
                         </View>
-                        
-                        <View style={[styles.rowContainer, { marginBottom: 30,}]}>
-                            <View style={styles.inputIcon}>
-                                <Icon name="user-circle" size={30} style={[{ color: this.state.usernameIco }]} />
-                            </View>
+                    </ImageBackground>
 
-                            <TextInput style={[styles.input, { borderColor: this.state.inputBorderBottomColorUsername }]}
-                                defaultValue={this.state.username}
-                                underlineColorAndroid="transparent"
-                                placeholder="Username"
-                                placeholderTextColor='rgba(255,255,255,0.3)'
-                                autoCapitalize="none"
-                                onChangeText={this.handleUsername}
-                                onFocus={this.handleInputFocusUsername}
-                                onBlur={this.handleInputBlurUsername} />
-                            {isFocused}
+                    <TouchableOpacity
+                        onPress={() => this.login(this.state.username, this.state.password)}
+                        style={styles.TouchableOpacityStyle}>
+                        <View style={styles.center}>
+                            <Text style={styles.text}>
+                                Sign In
+                            </Text>
                         </View>
-
-                        <View style={[styles.rowContainer, { marginBottom: 25,}]}>
-                            <View style={styles.inputIcon}>
-                                <Icon name="lock" size={35} style={[{ color: this.state.passwordIco }]} />
-                            </View>
-
-                            <TextInput secureTextEntry={true} password={true} style={[styles.input, { borderColor: this.state.inputBorderBottomColorPassword }]}
-                                defaultValue={this.state.password}
-                                underlineColorAndroid="transparent"
-                                placeholder="Password"
-                                placeholderTextColor='rgba(255,255,255,0.3)'
-                                autoCapitalize="none"
-                                onChangeText={this.handlePassword}
-                                onFocus={this.handleInputFocusPassword}
-                                onBlur={this.handleInputBlurPassword} />
-                            {isFocused}
-                        </View>
-                    </KeyboardAvoidingView>
-
-                    <View style={styles.center}>
-                        <Text style={[styles.errorTitle, { color: this.state.errorColor }]}>{this.state.errorMsg}</Text>
-                    </View>
-                </ImageBackground>
-
-                <TouchableOpacity
-                    onPress={() => this.login(this.state.username, this.state.password)}
-                    style={styles.TouchableOpacityStyle}>
-                    <View style={styles.center}>
-                        <Text style={styles.text}>
-                            Sign In
-                        </Text>
-                    </View>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                </FadeInView>
             </View>
         );
     }
@@ -225,7 +262,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        
         justifyContent: 'center',
     },
 
@@ -244,7 +280,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 160,
         borderColor: 'white',
-        marginBottom: 60,
+        marginBottom: 40,
     },
 
     center: {
@@ -271,7 +307,7 @@ const styles = StyleSheet.create({
     input: {
         marginLeft: '5%',
         width: '82%',
-        paddingBottom: 10,
+        paddingBottom: 8,
         backgroundColor: 'transparent',
         borderBottomWidth: 1,
         color: 'white',

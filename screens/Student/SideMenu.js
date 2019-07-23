@@ -1,12 +1,26 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
-import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage,ToastAndroid } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, TouchableOpacity, AsyncStorage, ToastAndroid, ImageBackground, Image } from 'react-native';
 import { Ionicons, SimpleLineIcons, Entypo, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
+let interval;
 
 class SideMenu extends Component {
+  
+  componentDidMount() {
+    interval = setInterval(() => {
+
+      AsyncStorage.getItem('userName').then((value) => this.setState({ 'userName': value }))
+
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(interval);
+  }
+
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -14,136 +28,150 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
 
-
   constructor(props) {
     super(props)
     this.state = {
-      color: 'black',
+      color: 'rgba(255,255,255,0.2)',
       color1: 'transparent',
       color2: 'transparent',
       color3: 'transparent',
       colorEvent: 'transparent',
       isVisible2: false,
+
+      userName: '',
     }
+
+    AsyncStorage.getItem('userName').then((value) => this.setState({ 'userName': value }))
   }
 
   render() {
     return (
-      <View style={{ backgroundColor: '#2e2e38', height: '100%' }}>
-        <Overlay
-          isVisible={this.state.isVisible2}
-          onBackdropPress={() => this.setState({ isVisible2: false })}
-          windowBackgroundColor="rgba(0, 0, 0, 0.5)"
-          overlayBackgroundColor="transparent"
-          width="82%"
-          height="34%"
+      <View style={{ backgroundColor: 'rgba(0,0,0,0.2)', height: '100%' }}>
+        <ImageBackground
+          style={styles.backgroundImage}
+          source={require('../../images/background/bg3.jpg')}
+          blurRadius={50}
         >
-          <View style={styles.container1}>
-            <View style={{ height: 45, width: '100%', backgroundColor: '#841584', borderTopLeftRadius: 13, borderTopRightRadius: 13 }}>
-              <Text style={{ fontSize: 20, color: 'white', paddingLeft: 10, paddingTop: 9 }}>Join class</Text>
-            </View>
-            <View style={styles.container2}>
-              <Text style={{ paddingBottom: 14 }}>Ask your teacher if you do not have a codes or QR code to scan.</Text>
-              <TextInput
-                style={{ height: 40, borderColor: 'gray', borderWidth: 1, width: 280, color: 'black', paddingLeft: 13, borderRadius: 13, }}
-                onChangeText={(text1) => this.setState({ text1 })}
-                value={this.state.text1}
-                placeholderTextColor='black'
-                placeholder='Group code...'
-              />
-              <View style={{ paddingTop: 13 }} />
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={styles.buttonForOverlay} onPress={this.submitCode}>
-                  <Ionicons name="md-send" size={30} color="white" />
-                  <Text style={{ color: 'black', alignSelf: 'center', padding: 10 }}>Submit code</Text>
-                </TouchableOpacity>
-                <View style={{ padding: 10 }}></View>
-                <TouchableOpacity
-                  style={styles.buttonForOverlay}
-                  onPress={this.QrScanner}
-                >
-                  <AntDesign name="qrcode" size={30} color="white" />
-                  <Text style={{ color: 'black', alignSelf: 'center', padding: 10 }}>QR Scanner</Text>
-                </TouchableOpacity>
+          <Overlay
+            isVisible={this.state.isVisible2}
+            onBackdropPress={() => this.setState({ isVisible2: false })}
+            windowBackgroundColor="rgba(0, 0, 0, 0.5)"
+            overlayBackgroundColor="transparent"
+            width="82%"
+            height="34%"
+          >
+            <View style={styles.container1}>
+              <View style={{ height: 45, width: '100%', backgroundColor: '#2e2e38', borderTopLeftRadius: 13, borderTopRightRadius: 13 }}>
+                <Text style={{ fontSize: 20, color: 'white', paddingLeft: 10, paddingTop: 9, textAlign: 'center' }}>Join Group / Class</Text>
+              </View>
+              <View style={styles.container2}>
+                <Text style={{ paddingBottom: 14 }}>Please ask for code if you don't have one.</Text>
+                <TextInput
+                  style={{ height: 40, borderColor: '#2e2e38', borderWidth: 1, width: '100%', color: 'black', paddingLeft: 13, borderRadius: 13, }}
+                  onChangeText={(text1) => this.setState({ text1 })}
+                  value={this.state.text1}
+                  placeholderTextColor='black'
+                  placeholder='Code...'
+                />
+                <View style={{ paddingTop: 13 }} />
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity style={styles.buttonForOverlay} onPress={this.submitCode}>
+                    <Ionicons name="md-send" size={30} color="white" />
+                    <Text style={{ color: 'black', textAlign: 'center', padding: 10 }}>Submit Code</Text>
+                  </TouchableOpacity>
+                  <View style={{ padding: 10 }}></View>
+                  <TouchableOpacity
+                    style={styles.buttonForOverlay}
+                    onPress={this.QrScanner}
+                  >
+                    <AntDesign name="qrcode" size={30} color="white" />
+                    <Text style={{ color: 'black', textAlign: 'center', padding: 10 }}>QR Scanner</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        </Overlay>
-        <ScrollView>
-          <View style={{ marginTop: 70, backgroundColor: '#2e2e38' }}>
-            <View style={{ flexDirection: 'row', paddingLeft: 11 }}>
-              <Icon name="university" size={32} color="white" />
-              <Text style={{ color: 'white', fontSize: 25, marginLeft: 10 }}>Institution Name</Text>
-            </View>
+          </Overlay>
+          <ScrollView>
+            <View style={{ marginTop: 40, backgroundColor: 'transparent' }}>
+              <View style={styles.appsSection}>
+                <Image source={require('../../images/octo2.jpg')} style={{ height: 70, width: 70, borderRadius: 35, }} />
+                <Text style={styles.theIconTitles}>Turritopsis{'\n'}{this.state.userName}</Text>
+              </View>
 
-            <Text style={{ color: 'transparent', marginTop: 30, marginBottom: 8, color: 'white', fontSize: 20, marginLeft: 5 }}>
-              Post section
-            </Text>
-            <View style={{ width: '97%', backgroundColor: this.state.color, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
-              <Entypo name="home" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.colourChangingFunction('color') }}>
-                Home
-              </Text>
-            </View>
-            <View style={{ backgroundColor: this.state.colourGroup, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
-              <MaterialCommunityIcons name="account-group" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}
-                onPress={() => { this.popOutOrNot() }}
-              >
-                Group / Class
-              </Text>
-            </View>
-          </View>
-          <View style={{ backgroundColor: '#2e2e38' }}>
-            <Text style={{ color: 'transparent', marginTop: 20, marginBottom: 8, color: 'white', fontSize: 20, marginLeft: 5 }}>
-              Special function
-            </Text>
-            <View style={{ width: '97%', backgroundColor: this.state.color1, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
-              <Entypo name="book" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.colourChangingFunction('color1') }}>
-                Subjects Enrollment
-              </Text>
-            </View>
+              {/* <View style={styles.userSection}>
+                <View style={styles.userIdIcon} >
+                  <Icon name="user-circle" size={80} color='white' />
+                </View>
+                <Text style={styles.theTitles}>{this.state.userName}</Text>
+              </View> */}
 
-            <View style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
-              <MaterialCommunityIcons name="google-controller" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.colourChangingFunction('color2') }}>
-                Testing Screen
+              <Text style={{ color: 'transparent', marginTop: 30, marginBottom: 8, color: 'white', fontSize: 20, marginLeft: 5 }}>
+                Main Section
               </Text>
+              <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color') }}>
+                <Entypo name="home" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
+                  Home
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ backgroundColor: this.state.colourGroup, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.popOutOrNot() }}>
+                <MaterialCommunityIcons name="account-group" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} >
+                  Group / Class
+                </Text>
+              </TouchableOpacity>
             </View>
-
-            <View style={{ width: '97%', backgroundColor: 'transparent', padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
-              <AntDesign name="calendar" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }} onPress={() => { this.props.navigation.navigate('Timetable') }}>
-                Timetable Screen
+            <View style={{ backgroundColor: 'transparent' }}>
+              <Text style={{ color: 'transparent', marginTop: 20, marginBottom: 8, color: 'white', fontSize: 20, marginLeft: 5 }}>
+                Sub- Functions
               </Text>
-            </View>
+              <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color1, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color1') }}>
+                <Entypo name="book" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
+                  Subjects Enrollment
+                </Text>
+              </TouchableOpacity>
 
-            <View style={{ width: '97%', backgroundColor: this.state.colorEvent, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }}>
-              <MaterialCommunityIcons name="eventbrite" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}
-                onPress={() => {
-                  this.colourChangingFunction('eventScreen')
-                  this.props.navigation.navigate('EventScreen');
-                }}>
-                Events & Activities
-              </Text>
-            </View>
+              {/* <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color2') }}>
+                <MaterialCommunityIcons name="google-controller" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
+                  Testing Screen
+                </Text>
+              </TouchableOpacity> */}
+
+              <TouchableOpacity style={{ width: '97%', backgroundColor: 'transparent', padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.props.navigation.navigate('Timetable') }}>
+                <AntDesign name="calendar" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
+                  Timetable Screen
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.colorEvent, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => {
+                this.colourChangingFunction('eventScreen')
+                this.props.navigation.navigate('EventScreen');
+              }}>
+                <MaterialCommunityIcons name="eventbrite" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
+                  Events & Activities
+                </Text>
+              </TouchableOpacity>
 
 
-            <View style={{ marginTop: 73, marginLeft: 20, backgroundColor: '#2e2e38', flexDirection: 'row' }}>
-              <SimpleLineIcons name="logout" size={25} color="white" />
-              <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}
-                onPress={() => { 
-                  this.props.navigation.navigate('Login');
-                }}
-              >   Logout</Text>
+              <TouchableOpacity style={{ marginTop: 73, marginBottom: 10, marginLeft: 20, backgroundColor: 'transparent', flexDirection: 'row' }} onPress={() => {
+                AsyncStorage.clear();
+                this.props.navigation.navigate('Login');
+              }}>
+                <SimpleLineIcons name="logout" size={25} color="white" />
+                <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}>
+                   Logout</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </ImageBackground>
       </View>
     );
   }
+
   popOutOrNot = async () => {
     this.colourChangingFunction('colorGroup');
     try {
@@ -157,11 +185,13 @@ class SideMenu extends Component {
     } catch (error) {
     }
   }
+
   QrScanner = () => {
     this.setState({ isVisible2: false }, function () {
       this.props.navigation.navigate('QRScanner');
     });
   }
+  
   //Submit and save the data to localStorage
   submitCode = async () => {
     if (this.state.text1 === '57212331') {
@@ -172,12 +202,12 @@ class SideMenu extends Component {
         // Error saving data
         console.log('error saving data to localStorage');
       }
-      alert('Successfully get in..');
+      alert('Joined Successfully...');
       this.props.navigation.navigate('InsideGroupOrClass', { data: this.state.text1 })
 
     }
     else {
-      alert('Log in failure');
+      alert('Failed to join...');
     }
   }
 
@@ -209,28 +239,28 @@ class SideMenu extends Component {
 
   colourChangingFunction = (colouring) => {
     if (colouring === 'color') {
-      this.setState({ color: 'black', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
+      this.setState({ color: 'rgba(255,255,255,0.2)', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
       this.props.navigation.navigate('Home')
     }
     if (colouring === 'color1') {
-      this.setState({ color: 'transparent', color1: 'black', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
+      this.setState({ color: 'transparent', color1: 'rgba(255,255,255,0.2)', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
         this.EnrollSubOrNot()
     }
     if (colouring === 'color2') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'black', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'rgba(255,255,255,0.2)', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
       this.props.navigation.navigate('InputScreen')
     }
     if (colouring === 'color3') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'black', colourGroup: 'transparent', colorEvent: 'transparent' }, () => {
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'rgba(255,255,255,0.2)', colourGroup: 'transparent', colorEvent: 'transparent' }, () => {
         alert("Going to somewhere else");
       });
     }
     if (colouring === 'colorGroup') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'black', colorEvent: 'transparent' }, () => {
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'rgba(255,255,255,0.2)', colorEvent: 'transparent' }, () => {
       });
     }
     if (colouring === 'eventScreen') {
-      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'black' }, () => {
+      this.setState({ color: 'transparent', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'rgba(255,255,255,0.2)' }, () => {
         //Go to where u want it to be
         //this.props.navigation.navigate('Timetable') 
       });
@@ -257,24 +287,79 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
-    paddingTop: 11,
-    paddingLeft: 45,
-    paddingRight: 45,
-    paddingBottom: 45,
+    paddingTop: 8,
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingBottom: 40,
     width: '100%',
-    height: 230,
+    height: '110%',
     borderBottomLeftRadius: 13,
     borderBottomRightRadius: 13,
   },
   buttonForOverlay: {
-    backgroundColor: '#841584',
-    borderColor: 'red',
+    backgroundColor: '#2e2e38',
     paddingTop: 3,
-    width: '32%',
+    width: '35%',
     height: 38,
     textAlign: 'center',
     alignItems: 'center',
     borderRadius: 13,
+  },
+
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+  },
+
+  userSection: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  appsSection: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 5,
+    paddingLeft: 20,
+  },
+
+  theIconTitles: {
+    color: 'white',
+    fontSize: 20,
+    fontStyle: 'italic',
+    flex: 1,
+    textAlign: 'auto',
+    padding: 15,
+  },
+
+  theTitles: {
+    color: 'white',
+    fontSize: 25,
+    flex: 1,
+    textAlign: 'auto',
+    padding: 20,
+  },
+
+  userIdIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 100 / 2,
+    borderColor: 'white',
+  },
+
+  appsIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 100 / 2,
+    borderColor: 'white',
   },
 });
 

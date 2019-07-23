@@ -4,7 +4,14 @@ import { Header } from 'react-native-elements';
 
 import * as firebase from "firebase";
 
-
+///////////////////// Setting up Firebase connection /////////////////////
+// const config = {
+//     apiKey: "AIzaSyBZhZaTch4WqFmyFMR6__TolzUpSPCvw08",
+//     authDomain: "diploma-software-project.firebaseapp.com",
+//     databaseURL: "https://diploma-software-project.firebaseio.com",
+//     storageBucket: "diploma-software-project.appspot.com",
+//     messagingSenderId: "1092827450895"
+// };
 
 const config = {
     apiKey: "AIzaSyBwTAwwF1Di-9Bt2-sJUuzyi6s8SaYPPxk",
@@ -46,7 +53,12 @@ export default class AdminAddAnnouncement extends Component {
         this.state = {
             // Array for holding data from Firebase
             arrayHolder: [],
-            PickerSelectedVal: ''
+            PickerSelectedVal: '',
+            // For entering new announcement data
+            announcementTitle: '',
+            announcementDescription: '',
+            announcementPicture: '',
+            announcementDepartment: '',
         }
 
         // Get the list of announcement from Firebase
@@ -59,48 +71,40 @@ export default class AdminAddAnnouncement extends Component {
         })
     }
 
-    state = {
-        // For entering new announcement data
-        announcementTitle: '',
-        announcementDescription: '',
-        announcementDepartment: '',
-    }
-
     joinData = () => {
         var announcementTitle = this.state.announcementTitle;
         var announcementDescription = this.state.announcementDescription;
+        var announcementPicture = this.state.announcementPicture;
         var announcementDepartment = this.state.announcementDepartment;
 
         if (announcementTitle != '') {
             if (announcementDescription != '') {
-                if (announcementDepartment != '') {
+                if (announcementPicture != '') {
+                    if (announcementDepartment != '') {
+                        firebase.database().ref('Announcement/' + announcementTitle).set({
+                            announcementDescription,
+                            announcementPicture,
+                            announcementDepartment,
+                        })
 
-                    var RandomNumber = Math.floor(Math.random() * 10000) + 1;
-                var note = announcementTitle
-                var photo = 'https://is.org.au/wp-content/uploads/2017/01/MaGz2.jpg'
-                var moreNote = announcementDescription
+                        Alert.alert('Announcement Registered Successfully !')
 
-                db = firebase.database().ref('users/c188211/home')
-                db.child(RandomNumber).set({
-                description: { note, photo, moreNote }
-                }).then((data) => { alert('saved'); }).catch((error) => { alert('failed'); })
+                        this.setState({
+                            announcementTitle: '',
+                            announcementDescription: '',
+                            announcementPicture: '',
+                            // announcementDepartment: '',
+                        })
+                        
+                        // this.array = []
+                        // this.state.arrayHolder = []
 
-
-
-                    
-
-                    this.setState({
-                        announcementTitle: '',
-                        announcementDescription: '',
-                        announcementDepartment: '',
-                    })
-                    
-                    this.array = []
-                    this.state.arrayHolder = []
-
-                    this.props.navigation.navigate('AdminAnnouncement');
+                        this.props.navigation.navigate('AdminAnnouncement');
+                    } else {
+                        Alert.alert("Please Enter Announcement Department")
+                    }
                 } else {
-                    Alert.alert("Please Enter Announcement Department")
+                    Alert.alert("Please Enter Announcement Picture URL")
                 }
             } else {
                 Alert.alert("Please Enter Announcement Description")
@@ -130,8 +134,8 @@ export default class AdminAddAnnouncement extends Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.array = []
-                                    this.state.arrayHolder = []
+                                    // this.array = []
+                                    // this.state.arrayHolder = []
                                     this.props.navigation.navigate('AdminAnnouncement');
                                 }}
                             >
@@ -149,6 +153,7 @@ export default class AdminAddAnnouncement extends Component {
                     <ScrollView>
                         <View style={styles.newForm}>
                             <TextInput
+                                defaultValue={this.state.announcementTitle}
                                 placeholder="Title"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 onChangeText={data => this.setState({ announcementTitle: data })}
@@ -156,6 +161,7 @@ export default class AdminAddAnnouncement extends Component {
                             />
 
                             <TextInput
+                                defaultValue={this.state.announcementDescription}
                                 placeholder="Description"
                                 placeholderTextColor={'rgba(255,255,255,0.3)'}
                                 multiline={true}
@@ -163,9 +169,18 @@ export default class AdminAddAnnouncement extends Component {
                                 style={styles.textInputStyle}
                             />
 
-                            {/* <Text style={styles.departmentTextStyle}>Select a Department:</Text> */}
+                            <TextInput
+                                defaultValue={this.state.announcementPicture}
+                                placeholder="Picture URL"
+                                placeholderTextColor={'rgba(255,255,255,0.3)'}
+                                multiline={true}
+                                onChangeText={data => this.setState({ announcementPicture: data })}
+                                style={styles.textInputStyle}
+                            />
 
-                            {/* <Picker
+                            <Text style={styles.departmentTextStyle}>Select a Department:</Text>
+
+                            <Picker
                                 selectedValue={this.state.announcementDepartment}
                                 style={styles.item}
                                 itemStyle={{ backgroundColor: "transparent", color: "white", borderColor: 'rgba(255,255,255,0.3)', height: 50 }}
@@ -173,7 +188,7 @@ export default class AdminAddAnnouncement extends Component {
                                 {this.array.map((item) => {
                                     return (<Picker.Item label={item.title} value={item.title} />)
                                 })}
-                            </Picker> */}
+                            </Picker>
 
                             <TouchableOpacity onPress={this.joinData} activeOpacity={0.7} style={styles.button} >
                                 <Text style={styles.buttonText}> Add </Text>

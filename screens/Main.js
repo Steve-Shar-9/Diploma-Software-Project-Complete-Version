@@ -1,6 +1,39 @@
 import React from 'react';
-import { Alert, TouchableOpacity, View, Text, StyleSheet } from 'react-native'
+import { Alert, TouchableOpacity, View, Text, StyleSheet, Animated, Easing } from 'react-native'
 
+///////////////////// Fade in animation /////////////////////
+class Animations extends React.Component {
+    state = {
+        fadeAnim: new Animated.Value(0),
+    }
+
+    componentDidMount() {
+        Animated.timing(
+            this.state.fadeAnim,
+            {
+                toValue: 1,
+                duration: 500,
+            }
+        ).start();
+    }
+
+    render() {
+        let { fadeAnim } = this.state;
+
+        return (
+            <Animated.View
+                style={{
+                    ...this.props.style,
+                    opacity: fadeAnim,
+                }}
+            >
+                {this.props.children}
+            </Animated.View>
+        );
+    }
+}
+
+// Default export function
 export default class Main extends React.Component {
     static navigationOptions = {
         // lock the drawer 
@@ -9,27 +42,29 @@ export default class Main extends React.Component {
     
     render() {
         return (
-            <View style={styles.mainScreenContainer}>
-                <TouchableOpacity style={styles.circleOnly}
-                    onPress={() => {
-                        Alert.alert('Press "Log In" to continue')
-                    }}>
-                </TouchableOpacity>
+            // <View style={styles.mainScreenContainer}>
+                <Animations style={styles.mainScreenContainer}>
+                    <TouchableOpacity style={styles.circleOnly}
+                        onPress={() => {
+                            Alert.alert('Press "Log In" to continue')
+                        }}>
+                    </TouchableOpacity>
 
-                <Text style={styles.firstTitle}>Start{'\n'}your{'\n'}day !</Text>
+                    <Text style={styles.firstTitle}>Start{'\n'}your{'\n'}day !</Text>
 
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate('Login');
-                    }}
-                    style={styles.TouchableOpacityStyle}>
-                    <View style={styles.center}>
-                        <Text style={styles.text}>
-                            Log In
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.props.navigation.navigate('Login');
+                        }}
+                        style={styles.TouchableOpacityStyle}>
+                        <View style={styles.center}>
+                            <Text style={styles.text}>
+                                Log In
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </Animations>
+            // </View>
         );
     }
 }

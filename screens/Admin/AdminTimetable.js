@@ -3,7 +3,7 @@ import {
     ActivityIndicator,
     Button,
     Clipboard,
-    ToastAndroid,
+    Image,
     Share,
     StatusBar,
     StyleSheet,
@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import { Header, Overlay } from 'react-native-elements';
-import {AntDesign } from '@expo/vector-icons';
+import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as firebase from 'firebase';
 
@@ -105,11 +105,12 @@ export default class App extends Component {
 
                     <TouchableOpacity
                         onPress={this._pickImage}
-                            style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>
-                            Upload Photo
-                        </Text>
+                        style={styles.button}>
+                        <View style={styles.center}>
+                            <Text style={styles.buttonText}>
+                                Upload Photo
+                            </Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
                 </ImageBackground>
@@ -120,28 +121,12 @@ export default class App extends Component {
     firebaseDataSaving = () => {
         //----------------------------Random number generator----------------
         var RandomNumber = 'timeTable';
+        var timetableUrl = this.state.image;
 
         db = firebase.database().ref('users/')
         db.child(RandomNumber).set({
             timetableUrl: this.state.image
-        }).then((data) => {
-            ToastAndroid.showWithGravityAndOffset(
-            'Saved! :D',
-            ToastAndroid.LONG,
-            ToastAndroid.CENTER,
-            25,
-            50,
-            );
-            
-            }).catch((error) => {
-                ToastAndroid.showWithGravityAndOffset(
-                'Fail!! :(',
-                ToastAndroid.LONG,
-                ToastAndroid.CENTER,
-                25,
-                50,
-                );
-            })
+        }).then((data) => { alert('saved'); }).catch((error) => { alert('failed'); })
     }
 
     _maybeRenderUploadingOverlay = () => {
@@ -166,16 +151,29 @@ export default class App extends Component {
                     <Text>{"\n\n"}</Text>
                     <Text
                         style={styles.exampleText}>
-                        Waiting miracle to happen
-                    {'\n\n\n\n'}
+                        All trips successfully uploaded
+            {'\n\n\n\n'}
                     </Text>
                 </View>
             );
         }
 
+        //based on what i knew here this.state.image is the place where we stored the url of the image
         return (
             <View style={styles.container}>
-                <Text>{"\n\n"}</Text>
+                {/* <View
+         style={styles.maybeRenderImageContainer}>
+       <Image source={{ uri: image }} style={styles.maybeRenderImage} />
+       </View> */}
+
+                {/* <Text
+          onPress={this._copyToClipboard}
+          onLongPress={this._share}
+          style={styles.maybeRenderImageText}>
+          {image}
+        </Text> */}
+
+                <Text>{"\n\n\n"}</Text>
                 <AntDesign name="check" size={94} color="green" />
                 <Text
                     style={styles.exampleText}>
@@ -312,7 +310,7 @@ const styles = StyleSheet.create({
     },
     exampleText: {
         fontSize: 20,
-        marginBottom: 10,
+        marginBottom: 20,
         marginHorizontal: 15,
         textAlign: 'center',
         color: 'white'
@@ -354,18 +352,24 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     button: {
-        width: '90%',
-        padding: 10,
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: 'white',
-        borderRadius: 70 / 2,
-        marginTop: 25,
-        marginBottom: 12
+        width: '100%',
+        position: 'absolute',
+        bottom: -25,
     },
     buttonText: {
+        width: '80%',
+        borderWidth: 1,
+        borderRadius: 60 / 2,
+        padding: 15,
+        borderColor: 'white',
+        backgroundColor: 'transparent',
         color: 'white',
         textAlign: 'center',
         fontSize: 20,
+        // fontWeight: '800',
+        overflow: 'hidden',
+    },
+    center: {
+        alignItems: 'center',
     },
 });
