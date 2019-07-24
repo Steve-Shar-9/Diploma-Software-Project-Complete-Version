@@ -27,6 +27,19 @@ export default class home extends Component {
         header: null
     };
 
+    componentDidMount() {
+        this.spin();
+
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener("didFocus", () => {
+            this.spinValue = new Animated.Value(0);
+        });
+    }
+
+    componentWillUnmount() {
+        this.focusListener.remove();
+    }
+
     constructor(props) {
         super(props);
         this.testingFingerPrint()

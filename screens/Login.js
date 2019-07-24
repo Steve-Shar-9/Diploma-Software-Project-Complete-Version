@@ -93,8 +93,6 @@ export default class LoginScreen extends React.Component {
             isFocused: false,
             errorColor: 'transparent',
             errorMsg: 'All fields are required',
-
-            spinMou: 'spin ba'
         }
 
         this.spinValue = new Animated.Value(0)
@@ -110,42 +108,32 @@ export default class LoginScreen extends React.Component {
     }
 
     spin() {
-        if (this.state.spinMou !== 'no') {
-            this.spinValue.setValue(0)
-        }
+        this.spinValue.setValue(0)
 
         Animated.timing(
             this.spinValue,
             {
                 toValue: 1,
-                duration: 10000,
+                duration: 30000,
                 easing: Easing.linear
             }
         ).start(() => this.spin())
     }
 
     handleInputFocusUsername = () => {
-        this.setState({ isFocused: true, inputBorderBottomColorUsername: 'white', usernameIco: 'white', errorColor: 'transparent', inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)', spinMou: 'no' })
-        
-        this.spinValue = new Animated.Value(1);
+        this.setState({ isFocused: true, inputBorderBottomColorUsername: 'white', usernameIco: 'white', errorColor: 'transparent', inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)'})
     }
 
     handleInputBlurUsername = () => {
-        this.setState({ isFocused: false, inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)', spinMou: 'spin ba' })
-
-        this.spinValue = new Animated.Value(0)
+        this.setState({ isFocused: false, inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)' })
     }
 
     handleInputFocusPassword = () => {
-        this.setState({ isFocused: true, inputBorderBottomColorPassword: 'white', passwordIco: 'white', errorColor: 'transparent', inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)', spinMou: 'no' })
-
-        this.spinValue = new Animated.Value(1)
+        this.setState({ isFocused: true, inputBorderBottomColorPassword: 'white', passwordIco: 'white', errorColor: 'transparent', inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)' })
     }
 
     handleInputBlurPassword = () => {
-        this.setState({ isFocused: false, inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)', spinMou: 'spin ba' })
-
-        this.spinValue = new Animated.Value(0)
+        this.setState({ isFocused: false, inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)' })
     }
 
     handleUsername = (text) => {

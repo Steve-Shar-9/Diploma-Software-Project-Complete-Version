@@ -23,12 +23,18 @@ try {
 }
 
 export default class home extends Component {
-  componentWillFocus(){
-    alert('hello');
-  }
-
   componentDidMount() {
     this.spin();
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      this.spinValue = new Animated.Value(0);
+    });
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
   }
 
   static navigationOptions = {
