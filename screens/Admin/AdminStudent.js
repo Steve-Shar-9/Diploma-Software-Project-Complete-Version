@@ -370,7 +370,6 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginLeft: '2.5%',
         marginRight: '2.5%',
-        height:137
         // borderBottomWidth: 1,
         // borderBottomColor: 'rgba(255,255,255,0.2)',
         // flexDirection: 'row'

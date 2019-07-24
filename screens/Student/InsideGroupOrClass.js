@@ -143,7 +143,6 @@ export default class home extends Component {
                 {this.loadingIndicator()}
 
                 <ScrollView>
-                <Text style={{fontSize:30,paddingLeft:17}}><Feather name="home" size={30} color="black"/> Home</Text>
                     <View style={styles.wrapper}>
                         <FlatList
                             onRefresh={() => this.onRefresh()}
@@ -289,7 +288,4 @@ const styles = StyleSheet.create({
     centerHeader: {
         flexDirection: 'row',
     },
-    centerHeader: {
-    flexDirection: 'row',
-  },
 });

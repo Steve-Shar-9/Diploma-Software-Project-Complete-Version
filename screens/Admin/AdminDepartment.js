@@ -272,7 +272,6 @@ const styles = StyleSheet.create({
         padding: 5,
     },
 
-
     userIdIcon: {
         padding: 5,
         // borderWidth: 1,

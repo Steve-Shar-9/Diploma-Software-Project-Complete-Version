@@ -84,8 +84,8 @@ export default class LoginScreen extends React.Component {
         super();
 
         this.state = {
-            username: 'C1700007',
-            password: '123',
+            username: '',
+            password: '',
             usernameIco: 'rgba(255,255,255,0.5)',
             passwordIco: 'rgba(255,255,255,0.5)',
             inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)',
