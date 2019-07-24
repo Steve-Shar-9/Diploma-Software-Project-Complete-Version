@@ -18,6 +18,8 @@ import { Header, Overlay } from 'react-native-elements';
 import { Feather, Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as firebase from 'firebase';
+import { NavigationEvents } from 'react-navigation';
+
 
 //Setting up the connection
 const config = {
@@ -65,6 +67,12 @@ export default class App extends Component {
 
         return (
             <View>
+                <NavigationEvents
+                    onDidFocus={payload => {
+                        // console.log('did focus', payload)
+                        this.setState({isVisible:false});
+                    }}
+                />
                 <ImageBackground
                     source={require('../../images/background/Timetable.jpg')}
                     style={styles.overallBackgroundImage}
