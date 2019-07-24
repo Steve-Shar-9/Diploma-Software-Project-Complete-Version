@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, View, Text, Image, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView, AsyncStorage, Animated } from 'react-native';
+import { Alert, TouchableOpacity, View, Text, Image, TextInput, StyleSheet, ImageBackground, KeyboardAvoidingView, AsyncStorage, Animated, Easing } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
@@ -92,8 +92,12 @@ export default class LoginScreen extends React.Component {
             inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)',
             isFocused: false,
             errorColor: 'transparent',
-            errorMsg: 'All fields are required'
+            errorMsg: 'All fields are required',
+
+            spinMou: 'spin ba'
         }
+
+        this.spinValue = new Animated.Value(0)
     }
 
     static navigationOptions = {
@@ -101,20 +105,47 @@ export default class LoginScreen extends React.Component {
         drawerLockMode: "locked-closed"
     };
 
+    componentDidMount() {
+        this.spin();
+    }
+
+    spin() {
+        if (this.state.spinMou !== 'no') {
+            this.spinValue.setValue(0)
+        }
+
+        Animated.timing(
+            this.spinValue,
+            {
+                toValue: 1,
+                duration: 10000,
+                easing: Easing.linear
+            }
+        ).start(() => this.spin())
+    }
+
     handleInputFocusUsername = () => {
-        this.setState({ isFocused: true, inputBorderBottomColorUsername: 'white', usernameIco: 'white', errorColor: 'transparent', inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)' })
+        this.setState({ isFocused: true, inputBorderBottomColorUsername: 'white', usernameIco: 'white', errorColor: 'transparent', inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)', spinMou: 'no' })
+        
+        this.spinValue = new Animated.Value(1);
     }
 
     handleInputBlurUsername = () => {
-        this.setState({ isFocused: false, inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)' })
+        this.setState({ isFocused: false, inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)', spinMou: 'spin ba' })
+
+        this.spinValue = new Animated.Value(0)
     }
 
     handleInputFocusPassword = () => {
-        this.setState({ isFocused: true, inputBorderBottomColorPassword: 'white', passwordIco: 'white', errorColor: 'transparent', inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)' })
+        this.setState({ isFocused: true, inputBorderBottomColorPassword: 'white', passwordIco: 'white', errorColor: 'transparent', inputBorderBottomColorUsername: 'rgba(255,255,255,0.2)', usernameIco: 'rgba(255,255,255,0.5)', spinMou: 'no' })
+
+        this.spinValue = new Animated.Value(1)
     }
 
     handleInputBlurPassword = () => {
-        this.setState({ isFocused: false, inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)' })
+        this.setState({ isFocused: false, inputBorderBottomColorPassword: 'rgba(255,255,255,0.2)', passwordIco: 'rgba(255,255,255,0.5)', spinMou: 'spin ba' })
+
+        this.spinValue = new Animated.Value(0)
     }
 
     handleUsername = (text) => {
@@ -179,6 +210,12 @@ export default class LoginScreen extends React.Component {
     render() {
         const { isFocused } = this.state
 
+        // Spin animation
+        const spin = this.spinValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+        })
+
         return (
             <View style={styles.loginScreenContainer}>
                 <FadeInView style={{ backgroundColor: 'transparent' }}>
@@ -191,7 +228,16 @@ export default class LoginScreen extends React.Component {
                             <View style={styles.center}>
                                 <Text style={{ color: 'white', paddingBottom: 13, fontSize: 34 }}>Turritopsis</Text>
                                 <View style={styles.userIcon}>
-                                    <Image source={require('../images/octo2.jpg')} style={{ height: 200, width: 200, borderRadius: 100, }} />
+                                    <Animated.Image
+                                        style={{
+                                            width: 200,
+                                            height: 200,
+                                            borderRadius: 100,
+                                            transform: [{ rotate: spin }]
+                                        }}
+                                        source={require('../images/octo2.jpg')}
+                                    />
+                                    {/* <Image source={require('../images/octo2.jpg')} style={{ height: 200, width: 200, borderRadius: 100, }} /> */}
                                 </View>
                             </View>
 

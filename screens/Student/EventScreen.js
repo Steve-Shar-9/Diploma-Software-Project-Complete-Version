@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, BackHandler, ToastAndroid, Image,ActivityIndicator, Platform, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, BackHandler, ToastAndroid, ActivityIndicator, Platform, AsyncStorage, Animated, Easing } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
@@ -126,6 +126,8 @@ export default class AdminEvent extends Component {
         })
 
         AsyncStorage.getItem('userName').then((value) => this.setState({ 'userName': value }))
+
+        this.spinValue = new Animated.Value(0)
     }
 
     // Get the event information on selection
@@ -239,7 +241,24 @@ export default class AdminEvent extends Component {
         }
     }
 
+    spin() {
+        Animated.timing(
+            this.spinValue,
+            {
+                toValue: 3,
+                duration: 10000,
+                easing: Easing.linear
+            }
+        ).start(() => this.spin())
+    }
+
     render() {
+        // Spin animation
+        const spin = this.spinValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+        })
+
         return (
             <View style={styles.eventContainer} behavior='padding'>
                 <Header
@@ -380,6 +399,10 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#ededed',
         alignItems: 'center',
+    },
+
+    centerHeader: {
+        flexDirection: 'row',
     },
 
     overallBackgroundImage: {

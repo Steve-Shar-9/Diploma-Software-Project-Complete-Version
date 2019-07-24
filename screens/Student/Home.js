@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator, Animated, Easing, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
@@ -26,6 +26,11 @@ export default class home extends Component {
   componentWillFocus(){
     alert('hello');
   }
+
+  componentDidMount() {
+    this.spin();
+  }
+
   static navigationOptions = {
     header: null
   };
@@ -50,6 +55,18 @@ export default class home extends Component {
     this.runTheFlatlist();
     this.moveAnimation = new Animated.ValueXY({x:10, y:800})
     // this.moveAnimation = new Animated.ValueXY({x:156, y:10})
+    this.spinValue = new Animated.Value(0)
+  }
+
+  spin() {
+    Animated.timing(
+      this.spinValue,
+      {
+        toValue: 3,
+        duration: 10000,
+        easing: Easing.linear
+      }
+    ).start(() => this.spin())
   }
 
   _moveBall=()=>{
@@ -59,6 +76,12 @@ export default class home extends Component {
   }
 
   render() {
+    // Spin animation
+    const spin = this.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg']
+    })
+
     return (
       <View style={{ height: '100%', width: '100%', backgroundColor: '#ededed' }}>
         <NavigationEvents
@@ -74,7 +97,20 @@ export default class home extends Component {
           statusBarProps={{ barStyle: 'light-content' }}
           barStyle="dark-content"
           leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
-          centerComponent={<View style={styles.centerHeader}><Image source={require('../../images/octo2.jpg')} style={{ height: 30, width: 30, borderRadius: 15, }} /><Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text></View>}
+          centerComponent={
+          <View style={styles.centerHeader}>
+            <Animated.Image
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                transform: [{ rotate: spin }]
+              }}
+                source={require('../../images/octo2.jpg')}
+            />
+            {/* <Image source={require('../../images/octo2.jpg')} style={{ height: 30, width: 30, borderRadius: 15, }} /> */}
+            <Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text>
+          </View>}
           // rightComponent={<Feather name="home" size={25} color="#2e2e38" onPress={() =>
           //   this.props.navigation.openDrawer()
           // } />}

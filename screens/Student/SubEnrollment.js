@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, AsyncStorage, Picker,Image, ToastAndroid, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, AsyncStorage, Picker, ToastAndroid, ScrollView, Animated, Easing } from 'react-native';
 import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
@@ -40,6 +40,8 @@ export default class home extends Component {
         }
         // this.moveAnimation = new Animated.ValueXY({x:10, y:800})
         this.runTheFlatlist();
+
+        this.spinValue = new Animated.Value(0)
     }
     // _moveBall=()=>{
     //     Animated.spring(this.moveAnimation,{
@@ -47,7 +49,24 @@ export default class home extends Component {
     //     }).start()
     //   }
 
+    spin() {
+        Animated.timing(
+            this.spinValue,
+            {
+                toValue: 3,
+                duration: 10000,
+                easing: Easing.linear
+            }
+        ).start(() => this.spin())
+    }
+
     render() {
+        // Spin animation
+        const spin = this.spinValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+        })
+        
         return (
             <View style={{ height: '100%', backgroundColor: '#d9d9d9', alignItems: 'center', justifyContent: 'center' }}>
                 <Header
@@ -241,7 +260,7 @@ export default class home extends Component {
     }
 
     wrongFingerprint = () => {
-        this.setState({ wordWrong: 'Scan now thank you.' })
+        this.setState({ wordWrong: 'Fingerprint not matched.' })
         // this.props.navigation.navigate('home')
         this.testingFingerPrint();
     }
@@ -271,6 +290,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20
+    },
+
+    centerHeader: {
+        flexDirection: 'row',
     },
 
     wrapper: {
