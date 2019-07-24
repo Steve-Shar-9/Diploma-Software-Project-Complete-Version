@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, AsyncStorage, Picker, ToastAndroid, ScrollView, Animated, Easing } from 'react-native';
-import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { Header } from 'react-native-elements';
+import { Feather, AntDesign, MaterialIcons,Ionicons } from '@expo/vector-icons';
+import { Header,Overlay } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
 
@@ -94,7 +94,7 @@ export default class home extends Component {
                     }}
                 />
                 {/* abit buggy keep ask propmt again */}
-                {/* <Overlay
+                <Overlay
                     isVisible={this.state.isVisible}
                     // onBackdropPress={() => this.setState({ isVisible: false })}
                     windowBackgroundColor="rgba(0, 0, 0, 0.7)"
@@ -107,7 +107,7 @@ export default class home extends Component {
                         <Text style={{ alignSelf: 'center' }}>Please scan your finger</Text>
                         {this.checkingState()}
                     </View>
-                </Overlay> */}
+                </Overlay>
 
                 <ScrollView style={styles.wrapper}>
                 <Text style={{fontSize:30,paddingLeft:17}}><MaterialIcons name="class" size={30} color="black"/> Subject Enroll</Text>
