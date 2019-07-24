@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated, AsyncStorage } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Feather,AntDesign } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
 
@@ -91,7 +91,7 @@ export default class home extends Component {
                     </View>
                 </Overlay>
                 <ScrollView>
-                <Text style={{fontSize:30,paddingLeft:17}}><Feather name="home" size={30} color="black"/> Home</Text>
+                <Text style={{fontSize:30,paddingLeft:17}}><AntDesign name="addusergroup" size={30} color="black"/> Group</Text>
                     <View style={styles.wrapper}>
                         {this.loadingIndicator()}
                         <FlatList
