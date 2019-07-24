@@ -393,6 +393,7 @@ export default class AdminEvent extends Component {
                 {/* Overlay Screen END */}
 
                 <ScrollView style={styles.wrapper}>
+                <Text style={{fontSize:30,paddingLeft:17}}><MaterialIcons name="event" size={34} color="black"/> Event</Text>
                     {this.array.map((item) => {
                         return (
                             <TouchableOpacity

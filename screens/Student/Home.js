@@ -172,6 +172,7 @@ export default class home extends Component {
 
         <ScrollView>
           <Animated.View style={[styles.wrapper, this.moveAnimation.getLayout()]}>
+          <Text style={{fontSize:30,paddingLeft:17}}><Feather name="home" size={30} color="black"/> Home</Text>
             <FlatList
               onRefresh={() => this.onRefresh()}
               refreshing={this.state.isFetching}
@@ -319,6 +320,14 @@ const styles = StyleSheet.create({
     height: 200,
     elevation: 2,
     borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.43,
+    shadowRadius: 9.51,
+    elevation: 15,
   },
 
   centerHeader: {

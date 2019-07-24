@@ -277,6 +277,7 @@ const styles = StyleSheet.create({
 
     item: {
         alignItems: 'center',
+        // justifyContent: 'center',
         padding: 20,
         width: '95%',
         borderWidth: 1,
@@ -286,7 +287,10 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginLeft: '2.5%',
         marginRight: '2.5%',
-        flexDirection: 'row'
+        height:137
+        // borderBottomWidth: 1,
+        // borderBottomColor: 'rgba(255,255,255,0.2)',
+        // flexDirection: 'row'
     },
 
     itemTitle: {
@@ -294,7 +298,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         flex: 1,
         textAlign: 'auto',
+        paddingTop:18
     },
+
 
     userIdIcon: {
         padding: 5,
