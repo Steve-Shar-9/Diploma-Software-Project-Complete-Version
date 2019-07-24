@@ -93,7 +93,7 @@ const MyDrawerNavigator = createDrawerNavigator({
   }
 },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'AdminStudent',
     contentComponent: SideMenu,
     drawerWidth: 300,
     drawerBackgroundColor: "transparent",

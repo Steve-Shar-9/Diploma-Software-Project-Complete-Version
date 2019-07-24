@@ -57,7 +57,7 @@ export default class AdminAddAnnouncement extends Component {
             // For entering new announcement data
             announcementTitle: '',
             announcementDescription: '',
-            announcementPicture: '',
+            announcementPicture: 'https://cdn-images-1.medium.com/max/1600/0*qX6QBVGkXdhDhQJM.jpg',
             announcementDepartment: '',
         }
 
