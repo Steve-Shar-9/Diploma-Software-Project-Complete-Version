@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator, AsyncStorage } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
@@ -41,18 +41,37 @@ export default class home extends Component {
         return (
             <View style={{ height: '100%', backgroundColor: '#d9d9d9', width: '100%' }}>
                 <Header
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    barStyle="dark-content"
-                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
-                    centerComponent={{ text: 'Group', style: { fontSize: 25, color: '#fff' } }}
-                    rightComponent={<Feather name="home" size={25} color="white" onPress={() =>
-                        this.props.navigation.openDrawer()
-
-                    } />}
-                    containerStyle={{
-                        backgroundColor: '#2e2e38',
-                    }}
-                />
+          statusBarProps={{ barStyle: 'light-content' }}
+          barStyle="dark-content"
+          leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+          centerComponent={
+          <View style={styles.centerHeader}>
+            <Animated.Image
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                // transform: [{ rotate: spin }]
+              }}
+                source={require('../../images/octo2.jpg')}
+            />
+            <Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text>
+          </View>}
+          containerStyle={{
+            backgroundColor: '#2e2e38',
+            borderBottomWidth: 0,
+            display: "flex",
+            shadowColor: "#2e2e38",
+            shadowOffset: {
+              width: 3,
+              height: 4,
+            },
+            shadowOpacity: 0.30,
+            shadowRadius: 4.65,
+            elevation: 8,
+            zIndex: 5
+          }}
+        />
                 {/* ========DETAIL DATA RECEIVER=========*/}
                 <Overlay
                     isVisible={this.state.isVisible}
@@ -72,6 +91,7 @@ export default class home extends Component {
                     </View>
                 </Overlay>
                 <ScrollView>
+                <Text style={{fontSize:30,paddingLeft:17}}><Feather name="home" size={30} color="black"/> Home</Text>
                     <View style={styles.wrapper}>
                         {this.loadingIndicator()}
                         <FlatList
@@ -212,12 +232,12 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 5,
         backgroundColor: 'white',
-        width: 410,
+        width: 365,
         height: 190,
         justifyContent: 'space-around',
         paddingLeft: 10,
         elevation: 1,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     button: {
         backgroundColor: '#841584',
@@ -228,4 +248,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 20,
     },
+    centerHeader: {
+    flexDirection: 'row',
+  },
 });

@@ -152,12 +152,12 @@ class SideMenu extends Component {
                 </Text>
               </TouchableOpacity>
 
-              {/* <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color2') }}>
+              <TouchableOpacity style={{ width: '97%', backgroundColor: this.state.color2, padding: 17, fontSize: 10, borderBottomRightRadius: 75, borderTopRightRadius: 75, flexDirection: 'row' }} onPress={() => { this.colourChangingFunction('color2') }}>
                 <MaterialCommunityIcons name="google-controller" size={25} color="white" />
                 <Text style={{ color: 'white', fontSize: 15, marginLeft: 15 }}>
                   Testing Screen
                 </Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
 
               <TouchableOpacity style={{ marginTop: 73, marginBottom: 10, marginLeft: 20, backgroundColor: 'transparent', flexDirection: 'row' }} onPress={() => {
                 async () => {
@@ -262,9 +262,10 @@ class SideMenu extends Component {
     }
   }
 
-  colourChangingFunction = (colouring) => {
+  colourChangingFunction = async(colouring) => {
     if (colouring === 'color') {
-      this.setState({ color: 'rgba(255,255,255,0.2)', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { });
+      this.setState({ color: 'rgba(255,255,255,0.2)', color1: 'transparent', color2: 'transparent', color3: 'transparent', colourGroup: 'transparent', colorEvent: 'transparent' }, () => { 
+      });
       this.props.navigation.navigate('Home')
     }
     if (colouring === 'color1') {
@@ -306,6 +307,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+    position:'absolute',
   },
   container2: {
     alignItems: 'center',

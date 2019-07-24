@@ -110,6 +110,7 @@ export default class home extends Component {
                 </Overlay> */}
 
                 <ScrollView style={styles.wrapper}>
+                <Text style={{fontSize:30,paddingLeft:17}}><MaterialIcons name="class" size={30} color="black"/> Subject Enroll</Text>
                     <FlatList
                         data={this.state.flatListData}
                         keyExtractor={item => item.id}
