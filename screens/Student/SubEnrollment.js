@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, AsyncStorage, Picker, ToastAndroid, ScrollView, Animated, Easing } from 'react-native';
-import { Feather, AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { Feather, AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
@@ -81,7 +81,7 @@ export default class home extends Component {
         })
         
         return (
-            <View style={{ height: '100%', backgroundColor: '#d9d9d9', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: '100%', backgroundColor: '#d9d9d9' }}>
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
@@ -118,6 +118,9 @@ export default class home extends Component {
                         zIndex: 5
                     }}
                 />
+
+                <Text style={{ fontSize: 20, margin: '2.5%' }}><Entypo name="book" size={30} color="black" /> Subject(s) Enrollment</Text>
+
                 {/* abit buggy keep ask propmt again */}
                 {/* <Overlay
                     isVisible={this.state.isVisible}
@@ -158,6 +161,8 @@ export default class home extends Component {
                             </TouchableOpacity>
                         }
                     />
+
+                    <Text style={{ textAlign: 'center', fontSize: 15, margin: 15 }}>End of the Page</Text>
                 </ScrollView>
 
                 <TouchableOpacity

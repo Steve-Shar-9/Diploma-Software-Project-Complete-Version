@@ -168,6 +168,7 @@ export default class LoginScreen extends React.Component {
 
             if (username === 'Admin' && pass === '123') {
                 this.setState({ username: '', password: '' })
+                AsyncStorage.setItem('userName', username);
                 this.props.navigation.navigate('Admin');
             } else if (exists === 'True' && pass === userPassword) {
                 this.setState({ username: '', password: '' })

@@ -183,6 +183,8 @@ class SideMenu extends Component {
                   }
                 }
 
+                AsyncStorage.setItem('userName', 'Logged Out');
+
                 this.colourChangingFunction('color')
                 this.props.navigation.navigate('Login');
               }}>
@@ -205,7 +207,7 @@ class SideMenu extends Component {
         this.props.navigation.navigate('InsideGroupOrClass', { data: value })
       }
       else {
-        this.setState({ isVisible2: true })
+        this.setState({ isVisible2: true, colorGroup: 'transparent' })
       }
     } catch (error) {
     }

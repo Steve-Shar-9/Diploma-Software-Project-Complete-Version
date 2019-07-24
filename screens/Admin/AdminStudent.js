@@ -134,7 +134,7 @@ export default class Student extends Component {
         return (
             <View style={styles.studentContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Student.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
@@ -360,8 +360,8 @@ const styles = StyleSheet.create({
 
     item: {
         alignItems: 'center',
-        // justifyContent: 'center',
-        padding: 20,
+        justifyContent: 'center',
+        padding: 10,
         width: '95%',
         borderWidth: 1,
         borderRadius: 5,
@@ -372,14 +372,15 @@ const styles = StyleSheet.create({
         marginRight: '2.5%',
         // borderBottomWidth: 1,
         // borderBottomColor: 'rgba(255,255,255,0.2)',
-        flexDirection: 'row'
+        // flexDirection: 'row'
     },
 
     itemTitle: {
         color: 'white',
         fontSize: 20,
         flex: 1,
-        textAlign: 'auto',
+        textAlign: 'center',
+        padding: 5,
     },
 
     userIdIcon: {

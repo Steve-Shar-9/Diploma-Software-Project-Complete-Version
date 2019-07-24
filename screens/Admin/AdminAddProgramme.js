@@ -64,6 +64,11 @@ export default class AdminAddProgramme extends Component {
         firebase.database().ref('Department/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
                 console.log(child.key)
+
+                if (count === 0) {
+                    this.setState({ programmeDepartment: child.key })
+                }
+
                 this.array.push({ title: child.key });
                 this.setState({ arrayHolder: [...this.array] })
             })
@@ -115,7 +120,7 @@ export default class AdminAddProgramme extends Component {
         return (
             <KeyboardAvoidingView style={styles.departmentContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Programme.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >

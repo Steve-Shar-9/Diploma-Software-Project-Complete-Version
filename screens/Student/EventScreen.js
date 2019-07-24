@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, BackHandler, ToastAndroid, ActivityIndicator, Platform, AsyncStorage, Animated, Easing } from 'react-native';
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 
@@ -111,7 +111,6 @@ export default class AdminEvent extends Component {
             iconTitleColor: '#ff1c76',
             // Array for holding data from Firebase
             arrayHolder: [],
-            isVisible: false,
             eventTitle: '',
             eventDepartment: '',
             eventDescription: '',
@@ -140,7 +139,7 @@ export default class AdminEvent extends Component {
     }
 
     // Get the event information on selection
-    GetItem(item) {
+    GetItem = (item) => {
         // Get the main list of events only
         firebase.database().ref('Event/').on('value', (snapshot) => {
             var eventDepartment = '';
@@ -211,14 +210,6 @@ export default class AdminEvent extends Component {
                 iconTitle: 'Joined !',
                 iconTitleColor: '#8aff4c',
             })
-
-            // ToastAndroid.showWithGravityAndOffset(
-            //     'You have successfully joined \'' + this.state.eventTitle + '\' !',
-            //     ToastAndroid.LONG,
-            //     ToastAndroid.BOTTOM,
-            //     25,
-            //     50,
-            // );
         } else {
             var code = '';
 
@@ -239,14 +230,6 @@ export default class AdminEvent extends Component {
                 iconTitle: 'Not joined yet...',
                 iconTitleColor: '#ff1c76',
             })
-
-            // ToastAndroid.showWithGravityAndOffset(
-            //     'You have unjoined \'' + this.state.eventTitle + '\' ! :(',
-            //     ToastAndroid.LONG,
-            //     ToastAndroid.BOTTOM,
-            //     25,
-            //     50,
-            // );
         }
     }
 
@@ -306,6 +289,8 @@ export default class AdminEvent extends Component {
                         zIndex: 5
                     }}
                 />
+
+                <Text style={{ fontSize: 20, margin: '4%' }}><MaterialCommunityIcons name="eventbrite" size={30} color="black" /> Event and Activity</Text>
 
                 {/* Overlay Screen */}
                 <Overlay
@@ -397,7 +382,8 @@ export default class AdminEvent extends Component {
                         return (
                             <TouchableOpacity
                                 style={styles.item}
-                                onPress={this.GetItem.bind(this, item.title)}
+                                // onPress={this.GetItem.bind(this, item.title)}
+                                onPress={() => this.GetItem(item.title)}
                             >
                                 <MaterialIcons name="event" size={39} color="black" />
                                 <Text style={styles.textStyling}>
@@ -406,8 +392,9 @@ export default class AdminEvent extends Component {
                             </TouchableOpacity>
                         )
                     })}
-                </ScrollView>
 
+                    <Text style={{ textAlign: 'center', fontSize: 15, margin: 15 }}>End of the Page</Text>
+                </ScrollView>
             </View>
         );
     }
@@ -415,11 +402,9 @@ export default class AdminEvent extends Component {
 
 const styles = StyleSheet.create({
     eventContainer: {
-        flex: 1,
         width: '100%',
         height: '100%',
         backgroundColor: '#ededed',
-        alignItems: 'center',
     },
 
     centerHeader: {

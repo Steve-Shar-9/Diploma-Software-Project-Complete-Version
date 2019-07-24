@@ -104,6 +104,11 @@ export default class AdminAddStudent extends Component {
         // Get the list of announcement from Firebase
         firebase.database().ref('Programme/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
+
+                if (count === 0) {
+                    this.setState({ studentProgramme: child.key })
+                }
+
                 this.array.push({ title: child.key });
                 this.setState({ arrayHolder: [...this.array] })
             })
@@ -213,7 +218,7 @@ export default class AdminAddStudent extends Component {
         return (
             <KeyboardAvoidingView style={styles.studentContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Student.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >

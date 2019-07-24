@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ImageBackground, ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 
@@ -95,7 +95,7 @@ export default class AdminEvent extends Component {
         return (
             <View style={styles.eventContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Events.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
@@ -223,7 +223,7 @@ export default class AdminEvent extends Component {
                                     }}
                                 >
                                     <View style={styles.userIdIcon} >
-                                        <Icon name="bullhorn" size={37} color='white' />
+                                        <MaterialCommunityIcons name="eventbrite" size={37} color="white" />
                                     </View>
                                     <Text style={styles.itemTitle}>{item.title}</Text>
                                 </TouchableOpacity>
@@ -277,7 +277,8 @@ const styles = StyleSheet.create({
 
     item: {
         alignItems: 'center',
-        padding: 20,
+        justifyContent: 'center',
+        padding: 10,
         width: '95%',
         borderWidth: 1,
         borderRadius: 5,
@@ -286,14 +287,15 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginLeft: '2.5%',
         marginRight: '2.5%',
-        flexDirection: 'row'
+        // flexDirection: 'row'
     },
 
     itemTitle: {
         color: 'white',
         fontSize: 20,
         flex: 1,
-        textAlign: 'auto',
+        textAlign: 'center',
+        padding: 5,
     },
 
     userIdIcon: {

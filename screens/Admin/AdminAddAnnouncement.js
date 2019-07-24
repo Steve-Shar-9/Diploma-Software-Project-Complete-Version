@@ -65,6 +65,11 @@ export default class AdminAddAnnouncement extends Component {
         firebase.database().ref('Department/').on('value', (snapshot) => {
             snapshot.forEach((child) => {
                 console.log(child.key)
+
+                if (count === 0) {
+                    this.setState({ announcementDepartment: child.key })
+                }
+
                 this.array.push({ title: child.key });
                 this.setState({ arrayHolder: [...this.array] })
             })
@@ -123,7 +128,7 @@ export default class AdminAddAnnouncement extends Component {
         return (
             <KeyboardAvoidingView style={styles.announcementContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Announcement.jpg')}
+                    source={require('../../images/background/Announcement.png')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >

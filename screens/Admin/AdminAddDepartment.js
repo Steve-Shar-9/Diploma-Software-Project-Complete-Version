@@ -98,7 +98,7 @@ export default class AdminAddDepartment extends Component {
         return (
             <KeyboardAvoidingView style={styles.departmentContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Department.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
