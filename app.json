@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Turritopsis",
-    "slug": "Project_Turritopsis",
-    "privacy": "private",
+    "slug": "Turritopsis",
+    "privacy": "public",
     "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./images/octo2.jpg",
+    "icon": "./images/octo2.png",
     "splash": {
-      "image": "./images/octo.jpg", 
+      "image": "./images/octo.png", 
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -155,13 +155,10 @@ export default class AdminAnnouncement extends Component {
         return (
             <View style={styles.announcementContainer} behavior='padding'>
                 <NavigationEvents
-                    // onWillFocus={payload => console.log('will focus',payload)}
                     onDidFocus={payload => {
-                        console.log('did focus', payload)
+                        // console.log('did focus', payload)
                         this.runTheFlatlist();
                     }}
-                // onWillBlur={payload => console.log('will blur',payload)}
-                // onDidBlur={payload => console.log('did blur',payload)}
                 />
 
                 <ImageBackground

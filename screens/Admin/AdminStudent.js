@@ -4,6 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Overlay, withTheme } from 'react-native-elements';
 import { LinearGradient } from 'expo';
+import { NavigationEvents } from 'react-navigation';
+
 
 import * as firebase from "firebase";
 
@@ -133,6 +135,12 @@ export default class Student extends Component {
     render() {
         return (
             <View style={styles.studentContainer} behavior='padding'>
+                <NavigationEvents
+                    onDidFocus={payload => {
+                        // console.log('did focus', payload)
+                        this.setState({isVisible:false});
+                    }}
+                />
                 <ImageBackground
                     source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}

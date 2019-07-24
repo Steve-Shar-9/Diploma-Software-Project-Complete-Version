@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, BackHandle
 import { Feather, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import { LinearGradient } from 'expo';
+import { NavigationEvents } from 'react-navigation';
+
 
 import * as firebase from "firebase";
 
@@ -100,7 +102,6 @@ export default class AdminEvent extends Component {
 
         this.state = {
             // Default
-            isVisible: false,
             isFetching: false,
             isLoading: true,
             // Join Icon
@@ -253,6 +254,16 @@ export default class AdminEvent extends Component {
 
         return (
             <View style={styles.eventContainer} behavior='padding'>
+                <NavigationEvents
+                    onWillFocus={payload => {
+                        console.log('did focus', payload)
+                        this.setState({isVisible:false});
+                    }}
+                    onDidFocus={payload => {
+                        console.log('did focus', payload)
+                        this.setState({isVisible:false});
+                    }}
+                />
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"

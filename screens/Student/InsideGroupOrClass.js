@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator, AsyncStorage, Animated, Easing } from 'react-native';
-import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons,AntDesign } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
 import { NavigationEvents } from 'react-navigation';
@@ -143,6 +143,7 @@ export default class home extends Component {
                 {this.loadingIndicator()}
 
                 <ScrollView>
+                <Text style={{fontSize:30,paddingLeft:17}}><AntDesign name="addusergroup" size={30} color="black"/> Group</Text>
                     <View style={styles.wrapper}>
                         <FlatList
                             onRefresh={() => this.onRefresh()}
