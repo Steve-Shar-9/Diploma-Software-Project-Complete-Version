@@ -86,7 +86,19 @@ export default class home extends Component {
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
                     leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
-                    centerComponent={<View style={styles.centerHeader}><Image source={require('../../images/octo2.jpg')} style={{ height: 30, width: 30, borderRadius: 15, }} /><Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text></View>}
+                    centerComponent={
+                    <View style={styles.centerHeader}>
+                        <Animated.Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                borderRadius: 15,
+                                transform: [{ rotate: spin }]
+                            }}
+                            source={require('../../images/octo2.jpg')}
+                        />
+                        <Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text>
+                    </View>}
                     // rightComponent={<Feather name="home" size={25} color="#2e2e38" onPress={() =>
                     //   this.props.navigation.openDrawer()
                     // } />}
