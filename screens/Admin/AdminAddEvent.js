@@ -65,10 +65,19 @@ export default class AdminAddEvent extends Component {
 
         // Get the list of announcement from Firebase
         firebase.database().ref('Department/').on('value', (snapshot) => {
+            var count = 0;
+
             snapshot.forEach((child) => {
                 console.log(child.key)
+
+                if (count === 0) {
+                    this.setState({ eventDepartment: child.key })
+                }
+                
                 this.array.push({ title: child.key });
                 this.setState({ arrayHolder: [...this.array] })
+
+                count++;
             })
         })
     }
@@ -139,7 +148,7 @@ export default class AdminAddEvent extends Component {
         return (
             <KeyboardAvoidingView style={styles.eventContainer} behavior='padding'>
                 <ImageBackground
-                    source={require('../../images/background/Events.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >

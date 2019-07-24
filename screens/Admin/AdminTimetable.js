@@ -74,7 +74,7 @@ export default class App extends Component {
                     }}
                 />
                 <ImageBackground
-                    source={require('../../images/background/Timetable.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >

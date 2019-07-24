@@ -127,7 +127,7 @@ export default class home extends Component {
             display: "flex",
             shadowColor: "#2e2e38",
             shadowOffset: {
-              width: 3,
+              width: 0,
               height: 4,
             },
             shadowOpacity: 0.30,
@@ -136,6 +136,9 @@ export default class home extends Component {
             zIndex: 5
           }}
         />
+
+        <Text style={{ fontSize: 30, margin: '2.5%' }}><Feather name="home" size={30} color="black" /> Home</Text>
+
         {/* ========DETAIL DATA RECEIVER=========*/}
         <Overlay
           isVisible={this.state.isVisible}
@@ -143,7 +146,7 @@ export default class home extends Component {
           windowBackgroundColor="rgba(0, 0, 0, 0.7)"
           overlayBackgroundColor="white"
           width="82%"
-          // height="80%"
+          height="80%"
           overlayStyle={{ padding: 0, borderRadius: 10 }}
         >
           <View style={{ backgroundColor: '#ededed', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
@@ -151,13 +154,15 @@ export default class home extends Component {
           </View>
 
           <Image
-            style={{ width: '100%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', marginTop: 5 }}
+            style={{ width: '100%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%' }}
             source={{ uri: this.state.announcementPicture }}
           />
 
-          <View style={{ padding: 20 }}>
-            <Text style={{ textAlign: 'center', fontSize: 18 }}>
-              {this.state.announcementDescription}</Text>
+          <View style={{ padding: 20, height: '27%' }}>
+            <ScrollView>
+              <Text style={{ textAlign: 'center', fontSize: 18 }}>
+                {this.state.announcementDescription}</Text>
+            </ScrollView>
           </View>
 
           <View style={{ padding: 20, position: 'absolute', bottom: 0, right: 0 }}>
@@ -171,8 +176,7 @@ export default class home extends Component {
         {this.loadingIndicator()}
 
         <ScrollView>
-          <Animated.View style={[styles.wrapper, this.moveAnimation.getLayout()]}>
-          <Text style={{fontSize:30,paddingLeft:17}}><Feather name="home" size={30} color="black"/> Home</Text>
+          <Animated.View style={[styles.wrapper,  this.moveAnimation.getLayout()]}>
             <FlatList
               onRefresh={() => this.onRefresh()}
               refreshing={this.state.isFetching}
@@ -190,6 +194,8 @@ export default class home extends Component {
                 </TouchableOpacity>
               }
             />
+
+            <Text style={{ textAlign: 'center', fontSize: 15, margin: 15 }}>End of the Page</Text>
           </Animated.View>
         </ScrollView>
       </View>
@@ -304,30 +310,29 @@ export default class home extends Component {
 //-------------------------------------STYLING----------------
 const styles = StyleSheet.create({
   wrapper: {
-    width: '100%',
-    height: '100%',
-    paddingBottom: 20,
+    marginTop: -15,
+    paddingBottom: 25,
   },
 
   list: {
     alignItems: 'center',
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 5,
+    marginBottom: 12,
     marginLeft: '2.5%',
     marginRight: '2.5%',
     backgroundColor: 'white',
     width: '95%',
     height: 200,
-    elevation: 2,
     borderRadius: 10,
+
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 7,
+      height: 3,
     },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-    elevation: 15,
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
   },
 
   centerHeader: {

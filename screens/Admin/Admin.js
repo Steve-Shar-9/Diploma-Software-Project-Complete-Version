@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, View, Text, StyleSheet, ImageBackground, FlatList, Dimensions } from 'react-native'
+import { Alert, TouchableOpacity, View, Text, StyleSheet, ImageBackground, FlatList, Dimensions, AsyncStorage } from 'react-native'
 import { ScrollView, BackHandler } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Feather } from '@expo/vector-icons';
@@ -157,7 +157,7 @@ export default class Admin extends React.Component {
                 <ImageBackground
                     style={styles.overallBackgroundImage}
                     source={require('../../images/background/bg3.jpg')}
-                    blurRadius={50}
+                    blurRadius={10}
                 > 
                     <Header
                         statusBarProps={{ barStyle: 'light-content' }}
@@ -167,6 +167,7 @@ export default class Admin extends React.Component {
                         rightComponent={
                             <TouchableOpacity
                                 onPress={() => {
+                                    AsyncStorage.setItem('userName', 'Logged Out');
                                     this.props.navigation.navigate('Login');
                                 }}
                             >

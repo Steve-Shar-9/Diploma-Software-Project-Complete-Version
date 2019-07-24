@@ -105,7 +105,7 @@ export default class AdminDepartment extends Component {
                     }}
                 />
                 <ImageBackground
-                    source={require('../../images/background/Department.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
@@ -205,7 +205,7 @@ export default class AdminDepartment extends Component {
                                     }}
                                 >
                                     <View style={styles.userIdIcon} >
-                                        <Icon name="certificate" size={37} color='white' />
+                                        <Icon name="university" size={37} color="white" />
                                     </View>
                                     <Text style={styles.itemTitle}>{item.title}</Text>
                                 </TouchableOpacity>
@@ -259,8 +259,8 @@ const styles = StyleSheet.create({
 
     item: {
         alignItems: 'center',
-        // justifyContent: 'center',
-        padding: 20,
+        justifyContent: 'center',
+        padding: 10,
         width: '95%',
         borderWidth: 1,
         borderRadius: 5,
@@ -269,9 +269,6 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginLeft: '2.5%',
         marginRight: '2.5%',
-        height:137
-        // borderBottomWidth: 1,
-        // borderBottomColor: 'rgba(255,255,255,0.2)',
         // flexDirection: 'row'
     },
 
@@ -279,10 +276,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         flex: 1,
-        textAlign: 'auto',
-        paddingTop:18
+        textAlign: 'center',
+        padding: 5,
     },
-
 
     userIdIcon: {
         padding: 5,

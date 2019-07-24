@@ -142,7 +142,7 @@ export default class Student extends Component {
                     }}
                 />
                 <ImageBackground
-                    source={require('../../images/background/Student.jpg')}
+                    source={require('../../images/background/Timetable1.jpg')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
@@ -368,8 +368,8 @@ const styles = StyleSheet.create({
 
     item: {
         alignItems: 'center',
-        // justifyContent: 'center',
-        padding: 20,
+        justifyContent: 'center',
+        padding: 10,
         width: '95%',
         borderWidth: 1,
         borderRadius: 5,
@@ -378,7 +378,6 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginLeft: '2.5%',
         marginRight: '2.5%',
-        height:137
         // borderBottomWidth: 1,
         // borderBottomColor: 'rgba(255,255,255,0.2)',
         // flexDirection: 'row'
@@ -388,8 +387,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         flex: 1,
-        textAlign: 'auto',
-        paddingTop:18
+        textAlign: 'center',
+        padding: 5,
     },
 
     userIdIcon: {

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator,Animated, AsyncStorage } from 'react-native';
-import { Feather,AntDesign } from '@expo/vector-icons';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, Platform, FlatList, Image, ToastAndroid, ActivityIndicator, AsyncStorage, Animated, Easing } from 'react-native';
+import { Feather, MaterialCommunityIcons,AntDesign } from '@expo/vector-icons';
 import { Header, Overlay } from 'react-native-elements';
 import * as firebase from 'firebase';
+import { NavigationEvents } from 'react-navigation';
 
 //Setting up the connection
 const config = {
@@ -26,6 +27,20 @@ export default class home extends Component {
         header: null
     };
 
+    componentDidMount() {
+        this.spin();
+
+        const { navigation } = this.props;
+        this.focusListener = navigation.addListener("didFocus", () => {
+            this.spinValue = new Animated.Value(0);
+        });
+    }
+
+    componentWillUnmount() {
+        // Remove the event listener
+        this.focusListener.remove();
+    }
+
     constructor(props) {
         super(props);
         const { navigation } = this.props;
@@ -35,43 +50,72 @@ export default class home extends Component {
             isVisible: false, text1: '', dataStoring: [], testArray: [], moreNote: '', NumberHolder: 1, isFetching: false, isLoading: true,
         }
         this.runTheFlatlist();
+
+        this.spinValue = new Animated.Value(0)
+    }
+
+    spin() {
+        Animated.timing(
+            this.spinValue,
+            {
+                toValue: 3,
+                duration: 10000,
+                easing: Easing.linear
+            }
+        ).start(() => this.spin())
     }
 
     render() {
+        // Spin animation
+        const spin = this.spinValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+        })
+
         return (
             <View style={{ height: '100%', backgroundColor: '#d9d9d9', width: '100%' }}>
+                <NavigationEvents
+                    onDidFocus={payload => {
+                        console.log('did focus', payload)
+                        this.runTheFlatlist();
+                    }}
+                />
+
                 <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          barStyle="dark-content"
-          leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
-          centerComponent={
-          <View style={styles.centerHeader}>
-            <Animated.Image
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                // transform: [{ rotate: spin }]
-              }}
-                source={require('../../images/octo2.jpg')}
-            />
-            <Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text>
-          </View>}
-          containerStyle={{
-            backgroundColor: '#2e2e38',
-            borderBottomWidth: 0,
-            display: "flex",
-            shadowColor: "#2e2e38",
-            shadowOffset: {
-              width: 3,
-              height: 4,
-            },
-            shadowOpacity: 0.30,
-            shadowRadius: 4.65,
-            elevation: 8,
-            zIndex: 5
-          }}
-        />
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    barStyle="dark-content"
+                    leftComponent={<Feather name="menu" size={25} color="white" onPress={() => this.props.navigation.openDrawer()} />}
+                    centerComponent={
+                        <View style={styles.centerHeader}>
+                            <Animated.Image
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 15,
+                                    transform: [{ rotate: spin }]
+                                }}
+                                source={require('../../images/octo2.jpg')}
+                            />
+                            <Text style={{ fontSize: 25, color: 'white', marginLeft: 10 }}>Turritopsis</Text>
+                        </View>}
+                    containerStyle={{
+                        backgroundColor: '#2e2e38',
+                        borderBottomWidth: 0,
+                        display: "flex",
+                        shadowColor: "#2e2e38",
+                        shadowOffset: {
+                            width: 0,
+                            height: 4,
+                        },
+                        shadowOpacity: 0.30,
+                        shadowRadius: 4.65,
+                        elevation: 8,
+                        zIndex: 5
+                    }}
+                />
+
+                <Text style={{ fontSize: 30, marginLeft: '2.5%' }}><MaterialCommunityIcons name="account-group" size={30} color="black" /> Group / Class</Text>
+
                 {/* ========DETAIL DATA RECEIVER=========*/}
                 <Overlay
                     isVisible={this.state.isVisible}
@@ -79,21 +123,28 @@ export default class home extends Component {
                     windowBackgroundColor="rgba(0, 0, 0, 0.7)"
                     overlayBackgroundColor="white"
                     width="82%"
-                    height="60%"
+                    overlayStyle={{ padding: 0, borderRadius: 10 }}
                 >
-                    <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+                    <View style={{ backgroundColor: '#ededed', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.title}</Text>
+                    </View>
+
                     <Image
-                        style={{ width: '80%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', paddingTop: '10%' }}
+                        style={{ width: '100%', height: '54%' }}
                         source={{ uri: this.state.photo }}
                     />
-                    <View style={styles.container}>
-                        <Text style={{ alignSelf: 'center', fontSize: 14 }}>{this.state.moreNote}</Text>
+
+                    <View style={{ padding: 20 }}>
+                        <Text style={{ textAlign: 'center', fontSize: 18 }}>
+                            {this.state.moreNote}</Text>
                     </View>
                 </Overlay>
+
+                {this.loadingIndicator()}
+
                 <ScrollView>
                 <Text style={{fontSize:30,paddingLeft:17}}><AntDesign name="addusergroup" size={30} color="black"/> Group</Text>
                     <View style={styles.wrapper}>
-                        {this.loadingIndicator()}
                         <FlatList
                             onRefresh={() => this.onRefresh()}
                             refreshing={this.state.isFetching}
@@ -111,6 +162,8 @@ export default class home extends Component {
                                 </TouchableOpacity>
                             }
                         />
+
+                        <Text style={{ textAlign: 'center', fontSize: 15, margin: 15 }}>End of the Page</Text>
                     </View>
                 </ScrollView>
             </View>
@@ -212,43 +265,28 @@ export default class home extends Component {
 
 //-------------------------------------STYLING----------------
 const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent',
-        height: 620,
-
-    },
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20
-    },
     list: {
         alignItems: 'center',
-        padding: 10,
-        margin: 5,
+        marginTop: 5,
+        marginBottom: 12,
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
         backgroundColor: 'white',
-        width: 365,
-        height: 190,
-        justifyContent: 'space-around',
-        paddingLeft: 10,
-        elevation: 1,
+        width: '95%',
+        height: 200,
         borderRadius: 10,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+        elevation: 6,
     },
-    button: {
-        backgroundColor: '#841584',
-        borderColor: 'red',
-        width: '46%',
-        height: '6%',
-        textAlign: 'center',
-        alignItems: 'center',
-        paddingTop: 20,
-    },
+
     centerHeader: {
-    flexDirection: 'row',
-  },
+        flexDirection: 'row',
+    },
 });

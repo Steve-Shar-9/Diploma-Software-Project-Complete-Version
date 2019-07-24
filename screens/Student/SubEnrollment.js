@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, AsyncStorage, Picker, ToastAndroid, ScrollView, Animated, Easing } from 'react-native';
-import { Feather, AntDesign, MaterialIcons,Ionicons } from '@expo/vector-icons';
-import { Header,Overlay } from 'react-native-elements';
+import { Feather, AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { Header } from 'react-native-elements';
 import { LocalAuthentication } from 'expo';
 import * as firebase from 'firebase';
 
@@ -81,7 +81,7 @@ export default class home extends Component {
         })
         
         return (
-            <View style={{ height: '100%', backgroundColor: '#d9d9d9', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: '100%', backgroundColor: '#d9d9d9' }}>
                 <Header
                     statusBarProps={{ barStyle: 'light-content' }}
                     barStyle="dark-content"
@@ -118,8 +118,11 @@ export default class home extends Component {
                         zIndex: 5
                     }}
                 />
+
+                <Text style={{ fontSize: 20, margin: '2.5%' }}><Entypo name="book" size={30} color="black" /> Subject(s) Enrollment</Text>
+
                 {/* abit buggy keep ask propmt again */}
-                <Overlay
+                {/* <Overlay
                     isVisible={this.state.isVisible}
                     // onBackdropPress={() => this.setState({ isVisible: false })}
                     windowBackgroundColor="rgba(0, 0, 0, 0.7)"
@@ -132,10 +135,9 @@ export default class home extends Component {
                         <Text style={{ alignSelf: 'center' }}>Please scan your finger</Text>
                         {this.checkingState()}
                     </View>
-                </Overlay>
+                </Overlay> */}
 
                 <ScrollView style={styles.wrapper}>
-                <Text style={{fontSize:30,paddingLeft:17}}><MaterialIcons name="class" size={30} color="black"/> Subject Enroll</Text>
                     <FlatList
                         data={this.state.flatListData}
                         keyExtractor={item => item.id}
@@ -159,6 +161,8 @@ export default class home extends Component {
                             </TouchableOpacity>
                         }
                     />
+
+                    <Text style={{ textAlign: 'center', fontSize: 15, margin: 15 }}>End of the Page</Text>
                 </ScrollView>
 
                 <TouchableOpacity

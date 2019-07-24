@@ -162,7 +162,7 @@ export default class AdminAnnouncement extends Component {
                 />
 
                 <ImageBackground
-                    source={require('../../images/background/Announcement.jpg')}
+                    source={require('../../images/background/Announcement.png')}
                     style={styles.overallBackgroundImage}
                     blurRadius={50}
                 >
@@ -210,18 +210,20 @@ export default class AdminAnnouncement extends Component {
                         height="80%"
                         overlayStyle={{ padding: 0, borderRadius: 10 }}
                     >
-                        <View style={{ backgroundColor: '#ABDCFF', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ backgroundColor: '#ededed', width: '100%', height: 50, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>{this.state.announcementTitle}</Text>
                         </View>
 
                         <Image
-                            style={{ width: '100%', height: '54%', alignSelf: 'center', flex: 0, paddingLeft: '50%', marginTop: 5 }}
+                            style={{ width: '100%', height: '54%', alignSelf: 'center', flex: 0 }}
                             source={{ uri: this.state.announcementPicture }}
                         />
-
-                        <View style={{ padding: 20 }}>
-                            <Text style={{ textAlign: 'center', fontSize: 18 }}>
-                            {this.state.announcementDescription}</Text>
+                        
+                        <View style={{ padding: 20, height: '27%' }}>
+                            <ScrollView>
+                                <Text style={{ textAlign: 'center', fontSize: 18 }}>
+                                {this.state.announcementDescription}</Text>
+                            </ScrollView>
                         </View>
 
                         <View style={{ padding: 20, position: 'absolute', bottom: 0, right: 0 }}>

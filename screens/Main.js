@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, View, Text, StyleSheet, Animated, Easing } from 'react-native'
+import { Alert, TouchableOpacity, View, Text, StyleSheet, Animated, AsyncStorage } from 'react-native'
 
 ///////////////////// Fade in animation /////////////////////
 class Animations extends React.Component {
@@ -39,6 +39,15 @@ export default class Main extends React.Component {
         // lock the drawer 
         drawerLockMode: "locked-closed"
     };
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            userName: '',
+        }
+
+        AsyncStorage.getItem('userName').then((value) => this.setState({ 'userName': value }))
+    }
     
     render() {
         return (
@@ -54,7 +63,13 @@ export default class Main extends React.Component {
 
                     <TouchableOpacity
                         onPress={() => {
-                            this.props.navigation.navigate('Login');
+                            if (this.state.userName === 'Logged Out') {
+                                this.props.navigation.navigate('Login');
+                            } else if (this.state.userName === 'Admin'){
+                                this.props.navigation.navigate('Admin');
+                            } else {
+                                this.props.navigation.navigate('Home');
+                            }
                         }}
                         style={styles.TouchableOpacityStyle}>
                         <View style={styles.center}>
