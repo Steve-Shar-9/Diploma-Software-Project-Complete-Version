@@ -15,19 +15,64 @@ life.
 This is the first screen ...
 </p>
 <p align="center">
-  <!--<img src="https://raw.githubusercontent.com/nonoyek/animation_test1/master/images/eg3.png" width="350" height="570" alt="accessibility text"> -->
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220741.png" width="350" height="570" alt="accessibility text">
 </p>
 
 <p align="center">
 This is when ...
 </p>
 <p align="center">
- <!-- <img src="https://raw.githubusercontent.com/nonoyek/animation_test1/master/images/eg1.png" width="350" height="570" alt="accessibility text"> -->
+ <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220358.png" width="350" height="570" alt="accessibility text">
 </p>
 
 <p align="center">
 This is when ...
 </p>
 <p align="center">
-  <!-- <img src="https://raw.githubusercontent.com/nonoyek/animation_test1/master/images/eg2.png" width="350" height="570" alt="accessibility text"> -->
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220402.png" width="350" height="570" alt="accessibility text">
 </p>
+
+<p align="center">
+This is when ...
+</p>
+<p align="center">
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220411.png" width="350" height="570" alt="accessibility text">
+</p>
+
+
+<p align="center">
+This is when ...
+</p>
+<p align="center">
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220415.png" width="350" height="570" alt="accessibility text">
+</p>
+
+
+<p align="center">
+This is when ...
+</p>
+<p align="center">
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220529.png" width="350" height="570" alt="accessibility text">
+</p>
+
+<p align="center">
+This is when ...
+</p>
+<p align="center">
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220534.png" width="350" height="570" alt="accessibility text">
+</p>
+
+<p align="center">
+This is when ...
+</p>
+<p align="center">
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220425.png" width="350" height="570" alt="accessibility text">
+</p>
+
+<p align="center">
+This is when ...
+</p>
+<p align="center">
+  <img src="https://github.com/Steve-Shar-9/Diploma-Software-Project-Complete-Version/blob/master/ss/Screenshot_20200304-220841.png" width="350" height="570" alt="accessibility text">
+</p>
+
