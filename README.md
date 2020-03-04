@@ -5,10 +5,11 @@ a single click. All the functions is simplify to the best condition where can br
 life.
 
 ## Function of this application
-...
-
-## Future Function
--...
+- Enroll subject
+- Check timetable
+- Check the posts
+- Check the subjects
+- Check the events
 
 ## Screen and design of Application
 <p align="center">
